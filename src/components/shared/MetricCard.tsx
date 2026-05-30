@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNav } from "@/lib/nav-context";
 
 interface MetricCardProps {
   title: string;
@@ -28,6 +29,7 @@ export function MetricCard({
   large = false,
 }: MetricCardProps) {
   const isPositive = changeValue !== undefined ? changeValue >= 0 : (positive ?? true);
+  const { hideValues } = useNav();
 
   return (
     <motion.div
@@ -71,10 +73,11 @@ export function MetricCard({
       <div className="relative z-10">
         <p
           className={cn(
-            "metric-value leading-none",
+            "metric-value leading-none transition-all duration-300",
             large ? "text-[28px] sm:text-[38px]" : "text-[18px] sm:text-[21px]",
             gold ? "text-gold-gradient" : "text-white"
           )}
+          style={hideValues ? { filter: "blur(10px)", userSelect: "none" } : {}}
         >
           {value}
         </p>

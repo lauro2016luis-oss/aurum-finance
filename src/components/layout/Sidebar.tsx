@@ -60,7 +60,7 @@ export function Sidebar() {
 
   const content = (
     <aside
-      className="h-full w-[260px] flex flex-col"
+      className="w-[260px] h-screen flex flex-col overflow-hidden"
       style={{ background: "var(--bg-sidebar)" }}
     >
       {/* Gold top line */}
@@ -169,20 +169,20 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Desktop: fixed sidebar */}
-      <div className="hidden lg:block fixed left-0 top-0 h-screen w-[260px] z-50 relative">
+      {/* Desktop: fixed sidebar (only visible lg+) */}
+      <div className="hidden lg:flex fixed left-0 top-0 h-screen w-[260px] z-50 flex-col">
         {content}
       </div>
 
-      {/* Mobile: animated drawer */}
-      <AnimatePresence>
+      {/* Mobile/tablet: slide-in drawer */}
+      <AnimatePresence mode="wait">
         {sidebarOpen && (
           <motion.div
-            className="fixed left-0 top-0 h-screen w-[260px] z-50 lg:hidden overflow-hidden"
-            initial={{ x: -260 }}
-            animate={{ x: 0 }}
-            exit={{ x: -260 }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="lg:hidden fixed left-0 top-0 h-screen w-[260px] z-50 flex flex-col"
+            initial={{ x: -260, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -260, opacity: 0 }}
+            transition={{ type: "tween", duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             {content}
           </motion.div>

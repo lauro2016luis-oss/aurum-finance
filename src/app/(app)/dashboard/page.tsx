@@ -22,6 +22,7 @@ import { UpcomingBills } from "@/components/dashboard/UpcomingBills";
 import { FinancialScore } from "@/components/dashboard/FinancialScore";
 import { transactions } from "@/lib/mock-data";
 import { formatCurrency, formatRelativeDate } from "@/lib/utils";
+import { useNav } from "@/lib/nav-context";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -34,6 +35,7 @@ const fadeUp = {
 };
 
 export default function DashboardPage() {
+  const { hideValues } = useNav();
   return (
     <div className="flex flex-col min-h-full">
       <Header title="Dashboard" subtitle="Visão Geral">
@@ -195,8 +197,12 @@ export default function DashboardPage() {
                     </td>
                     <td className="text-right">
                       <span
-                        className="metric-value text-[13px] font-medium"
-                        style={{ color: tx.value > 0 ? "#22C55E" : "#A1A1AA" }}
+                        className="metric-value text-[13px] font-medium transition-all duration-300"
+                        style={{
+                          color: tx.value > 0 ? "#22C55E" : "#A1A1AA",
+                          filter: hideValues ? "blur(8px)" : "none",
+                          userSelect: hideValues ? "none" : "auto",
+                        }}
                       >
                         {tx.value > 0 ? "+" : ""}
                         {formatCurrency(tx.value)}
