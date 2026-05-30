@@ -77,7 +77,7 @@ export default function GastosFixosPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-5 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-5 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -209,7 +209,7 @@ export default function GastosFixosPage() {
         </AnimatePresence>
 
         {/* Metrics */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard title="Total do Período" value={formatCurrency(total)} subtitle={periodLabel()} />
           <MetricCard title="Pago" value={formatCurrency(paid)} changeValue={1} subtitle={`${paidPct.toFixed(0)}% quitado`} />
           <MetricCard title="Pendente" value={formatCurrency(pending)} subtitle="A pagar" />
@@ -268,7 +268,7 @@ export default function GastosFixosPage() {
                 <h3 className="text-[18px] text-white mb-5" style={{ fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
                   Novo Gasto Fixo
                 </h3>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   <div>
                     <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Nome</label>
                     <input className="input-premium" placeholder="Ex: Aluguel" />
@@ -312,7 +312,7 @@ export default function GastosFixosPage() {
         </AnimatePresence>
 
         {/* Table */}
-        <div className="card-premium overflow-hidden">
+        <div className="card-premium overflow-hidden overflow-x-auto">
           <div className="p-5 border-b border-[#1A1A1A] flex items-center gap-4">
             <div className="flex-1">
               <p className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-0.5" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Lançamentos</p>

@@ -20,13 +20,13 @@ export default function CartoesPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         {/* Summary */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div className="card-premium p-5">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Limite Total</p>
             <p className="metric-value text-[24px] text-white font-light">{formatCurrency(totalLimit)}</p>
@@ -47,7 +47,7 @@ export default function CartoesPage() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           {creditCards.map((card, i) => (
             <motion.div
               key={card.id}

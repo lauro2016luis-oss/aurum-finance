@@ -44,13 +44,13 @@ export default function TransacoesPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         {/* Metrics */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard title="Total de Entradas" value={formatCurrency(totalIncome)} changeValue={1} icon={<TrendingUp size={14} />} />
           <MetricCard title="Total de Saídas" value={formatCurrency(totalExpense)} changeValue={-1} icon={<TrendingDown size={14} />} />
           <MetricCard title="Transações" value={String(transactions.length)} subtitle="Este mês" icon={<ArrowUpRight size={14} />} />
@@ -120,7 +120,7 @@ export default function TransacoesPage() {
         </div>
 
         {/* Transactions table */}
-        <div className="card-premium overflow-hidden">
+        <div className="card-premium overflow-hidden overflow-x-auto">
           <table className="table-premium">
             <thead>
               <tr>

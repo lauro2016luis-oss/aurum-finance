@@ -26,7 +26,7 @@ export default function ContasPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -41,7 +41,7 @@ export default function ContasPage() {
         </div>
 
         {/* Accounts */}
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           {bankAccounts.map((account, i) => {
             const color = bankColors[account.bank] || "#D4AF37";
             return (

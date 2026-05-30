@@ -44,7 +44,7 @@ export default function RelatoriosPage() {
       <Header title="Relatórios" subtitle="Análises" />
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -101,7 +101,7 @@ export default function RelatoriosPage() {
         {/* Report types */}
         <div>
           <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-4">Gerar Relatório</p>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {reportTypes.map((report, i) => {
               const Icon = report.icon;
               return (

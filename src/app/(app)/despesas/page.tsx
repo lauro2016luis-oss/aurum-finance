@@ -24,19 +24,19 @@ export default function DespesasPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard title="Total do Mês" value={formatCurrency(total)} changeValue={-3.1} />
           <MetricCard title="Ticket Médio" value={formatCurrency(avg)} subtitle="Por transação" />
           <MetricCard title="Maior Despesa" value={formatCurrency(largest)} subtitle="Este mês" />
           <MetricCard title="Transações" value={String(expenses.length)} subtitle="Saídas" gold />
         </div>
 
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           <div className="card-premium p-6">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Distribuição</p>
             <h3 className="text-[18px] font-light text-white mb-4" style={{ fontFamily: "'Cormorant SC', serif" }}>
@@ -68,7 +68,7 @@ export default function DespesasPage() {
             </div>
           </div>
 
-          <div className="col-span-2 card-premium overflow-hidden">
+          <div className="lg:col-span-2 card-premium overflow-hidden">
             <div className="p-5 border-b border-[#1A1A1A]">
               <h3 className="text-[17px] font-light text-white" style={{ fontFamily: "'Cormorant SC', serif" }}>
                 Todas as Despesas

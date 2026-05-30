@@ -45,13 +45,13 @@ export default function DashboardPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         variants={stagger}
         initial="hidden"
         animate="show"
       >
         {/* Metric Cards */}
-        <motion.div variants={fadeUp} className="grid grid-cols-5 gap-4">
+        <motion.div variants={fadeUp} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
           <MetricCard
             title="Saldo Total"
             value="R$ 47.382,90"
@@ -96,28 +96,28 @@ export default function DashboardPage() {
         </motion.div>
 
         {/* Charts Row 1 */}
-        <motion.div variants={fadeUp} className="grid grid-cols-3 gap-5">
-          <div className="col-span-2 min-h-[300px]">
+        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+          <div className="lg:col-span-2 min-h-[260px] sm:min-h-[300px]">
             <CashFlowChart />
           </div>
-          <div className="min-h-[300px]">
+          <div className="min-h-[260px] sm:min-h-[300px]">
             <CategoryChart />
           </div>
         </motion.div>
 
         {/* Charts Row 2 */}
-        <motion.div variants={fadeUp} className="grid grid-cols-3 gap-5">
-          <div className="col-span-2">
+        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+          <div className="lg:col-span-2">
             <PatrimonyChart />
           </div>
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             <FinancialScore score={847} />
             <UpcomingBills />
           </div>
         </motion.div>
 
         {/* Alerts + Recent */}
-        <motion.div variants={fadeUp} className="grid grid-cols-3 gap-5">
+        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           {/* Alerts */}
           <div className="space-y-3">
             <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em]">Alertas</p>
@@ -142,7 +142,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Recent transactions */}
-          <div className="col-span-2 card-premium p-5">
+          <div className="lg:col-span-2 card-premium p-5">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em] mb-0.5">Recentes</p>

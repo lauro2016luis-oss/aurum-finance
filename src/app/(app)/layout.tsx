@@ -1,15 +1,10 @@
-import { Sidebar } from "@/components/layout/Sidebar";
+import { NavProvider } from "@/lib/nav-context";
+import { AppShell } from "@/components/layout/AppShell";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen" style={{ background: "var(--bg-primary)" }}>
-      <Sidebar />
-      <main
-        className="flex-1 flex flex-col overflow-hidden"
-        style={{ marginLeft: "260px" }}
-      >
-        {children}
-      </main>
-    </div>
+    <NavProvider>
+      <AppShell>{children}</AppShell>
+    </NavProvider>
   );
 }

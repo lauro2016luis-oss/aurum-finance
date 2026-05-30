@@ -72,7 +72,7 @@ export function MetricCard({
         <p
           className={cn(
             "metric-value leading-none",
-            large ? "text-[38px]" : "text-[21px]",
+            large ? "text-[28px] sm:text-[38px]" : "text-[18px] sm:text-[21px]",
             gold ? "text-gold-gradient" : "text-white"
           )}
         >

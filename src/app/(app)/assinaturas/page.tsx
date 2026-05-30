@@ -22,12 +22,12 @@ export default function AssinaturasPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard title="Total Mensal" value={formatCurrency(monthlyTotal)} subtitle="Assinaturas ativas" />
           <MetricCard title="Total Anual" value={formatCurrency(yearlyTotal)} subtitle="Projeção anual" />
           <MetricCard title="Ativas" value={String(active.length)} subtitle="Serviços" />

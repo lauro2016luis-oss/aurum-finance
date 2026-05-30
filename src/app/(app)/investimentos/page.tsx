@@ -320,7 +320,7 @@ function NovoAtivoPanel({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* Body */}
-      <div className="p-6 space-y-5">
+      <div className="p-4 sm:p-6 space-y-4 sm:space-y-5">
         {/* Nome */}
         <Field label="Nome do Ativo" icon={<FileText size={10} />} span={3}>
           <input
@@ -332,7 +332,7 @@ function NovoAtivoPanel({ onClose }: { onClose: () => void }) {
         </Field>
 
         {/* Row 2 */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <Field label="Instituição" icon={<Building2 size={10} />}>
             <BankDropdown
               value={form.instituicao}
@@ -348,7 +348,7 @@ function NovoAtivoPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Row 3 — financials */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <Field label="Capital Inicial" icon={<DollarSign size={10} />}>
             <div className="relative">
               <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[12px] text-[#52525B]">R$</span>
@@ -385,7 +385,7 @@ function NovoAtivoPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Row 4 */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <Field label="Data de Início" icon={<Calendar size={10} />}>
             <input
               type="date"
@@ -472,13 +472,13 @@ export default function InvestimentosPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         {/* Metrics */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard title="Valor Investido" value={formatCurrency(totalInvested)} subtitle="Aportado total" />
           <MetricCard title="Valor Atual" value={formatCurrency(totalCurrent)} changeValue={totalYield} subtitle="Posição atual" />
           <MetricCard title="Lucro Total" value={formatCurrency(totalProfit)} changeValue={totalYield} subtitle="Valorização" />
@@ -492,7 +492,7 @@ export default function InvestimentosPage() {
           )}
         </AnimatePresence>
 
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           {/* Portfolio allocation */}
           <div className="card-premium p-6">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Distribuição</p>
@@ -540,7 +540,7 @@ export default function InvestimentosPage() {
           </div>
 
           {/* Investments list */}
-          <div className="col-span-2 card-premium overflow-hidden">
+          <div className="lg:col-span-2 card-premium overflow-hidden overflow-x-auto">
             <div className="p-5 border-b border-[#1A1A1A]">
               <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-0.5">Posições</p>
               <h3 className="text-[17px] font-light text-white" style={{ fontFamily: "'Cormorant SC', serif" }}>

@@ -31,20 +31,20 @@ export default function EmpresaPage() {
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         {/* Metrics */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard title="Receita do Mês" value={formatCurrency(companyData.revenue)} changeValue={1} icon={<TrendingUp size={14} />} />
           <MetricCard title="Despesas" value={formatCurrency(companyData.expenses)} changeValue={-1} icon={<TrendingDown size={14} />} />
           <MetricCard title="Contas a Receber" value={formatCurrency(companyData.receivables)} subtitle="Pendentes" icon={<ArrowUpRight size={14} />} />
           <MetricCard title="Lucro Líquido" value={formatCurrency(companyData.profit)} changeValue={1} gold icon={<Building2 size={14} />} />
         </div>
 
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           {/* DRE */}
           <div className="card-premium p-6">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">DRE</p>

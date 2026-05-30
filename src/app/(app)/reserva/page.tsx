@@ -33,7 +33,7 @@ export default function ReservaPage() {
       <Header title="Reserva de Emergência" subtitle="Segurança" />
 
       <motion.div
-        className="flex-1 p-8 space-y-6 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -91,9 +91,9 @@ export default function ReservaPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           {/* Chart */}
-          <div className="col-span-2 card-premium p-6">
+          <div className="lg:col-span-2 card-premium p-6">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Evolução</p>
             <h3 className="text-[18px] font-light text-white mb-5" style={{ fontFamily: "'Cormorant SC', serif" }}>
               Histórico da Reserva

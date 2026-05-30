@@ -29,7 +29,7 @@ export default function ConfiguracoesPage() {
       <Header title="Configurações" subtitle="Sistema" />
 
       <motion.div
-        className="flex-1 p-8 max-w-2xl space-y-8 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 max-w-2xl space-y-8 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}

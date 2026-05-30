@@ -97,32 +97,32 @@ export default function ReceitasPage() {
   return (
     <div className="flex flex-col min-h-full">
       <Header title="Receitas & Despesas" subtitle="Fluxo">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <button
             onClick={() => setShowForm("income")}
-            className="btn-gold flex items-center gap-1.5 text-[12.5px] py-2 px-4"
+            className="btn-gold flex items-center gap-1.5 text-[12px] sm:text-[12.5px] py-2 px-3 sm:px-4"
           >
-            <Plus size={14} />
-            Nova Receita
+            <Plus size={13} />
+            <span className="hidden sm:inline">Nova </span>Receita
           </button>
           <button
             onClick={() => setShowForm("expense")}
-            className="btn-ghost flex items-center gap-1.5 text-[12.5px] py-2 px-4"
+            className="btn-ghost flex items-center gap-1.5 text-[12px] sm:text-[12.5px] py-2 px-3 sm:px-4"
           >
-            <Plus size={14} />
-            Nova Despesa
+            <Plus size={13} />
+            <span className="hidden sm:inline">Nova </span>Despesa
           </button>
         </div>
       </Header>
 
       <motion.div
-        className="flex-1 p-8 space-y-5 overflow-y-auto"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-5 overflow-y-auto"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         {/* ── Period controls ───────────────────────────────── */}
-        <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <div className="flex items-center p-1 rounded-xl gap-0.5"
             style={{ background: "#111111", border: "1px solid #1E1E1E" }}>
             {(["month","quarter","semester","year"] as PeriodMode[]).map((m) => (
@@ -212,7 +212,7 @@ export default function ReceitasPage() {
         </AnimatePresence>
 
         {/* ── Metric cards ──────────────────────────────────── */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <MetricCard title="Total Recebido"  value={formatCurrency(totalIn)}  changeValue={8.2}  icon={<TrendingUp size={14} />}   subtitle={periodLabel()} />
           <MetricCard title="Total Gasto"     value={formatCurrency(totalOut)} changeValue={-3.1} icon={<TrendingDown size={14} />} subtitle={periodLabel()} />
           <MetricCard title="Saldo do Período" value={formatCurrency(balance)} changeValue={balance > 0 ? 1 : -1} icon={<Wallet size={14} />} subtitle="Receitas − despesas" />
@@ -220,9 +220,9 @@ export default function ReceitasPage() {
         </div>
 
         {/* ── Charts ────────────────────────────────────────── */}
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           {/* Area chart */}
-          <div className="col-span-2 card-premium p-6">
+          <div className="lg:col-span-2 card-premium p-6">
             <div className="flex items-center justify-between mb-5">
               <div>
                 <p className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1"
@@ -334,8 +334,8 @@ export default function ReceitasPage() {
                     {showForm === "income" ? "Nova Receita" : "Nova Despesa"}
                   </h3>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
-                  <div className="col-span-2">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                  <div className="lg:col-span-2">
                     <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
                       style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Descrição</label>
                     <input className="input-premium" placeholder={showForm === "income" ? "Ex: Salário" : "Ex: Aluguel"} />
@@ -395,7 +395,7 @@ export default function ReceitasPage() {
         </AnimatePresence>
 
         {/* ── Transactions table ────────────────────────────── */}
-        <div className="card-premium overflow-hidden">
+        <div className="card-premium overflow-hidden overflow-x-auto">
           {/* Table toolbar */}
           <div className="p-5 border-b border-[#1A1A1A] flex items-center gap-4">
             {/* Tabs */}
