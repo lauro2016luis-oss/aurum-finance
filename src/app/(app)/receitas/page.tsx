@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
+import { Modal } from "@/components/shared/Modal";
 import { categoryData } from "@/lib/mock-data";
 import { useData } from "@/lib/data-store";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -336,73 +337,6 @@ export default function ReceitasPage() {
           </div>
         </div>
 
-        {/* ── Quick-add form (animated) ─────────────────────── */}
-        <AnimatePresence>
-          {showForm && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden"
-            >
-              <div className="rounded-2xl p-5"
-                style={{
-                  background: "#141414",
-                  border: `1px solid ${showForm === "income" ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)"}`,
-                }}>
-                <div className="flex items-center gap-2 mb-5">
-                  <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                    style={{ background: showForm === "income" ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.08)" }}>
-                    {showForm === "income"
-                      ? <ArrowUpRight size={14} className="text-success" />
-                      : <ArrowDownRight size={14} className="text-error" />}
-                  </div>
-                  <h3 className="text-[17px] text-white" style={{ fontFamily:"'Cormorant SC',serif", fontWeight:400 }}>
-                    {showForm === "income" ? "Nova Receita" : "Nova Despesa"}
-                  </h3>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  <div className="sm:col-span-2">
-                    <label className="label-xs mb-1.5 block">Descrição</label>
-                    <input className="input-premium w-full" placeholder={showForm==="income"?"Ex: Salário":"Ex: Aluguel"}
-                      value={formData.description} onChange={e => setFormData(f=>({...f,description:e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="label-xs mb-1.5 block">Valor (R$)</label>
-                    <input className="input-premium w-full" placeholder="0,00"
-                      value={formData.value} onChange={e => setFormData(f=>({...f,value:e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="label-xs mb-1.5 block">Data</label>
-                    <input type="date" className="input-premium w-full" style={{colorScheme:"dark"}}
-                      value={formData.date} onChange={e => setFormData(f=>({...f,date:e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="label-xs mb-1.5 block">Categoria</label>
-                    <select className="input-premium w-full" style={{colorScheme:"dark"}}
-                      value={formData.category} onChange={e => setFormData(f=>({...f,category:e.target.value}))}>
-                      {(showForm==="income" ? INCOME_CATS : EXPENSE_CATS).map(c => <option key={c}>{c}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="label-xs mb-1.5 block">Conta</label>
-                    <select className="input-premium w-full" style={{colorScheme:"dark"}}
-                      value={formData.account} onChange={e => setFormData(f=>({...f,account:e.target.value}))}>
-                      {ACCOUNTS.map(a => <option key={a}>{a}</option>)}
-                    </select>
-                  </div>
-                </div>
-                <div className="flex gap-3 mt-5">
-                  <button onClick={handleSave} className="btn-gold py-2 px-6 text-[13px]">
-                    Salvar {showForm === "income" ? "Receita" : "Despesa"}
-                  </button>
-                  <button className="btn-ghost py-2 px-4 text-[13px]" onClick={() => setShowForm(null)}>Cancelar</button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {/* ── Transactions table ────────────────────────────── */}
         <div className="card-premium overflow-hidden overflow-x-auto">
           {/* Table toolbar */}
@@ -565,6 +499,64 @@ export default function ReceitasPage() {
           </div>
         </div>
       </motion.div>
+
+      <Modal
+        open={!!showForm}
+        onClose={() => setShowForm(null)}
+        title={showForm === "income" ? "Nova Receita" : "Nova Despesa"}
+        subtitle={showForm === "income" ? "Adicionar entrada" : "Registrar saída"}
+        icon={showForm === "income"
+          ? <ArrowUpRight size={14} className="text-success" />
+          : <ArrowDownRight size={14} className="text-error" />}
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="label-xs mb-1.5 block">Descrição</label>
+            <input className="input-premium w-full"
+              placeholder={showForm === "income" ? "Ex: Salário, Freelance..." : "Ex: Aluguel, Mercado..."}
+              value={formData.description}
+              onChange={e => setFormData(f => ({ ...f, description: e.target.value }))} />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="label-xs mb-1.5 block">Valor (R$)</label>
+              <input className="input-premium w-full" placeholder="0,00"
+                value={formData.value}
+                onChange={e => setFormData(f => ({ ...f, value: e.target.value }))} />
+            </div>
+            <div>
+              <label className="label-xs mb-1.5 block">Data</label>
+              <input type="date" className="input-premium w-full" style={{ colorScheme: "dark" }}
+                value={formData.date}
+                onChange={e => setFormData(f => ({ ...f, date: e.target.value }))} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="label-xs mb-1.5 block">Categoria</label>
+              <select className="input-premium w-full" style={{ colorScheme: "dark" }}
+                value={formData.category}
+                onChange={e => setFormData(f => ({ ...f, category: e.target.value }))}>
+                {(showForm === "income" ? INCOME_CATS : EXPENSE_CATS).map(c => <option key={c}>{c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="label-xs mb-1.5 block">Conta</label>
+              <select className="input-premium w-full" style={{ colorScheme: "dark" }}
+                value={formData.account}
+                onChange={e => setFormData(f => ({ ...f, account: e.target.value }))}>
+                {ACCOUNTS.map(a => <option key={a}>{a}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="flex gap-3 pt-1">
+            <button onClick={() => setShowForm(null)} className="btn-ghost flex-1 py-2.5 text-[13px]">Cancelar</button>
+            <button onClick={handleSave} className="btn-gold flex-1 py-2.5 text-[13px]">
+              Salvar {showForm === "income" ? "Receita" : "Despesa"}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
