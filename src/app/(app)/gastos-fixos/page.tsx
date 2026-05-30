@@ -3,14 +3,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import {
-  Plus, CheckCircle2, Clock, AlertCircle,
+  Plus, CheckCircle2, Clock, AlertCircle, Trash2,
   ChevronLeft, ChevronRight, Calendar,
   Download, Filter, Search, RotateCcw,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
-import { fixedExpenses } from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/utils";
+import { useData } from "@/lib/data-store";
 
 const MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
                  "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
@@ -23,9 +23,13 @@ const statusConfig = {
   overdue: { label: "Vencida",  color: "#EF4444", bg: "rgba(239,68,68,0.1)",   icon: AlertCircle },
 };
 
+const CATS = ["Moradia","Saúde","Serviços","Entretenimento","Educação","Transporte","Alimentação","Outros"];
+
 export default function GastosFixosPage() {
+  const { fixedExpenses, addFixedExpense, deleteFixedExpense, toggleFixedExpenseStatus, updateFixedExpense } = useData();
   const now = new Date();
   const [showForm, setShowForm] = useState(false);
+  const [newForm, setNewForm] = useState({ name:"", value:"", dueDay:"", category:"Moradia" });
   const [periodMode, setPeriodMode] = useState<PeriodMode>("month");
   const [currentMonth, setCurrentMonth] = useState(now.getMonth());
   const [currentYear, setCurrentYear]   = useState(now.getFullYear());
@@ -268,43 +272,40 @@ export default function GastosFixosPage() {
                 <h3 className="text-[18px] text-white mb-5" style={{ fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
                   Novo Gasto Fixo
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                  <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Nome</label>
-                    <input className="input-premium" placeholder="Ex: Aluguel" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div className="sm:col-span-2">
+                    <label className="label-xs mb-1.5 block">Nome</label>
+                    <input className="input-premium w-full" placeholder="Ex: Aluguel"
+                      value={newForm.name} onChange={e => setNewForm(f=>({...f,name:e.target.value}))} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Valor</label>
-                    <input className="input-premium" placeholder="R$ 0,00" />
+                    <label className="label-xs mb-1.5 block">Valor (R$)</label>
+                    <input className="input-premium w-full" placeholder="0,00"
+                      value={newForm.value} onChange={e => setNewForm(f=>({...f,value:e.target.value}))} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Dia de Vencimento</label>
-                    <input className="input-premium" placeholder="Dia do mês" type="number" min="1" max="31" />
+                    <label className="label-xs mb-1.5 block">Dia de Vencimento</label>
+                    <input className="input-premium w-full" placeholder="1-31" type="number" min="1" max="31"
+                      value={newForm.dueDay} onChange={e => setNewForm(f=>({...f,dueDay:e.target.value}))} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Categoria</label>
-                    <select className="input-premium" style={{ background: "#141414" }}>
-                      <option>Moradia</option><option>Saúde</option><option>Serviços</option>
-                      <option>Entretenimento</option><option>Educação</option><option>Outros</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Data de Início</label>
-                    <div className="relative">
-                      <Calendar size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#52525B]" />
-                      <input type="date" className="input-premium pl-9" style={{ colorScheme: "dark" }} />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Conta</label>
-                    <select className="input-premium" style={{ background: "#141414" }}>
-                      <option>Nubank</option><option>Itaú</option><option>Inter</option>
+                    <label className="label-xs mb-1.5 block">Categoria</label>
+                    <select className="input-premium w-full" style={{colorScheme:"dark"}}
+                      value={newForm.category} onChange={e => setNewForm(f=>({...f,category:e.target.value}))}>
+                      {CATS.map(c => <option key={c}>{c}</option>)}
                     </select>
                   </div>
                 </div>
                 <div className="flex gap-3 mt-5">
-                  <button className="btn-gold py-2 px-6">Salvar Gasto Fixo</button>
-                  <button className="btn-ghost py-2 px-4" onClick={() => setShowForm(false)}>Cancelar</button>
+                  <button className="btn-gold py-2 px-6 text-[13px]" onClick={() => {
+                    if (!newForm.name || !newForm.value) return;
+                    const v = parseFloat(newForm.value.replace(",","."));
+                    if (isNaN(v)) return;
+                    addFixedExpense({ name:newForm.name, category:newForm.category, dueDay:parseInt(newForm.dueDay)||1, value:v, status:"pending", active:true });
+                    setNewForm({ name:"", value:"", dueDay:"", category:"Moradia" });
+                    setShowForm(false);
+                  }}>Salvar Gasto Fixo</button>
+                  <button className="btn-ghost py-2 px-4 text-[13px]" onClick={() => setShowForm(false)}>Cancelar</button>
                 </div>
               </div>
             </motion.div>
@@ -369,66 +370,53 @@ export default function GastosFixosPage() {
                 <th>Vencimento</th>
                 <th>Próx. Venc.</th>
                 <th className="text-right">Valor</th>
-                <th className="text-center pr-6">Status</th>
+                <th className="text-center">Status</th>
+                <th className="pr-4"></th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((expense) => {
                 const s = statusConfig[expense.status as keyof typeof statusConfig];
                 const Icon = s.icon;
-                // Calculate next due date
                 const nextDue = new Date(currentYear, currentMonth, expense.dueDay);
                 if (nextDue < new Date()) nextDue.setMonth(nextDue.getMonth() + 1);
                 const nextLabel = `${String(expense.dueDay).padStart(2,"0")}/${String(nextDue.getMonth()+1).padStart(2,"0")}/${nextDue.getFullYear()}`;
 
                 return (
-                  <motion.tr
-                    key={expense.id}
-                    className="cursor-pointer"
-                    whileHover={{ backgroundColor: "rgba(255,255,255,0.012)" }}
-                  >
+                  <motion.tr key={expense.id} className="cursor-pointer group"
+                    whileHover={{ backgroundColor: "rgba(255,255,255,0.012)" }}>
                     <td className="pl-6">
                       <div className="flex items-center gap-2.5">
-                        <div
-                          className="w-1.5 h-8 rounded-full flex-shrink-0"
-                          style={{ background: s.color, opacity: 0.6 }}
-                        />
+                        <div className="w-1.5 h-8 rounded-full flex-shrink-0" style={{ background: s.color, opacity: 0.6 }} />
                         <span className="text-[13px] text-white">{expense.name}</span>
                       </div>
                     </td>
+                    <td><span className="badge badge-neutral">{expense.category}</span></td>
                     <td>
-                      <span className="badge badge-neutral">{expense.category}</span>
-                    </td>
-                    <td>
-                      <div className="flex items-center gap-1.5 text-[12.5px] text-[#52525B]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
-                        <Calendar size={11} className="text-[#3F3F46]" />
-                        dia {expense.dueDay}
+                      <div className="flex items-center gap-1.5 text-[12.5px] text-[#52525B]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>
+                        <Calendar size={11} className="text-[#3F3F46]" />dia {expense.dueDay}
                       </div>
                     </td>
                     <td>
-                      <span
-                        className="text-[12.5px]"
-                        style={{
-                          fontFamily: "'Instrument Sans', sans-serif",
-                          color: expense.status === "overdue" ? "#EF4444" : "#52525B",
-                        }}
-                      >
+                      <span className="text-[12.5px]" style={{ fontFamily:"'Instrument Sans',sans-serif", color:expense.status==="overdue"?"#EF4444":"#52525B" }}>
                         {nextLabel}
                       </span>
                     </td>
                     <td className="text-right">
-                      <span className="metric-value text-[14px] text-white">
-                        {formatCurrency(expense.value)}
-                      </span>
+                      <span className="metric-value text-[14px] text-white">{formatCurrency(expense.value)}</span>
                     </td>
-                    <td className="text-center pr-6">
-                      <span
-                        className="badge inline-flex items-center gap-1"
-                        style={{ background: s.bg, color: s.color, fontFamily: "'Instrument Sans', sans-serif" }}
-                      >
-                        <Icon size={10} />
-                        {s.label}
-                      </span>
+                    <td className="text-center">
+                      <button onClick={() => toggleFixedExpenseStatus(expense.id)}
+                        className="badge inline-flex items-center gap-1 hover:opacity-80 transition-opacity cursor-pointer"
+                        style={{ background:s.bg, color:s.color, fontFamily:"'Instrument Sans',sans-serif" }}>
+                        <Icon size={10} />{s.label}
+                      </button>
+                    </td>
+                    <td className="pr-4">
+                      <button onClick={() => deleteFixedExpense(expense.id)}
+                        className="opacity-0 group-hover:opacity-100 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-error/10 text-[#3F3F46] hover:text-error transition-all">
+                        <Trash2 size={13} />
+                      </button>
                     </td>
                   </motion.tr>
                 );

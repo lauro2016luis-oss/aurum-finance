@@ -3,14 +3,15 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import {
-  Plus, ArrowUpRight, ArrowDownRight,
+  Plus, ArrowUpRight, ArrowDownRight, Trash2,
   ChevronLeft, ChevronRight, Calendar,
   Download, Filter, Search, RotateCcw,
   TrendingUp, TrendingDown, Wallet,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
-import { transactions, categoryData } from "@/lib/mock-data";
+import { categoryData } from "@/lib/mock-data";
+import { useData } from "@/lib/data-store";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import {
   AreaChart, Area, BarChart, Bar,
@@ -53,7 +54,12 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   );
 };
 
+const INCOME_CATS  = ["Salário","Freelance","Dividendos","Renda Extra","Investimentos","Outros"];
+const EXPENSE_CATS = ["Moradia","Alimentação","Transporte","Saúde","Entretenimento","Educação","Lazer","Serviços","Outros"];
+const ACCOUNTS     = ["Nubank","Itaú","Inter","XP Investimentos","Bradesco","C6 Bank"];
+
 export default function ReceitasPage() {
+  const { transactions, addTransaction, deleteTransaction } = useData();
   const now = new Date();
   const [tab, setTab]               = useState<Tab>("all");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("month");
@@ -64,6 +70,28 @@ export default function ReceitasPage() {
   const [customEnd, setCustomEnd]     = useState("");
   const [search, setSearch]           = useState("");
   const [showForm, setShowForm]       = useState<Tab | null>(null);
+
+  const [formData, setFormData] = useState({
+    description: "", value: "", date: now.toISOString().split("T")[0],
+    category: "Salário", account: "Nubank",
+  });
+
+  const handleSave = () => {
+    if (!formData.description || !formData.value) return;
+    const v = parseFloat(formData.value.replace(",","."));
+    if (isNaN(v) || v <= 0) return;
+    addTransaction({
+      description: formData.description,
+      category: formData.category,
+      date: formData.date,
+      value: showForm === "income" ? v : -v,
+      type: showForm === "income" ? "income" : "expense",
+      account: formData.account,
+      status: "completed",
+    });
+    setFormData({ description:"", value:"", date:now.toISOString().split("T")[0], category:"Salário", account:"Nubank" });
+    setShowForm(null);
+  };
 
   const stepMonth = (dir: number) => {
     let m = currentMonth + dir, y = currentYear;
@@ -317,7 +345,7 @@ export default function ReceitasPage() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden"
             >
-              <div className="rounded-2xl p-6"
+              <div className="rounded-2xl p-5"
                 style={{
                   background: "#141414",
                   border: `1px solid ${showForm === "income" ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)"}`,
@@ -329,65 +357,46 @@ export default function ReceitasPage() {
                       ? <ArrowUpRight size={14} className="text-success" />
                       : <ArrowDownRight size={14} className="text-error" />}
                   </div>
-                  <h3 className="text-[17px] text-white"
-                    style={{ fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
+                  <h3 className="text-[17px] text-white" style={{ fontFamily:"'Cormorant SC',serif", fontWeight:400 }}>
                     {showForm === "income" ? "Nova Receita" : "Nova Despesa"}
                   </h3>
                 </div>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                  <div className="lg:col-span-2">
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
-                      style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Descrição</label>
-                    <input className="input-premium" placeholder={showForm === "income" ? "Ex: Salário" : "Ex: Aluguel"} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  <div className="sm:col-span-2">
+                    <label className="label-xs mb-1.5 block">Descrição</label>
+                    <input className="input-premium w-full" placeholder={showForm==="income"?"Ex: Salário":"Ex: Aluguel"}
+                      value={formData.description} onChange={e => setFormData(f=>({...f,description:e.target.value}))} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
-                      style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Valor</label>
-                    <input className="input-premium" placeholder="R$ 0,00" />
+                    <label className="label-xs mb-1.5 block">Valor (R$)</label>
+                    <input className="input-premium w-full" placeholder="0,00"
+                      value={formData.value} onChange={e => setFormData(f=>({...f,value:e.target.value}))} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
-                      style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Data</label>
-                    <div className="relative">
-                      <Calendar size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#52525B]" />
-                      <input type="date" className="input-premium pl-9" style={{ colorScheme: "dark" }} />
-                    </div>
+                    <label className="label-xs mb-1.5 block">Data</label>
+                    <input type="date" className="input-premium w-full" style={{colorScheme:"dark"}}
+                      value={formData.date} onChange={e => setFormData(f=>({...f,date:e.target.value}))} />
                   </div>
                   <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
-                      style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Categoria</label>
-                    <select className="input-premium" style={{ background: "#141414" }}>
-                      {showForm === "income"
-                        ? <><option>Salário</option><option>Freelance</option><option>Dividendos</option><option>Outros</option></>
-                        : <><option>Moradia</option><option>Alimentação</option><option>Transporte</option><option>Saúde</option><option>Outros</option></>
-                      }
+                    <label className="label-xs mb-1.5 block">Categoria</label>
+                    <select className="input-premium w-full" style={{colorScheme:"dark"}}
+                      value={formData.category} onChange={e => setFormData(f=>({...f,category:e.target.value}))}>
+                      {(showForm==="income" ? INCOME_CATS : EXPENSE_CATS).map(c => <option key={c}>{c}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
-                      style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Conta</label>
-                    <select className="input-premium" style={{ background: "#141414" }}>
-                      <option>Nubank</option><option>Itaú</option><option>Inter</option>
+                    <label className="label-xs mb-1.5 block">Conta</label>
+                    <select className="input-premium w-full" style={{colorScheme:"dark"}}
+                      value={formData.account} onChange={e => setFormData(f=>({...f,account:e.target.value}))}>
+                      {ACCOUNTS.map(a => <option key={a}>{a}</option>)}
                     </select>
-                  </div>
-                  <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
-                      style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Recorrência</label>
-                    <select className="input-premium" style={{ background: "#141414" }}>
-                      <option>Nenhuma</option><option>Mensal</option><option>Semanal</option><option>Anual</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1.5 block"
-                      style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Observação</label>
-                    <input className="input-premium" placeholder="Opcional" />
                   </div>
                 </div>
                 <div className="flex gap-3 mt-5">
-                  <button className="btn-gold py-2 px-6">
+                  <button onClick={handleSave} className="btn-gold py-2 px-6 text-[13px]">
                     Salvar {showForm === "income" ? "Receita" : "Despesa"}
                   </button>
-                  <button className="btn-ghost py-2 px-4" onClick={() => setShowForm(null)}>Cancelar</button>
+                  <button className="btn-ghost py-2 px-4 text-[13px]" onClick={() => setShowForm(null)}>Cancelar</button>
                 </div>
               </div>
             </motion.div>
@@ -456,6 +465,7 @@ export default function ReceitasPage() {
                 <th>Conta</th>
                 <th>Tipo</th>
                 <th className="text-right pr-5">Valor</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -510,11 +520,17 @@ export default function ReceitasPage() {
                           {isIn ? "Receita" : "Despesa"}
                         </span>
                       </td>
-                      <td className="text-right pr-5">
+                      <td className="text-right pr-3">
                         <span className="metric-value text-[14px] font-medium"
                           style={{ color: isIn ? "#22C55E" : "#EF4444" }}>
                           {isIn ? "+" : "−"}{formatCurrency(Math.abs(tx.value))}
                         </span>
+                      </td>
+                      <td className="pr-4">
+                        <button onClick={() => deleteTransaction(tx.id)}
+                          className="opacity-0 group-hover:opacity-100 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-error/10 text-[#3F3F46] hover:text-error transition-all">
+                          <Trash2 size={13} />
+                        </button>
                       </td>
                     </motion.tr>
                   );

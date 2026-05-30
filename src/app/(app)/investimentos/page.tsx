@@ -10,7 +10,8 @@ import {
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
-import { investments, investmentPortfolioData } from "@/lib/mock-data";
+import { investmentPortfolioData } from "@/lib/mock-data";
+import { useData } from "@/lib/data-store";
 import { formatCurrency, formatPercent } from "@/lib/utils";
 
 /* ─────────────────────────── DATA ─────────────────────────── */
@@ -256,7 +257,7 @@ function Field({
 
 /* ─────────────────── NOVO ATIVO PANEL ───────────────────────── */
 
-function NovoAtivoPanel({ onClose }: { onClose: () => void }) {
+function NovoAtivoPanel({ onClose, onAdd }: { onClose: () => void; onAdd: (data: Record<string,string>) => void }) {
   const [form, setForm] = useState({
     nome: "",
     instituicao: "",
@@ -439,6 +440,7 @@ function NovoAtivoPanel({ onClose }: { onClose: () => void }) {
           <button
             className="btn-gold flex-1 flex items-center justify-center gap-2 text-[13px] py-2.5"
             style={{ fontFamily: "'Instrument Sans', sans-serif" }}
+            onClick={() => { onAdd(form as Record<string,string>); }}
           >
             <Plus size={14} />
             Criar Investimento
@@ -452,12 +454,33 @@ function NovoAtivoPanel({ onClose }: { onClose: () => void }) {
 /* ─────────────────── PAGE ───────────────────────────────────── */
 
 export default function InvestimentosPage() {
+  const { investments, addInvestment, deleteInvestment } = useData();
   const [showForm, setShowForm] = useState(false);
 
   const totalInvested = investments.reduce((s, i) => s + i.amount, 0);
   const totalCurrent  = investments.reduce((s, i) => s + i.currentValue, 0);
   const totalProfit   = totalCurrent - totalInvested;
-  const totalYield    = ((totalCurrent - totalInvested) / totalInvested) * 100;
+  const totalYield    = totalInvested > 0 ? ((totalCurrent - totalInvested) / totalInvested) * 100 : 0;
+
+  const handleAddInvestment = (form: Record<string,string>) => {
+    const amount = parseFloat((form.capitalInicial||"0").replace(",",".")) || 0;
+    const rent   = parseFloat((form.rentabilidade||"0").replace(",",".")) || 0;
+    if (!form.nome || amount <= 0) return;
+    addInvestment({
+      name: form.nome,
+      type: form.tipo || "Renda Fixa",
+      amount,
+      currentValue: amount,
+      yield: rent,
+      category: form.tipo || "Renda Fixa",
+      instituicao: form.instituicao,
+      dataInicio: form.dataInicio,
+      aporteMenusal: parseFloat((form.aporteMenusal||"0").replace(",",".")) || 0,
+      rentabilidade: rent,
+      observacao: form.observacao,
+    });
+    setShowForm(false);
+  };
 
   return (
     <div className="flex flex-col min-h-full">
@@ -488,7 +511,7 @@ export default function InvestimentosPage() {
         {/* NEW ASSET FORM */}
         <AnimatePresence>
           {showForm && (
-            <NovoAtivoPanel onClose={() => setShowForm(false)} />
+            <NovoAtivoPanel onClose={() => setShowForm(false)} onAdd={handleAddInvestment} />
           )}
         </AnimatePresence>
 
