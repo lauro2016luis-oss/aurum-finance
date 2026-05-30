@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   LayoutDashboard, ArrowLeftRight, TrendingUp, Receipt,
   CreditCard, Landmark, LineChart, Target, Shield,
   CalendarClock, RefreshCcw, BarChart3, Sparkles,
-  Settings, HelpCircle, ChevronRight, Building2, LogOut, X,
+  Settings, HelpCircle, ChevronRight, Building2, LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNav } from "@/lib/nav-context";
@@ -84,13 +84,6 @@ export function Sidebar() {
               style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.22em", textTransform:"uppercase" }}>Finance</p>
           </div>
         </Link>
-        {/* Close button — only visible on mobile */}
-        <button
-          onClick={closeSidebar}
-          className="lg:hidden w-8 h-8 flex items-center justify-center rounded-xl text-[#52525B] hover:text-white hover:bg-[#1A1A1A] transition-all"
-        >
-          <X size={16} />
-        </button>
       </div>
 
       {/* Profile */}
@@ -168,26 +161,9 @@ export function Sidebar() {
   );
 
   return (
-    <>
-      {/* Desktop: fixed sidebar (only visible lg+) */}
-      <div className="hidden lg:flex fixed left-0 top-0 h-screen w-[260px] z-50 flex-col">
-        {content}
-      </div>
-
-      {/* Mobile/tablet: slide-in drawer */}
-      <AnimatePresence mode="wait">
-        {sidebarOpen && (
-          <motion.div
-            className="lg:hidden fixed left-0 top-0 h-screen w-[260px] z-50 flex flex-col"
-            initial={{ x: -260, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -260, opacity: 0 }}
-            transition={{ type: "tween", duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            {content}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+    /* Desktop only — BottomNav handles mobile/tablet */
+    <div className="hidden lg:flex fixed left-0 top-0 h-screen w-[260px] z-50 flex-col">
+      {content}
+    </div>
   );
 }

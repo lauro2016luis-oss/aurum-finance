@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, Eye, EyeOff, Menu } from "lucide-react";
+import { Bell, Search, Eye, EyeOff } from "lucide-react";
 import { useNav } from "@/lib/nav-context";
 
 interface HeaderProps {
@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export function Header({ title, subtitle, children }: HeaderProps) {
-  const { toggleSidebar, hideValues, toggleHideValues } = useNav();
+  const { hideValues, toggleHideValues } = useNav();
 
   return (
     <header
@@ -22,18 +22,8 @@ export function Header({ title, subtitle, children }: HeaderProps) {
         borderBottom: "1px solid #1A1A1A",
       }}
     >
-      {/* Left: hamburger + title */}
+      {/* Left: title */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        {/* Hamburger — mobile/tablet only */}
-        <button
-          onClick={toggleSidebar}
-          className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl transition-all flex-shrink-0"
-          style={{ background: "#1A1A1A", border: "1px solid #262626" }}
-          aria-label="Abrir menu"
-        >
-          <Menu size={18} className="text-[#A1A1AA]" />
-        </button>
-
         <div className="min-w-0">
           {subtitle && (
             <p className="text-[9px] sm:text-[9.5px] text-[#3F3F46] leading-none mb-1 hidden sm:block"
