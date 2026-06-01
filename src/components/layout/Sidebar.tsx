@@ -151,7 +151,12 @@ export function Sidebar() {
               </Link>
             );
           })}
-          <button className="nav-item w-full text-left text-[#52525B] hover:text-[#EF4444]">
+          <button className="nav-item w-full text-left text-[#52525B] hover:text-[#EF4444]" onClick={async () => {
+            const { createClient } = await import("@/lib/supabase/client");
+            const supabase = createClient();
+            await supabase.auth.signOut();
+            window.location.href = "/login";
+          }}>
             <LogOut size={15} className="flex-shrink-0" />
             <span>Sair</span>
           </button>
