@@ -1,253 +1,463 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import {
-  Wallet,
-  TrendingUp,
-  TrendingDown,
-  PiggyBank,
-  Zap,
-  AlertCircle,
-  Target,
-  CreditCard,
-  ChevronRight,
-  ArrowUpRight,
+  Wallet, TrendingUp, TrendingDown, AlertCircle,
+  ChevronRight, ArrowUpRight, ArrowDownRight,
+  Shield, CreditCard, Target, BarChart2,
+  RefreshCcw, Landmark, CheckCircle2, Clock, XCircle,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { CashFlowChart } from "@/components/dashboard/CashFlowChart";
-import { CategoryChart } from "@/components/dashboard/CategoryChart";
-import { PatrimonyChart } from "@/components/dashboard/PatrimonyChart";
-import { UpcomingBills } from "@/components/dashboard/UpcomingBills";
-import { FinancialScore } from "@/components/dashboard/FinancialScore";
-import { transactions } from "@/lib/mock-data";
-import { formatCurrency, formatRelativeDate } from "@/lib/utils";
+import { useData } from "@/lib/data-store";
+import { formatCurrency } from "@/lib/utils";
 import { useNav } from "@/lib/nav-context";
 
-const stagger = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.07 } },
+/* ── animation presets ─────────────────────────────────── */
+const stagger = { hidden:{opacity:0}, show:{opacity:1, transition:{staggerChildren:0.06}} };
+const fadeUp  = { hidden:{opacity:0,y:16}, show:{opacity:1,y:0,transition:{duration:0.42,ease:[0.25,0.46,0.45,0.94]}} };
+
+/* ── section header ─────────────────────────────────────── */
+function SectionHead({ label, title, href, cta="Gerenciar" }:{label:string;title:string;href:string;cta?:string}) {
+  return (
+    <div className="flex items-end justify-between mb-4">
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.16em] mb-1" style={{color:"#D4AF37",fontFamily:"'Instrument Sans',sans-serif"}}>{label}</p>
+        <h2 className="text-[20px] font-light text-white leading-none" style={{fontFamily:"'Cormorant SC',serif"}}>{title}</h2>
+      </div>
+      <Link href={href} className="flex items-center gap-1 text-[11.5px] text-[#52525B] hover:text-[#D4AF37] transition-colors"
+        style={{fontFamily:"'Instrument Sans',sans-serif"}}>
+        {cta} <ChevronRight size={12} />
+      </Link>
+    </div>
+  );
+}
+
+/* ── blur wrapper ───────────────────────────────────────── */
+function Blurred({hide, children, className=""}:{hide:boolean;children:React.ReactNode;className?:string}) {
+  return (
+    <span className={className} style={{filter:hide?"blur(7px)":"none",userSelect:hide?"none":"auto",transition:"filter 0.3s"}}>
+      {children}
+    </span>
+  );
+}
+
+/* ── status badge ───────────────────────────────────────── */
+const STATUS_CFG = {
+  paid:    {label:"Pago",     icon:CheckCircle2, color:"#22C55E", bg:"rgba(34,197,94,0.1)"},
+  pending: {label:"Pendente", icon:Clock,        color:"#F59E0B", bg:"rgba(245,158,11,0.1)"},
+  overdue: {label:"Vencida",  icon:XCircle,      color:"#EF4444", bg:"rgba(239,68,68,0.1)"},
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
-};
+/* ── thin progress bar ──────────────────────────────────── */
+function ProgressBar({pct, color="#D4AF37", h=4}:{pct:number;color?:string;h?:number}) {
+  return (
+    <div className="w-full rounded-full overflow-hidden" style={{height:h,background:"#1A1A1A"}}>
+      <motion.div className="h-full rounded-full"
+        style={{background:`linear-gradient(90deg,${color}80,${color})`}}
+        initial={{width:"0%"}} animate={{width:`${Math.min(pct,100)}%`}}
+        transition={{duration:1.1,ease:"easeOut"}} />
+    </div>
+  );
+}
 
+/* ══════════════════════════════════════════════════════════ */
 export default function DashboardPage() {
+  const {
+    transactions, fixedExpenses, creditCards,
+    bankAccounts, financialGoals, investments,
+    subscriptions, reserve,
+  } = useData();
   const { hideValues } = useNav();
+
+  /* ── derived metrics ──────────────────────────────────── */
+  const incomes   = transactions.filter(t => t.value > 0);
+  const expenses  = transactions.filter(t => t.value < 0);
+  const totalIn   = incomes.reduce((s,t) => s+t.value, 0);
+  const totalOut  = Math.abs(expenses.reduce((s,t) => s+t.value, 0));
+  const saldo     = totalIn - totalOut;
+
+  const pendingFE = fixedExpenses.filter(f => f.status !== "paid" && f.active);
+  const faltaPagar = pendingFE.reduce((s,f) => s+f.value, 0)
+    + creditCards.reduce((s,c) => s+c.used, 0);
+
+  const totalInvested = investments.reduce((s,i) => s+i.amount, 0);
+  const totalCurrentInv = investments.reduce((s,i) => s+i.currentValue, 0);
+  const totalBank = bankAccounts.reduce((s,b) => s+b.balance, 0);
+  const patrimonio = totalBank + totalCurrentInv + reserve;
+
+  const activeSubTotal = subscriptions.filter(s=>s.status==="active").reduce((s,sub)=>s+sub.price,0);
+
+  const fixedTotal   = fixedExpenses.filter(f=>f.active).reduce((s,f)=>s+f.value,0);
+  const fixedPaid    = fixedExpenses.filter(f=>f.status==="paid"&&f.active).reduce((s,f)=>s+f.value,0);
+  const fixedPending = fixedExpenses.filter(f=>f.status==="pending"&&f.active).reduce((s,f)=>s+f.value,0);
+  const fixedOverdue = fixedExpenses.filter(f=>f.status==="overdue"&&f.active).reduce((s,f)=>s+f.value,0);
+
+  const CARD_COLORS: Record<string,string> = {
+    Nubank:"#8B5CF6",Itaú:"#F59E0B",Inter:"#F97316","XP Investimentos":"#22C55E",
+    Bradesco:"#EF4444",BTG:"#3B82F6","C6 Bank":"#6B7280",Warren:"#A78BFA",
+    Santander:"#DC2626","Banco do Brasil":"#FACC15",Outros:"#D4AF37",
+  };
+
   return (
     <div className="flex flex-col min-h-full">
-      <Header title="Dashboard" subtitle="Visão Geral">
-        <div className="flex items-center gap-2">
-          <button className="btn-ghost text-[12px] py-1.5 px-3">Este mês</button>
-          <button className="btn-ghost text-[12px] py-1.5 px-3">Escolher período</button>
-          <button className="btn-ghost text-[12px] py-1.5 px-3">Ano</button>
-        </div>
-      </Header>
+      <Header title="Dashboard" subtitle="Visão Geral" />
 
       <motion.div
-        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 overflow-y-auto"
-        variants={stagger}
-        initial="hidden"
-        animate="show"
+        className="flex-1 p-4 sm:p-6 lg:p-8 space-y-8 overflow-y-auto"
+        variants={stagger} initial="hidden" animate="show"
       >
-        {/* Metric Cards */}
-        <motion.div variants={fadeUp} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-          <MetricCard
-            title="Saldo Total"
-            value="R$ 47.382,90"
-            change="+12,4%"
-            changeValue={12.4}
-            icon={<Wallet size={15} />}
-            subtitle="Todas as contas"
-          />
-          <MetricCard
-            title="Receitas do Mês"
-            value="R$ 18.500,00"
-            change="+8,2%"
-            changeValue={8.2}
-            icon={<TrendingUp size={15} />}
-            subtitle="vs. mês anterior"
-          />
-          <MetricCard
-            title="Despesas do Mês"
-            value="R$ 9.847,30"
-            change="-3,1%"
-            changeValue={-3.1}
-            icon={<TrendingDown size={15} />}
-            subtitle="Fixas + variáveis"
-          />
-          <MetricCard
-            title="Patrimônio"
-            value="R$ 284,5k"
-            change="+2,8%"
-            changeValue={2.8}
-            icon={<PiggyBank size={15} />}
-            subtitle="Acumulado total"
-          />
-          <MetricCard
-            title="Lucro Líquido"
-            value="R$ 8.652,70"
-            change="+18,7%"
-            changeValue={18.7}
-            icon={<Zap size={15} />}
-            subtitle="Este mês"
-            gold
-          />
-        </motion.div>
 
-        {/* Charts Row 1 */}
-        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-          <div className="lg:col-span-2 min-h-[260px] sm:min-h-[300px]">
-            <CashFlowChart />
-          </div>
-          <div className="min-h-[260px] sm:min-h-[300px]">
-            <CategoryChart />
+        {/* ═══════════ 1 — MÉTRICAS PRINCIPAIS ═══════════ */}
+        <motion.div variants={fadeUp}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+            <MetricCard title="Total Recebido"  value={formatCurrency(totalIn)}   changeValue={8.2}  icon={<TrendingUp size={14}/>}  subtitle="Entradas no período" />
+            <MetricCard title="Total Gasto"     value={formatCurrency(totalOut)}  changeValue={-3.1} icon={<TrendingDown size={14}/>} subtitle="Fixos + variáveis" />
+            <MetricCard title="Saldo Disponível" value={formatCurrency(saldo)}    changeValue={saldo>0?1:-1} icon={<Wallet size={14}/>} subtitle="Receitas − despesas" />
+            <MetricCard title="Falta Pagar"     value={formatCurrency(faltaPagar)} changeValue={-1} icon={<AlertCircle size={14}/>} subtitle="Pendentes + fatura" />
+            <MetricCard title="Patrimônio Total" value={formatCurrency(patrimonio)} changeValue={2.8} icon={<BarChart2 size={14}/>} subtitle="Contas + inv. + reserva" gold />
           </div>
         </motion.div>
 
-        {/* Charts Row 2 */}
-        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-          <div className="lg:col-span-2">
-            <PatrimonyChart />
-          </div>
-          <div className="space-y-4 sm:space-y-5">
-            <FinancialScore score={847} />
-            <UpcomingBills />
-          </div>
+        {/* ═══════════ 2 — FLUXO DO MÊS ════════════════ */}
+        <motion.div variants={fadeUp}>
+          <SectionHead label="Financeiro" title="Fluxo de Caixa" href="/receitas" cta="Ver fluxo" />
+          <CashFlowChart />
         </motion.div>
 
-        {/* Alerts + Recent */}
-        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-          {/* Alerts */}
-          <div className="space-y-3">
-            <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em]">Alertas</p>
-            <AlertCard
-              icon={<AlertCircle size={14} className="text-[#F59E0B]" />}
-              title="Conta vencendo"
-              desc="Plano de saúde vence em 3 dias — R$ 850,00"
-              type="warning"
-            />
-            <AlertCard
-              icon={<Target size={14} className="text-[#D4AF37]" />}
-              title="Meta atingida"
-              desc="Reserva de emergência chegou a 74% do objetivo"
-              type="gold"
-            />
-            <AlertCard
-              icon={<CreditCard size={14} className="text-[#EF4444]" />}
-              title="Cartão próximo do limite"
-              desc="Nubank: 89% do limite utilizado este mês"
-              type="error"
-            />
-          </div>
+        {/* ═══════════ 3+4 — GASTOS FIXOS + CARTÕES ════ */}
+        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
 
-          {/* Recent transactions */}
-          <div className="lg:col-span-2 card-premium p-5">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em] mb-0.5">Recentes</p>
-                <h3
-                  className="text-[16px] font-light text-white"
-                  style={{ fontFamily: "'Cormorant SC', serif" }}
-                >
-                  Últimas Transações
-                </h3>
+          {/* GASTOS FIXOS */}
+          <div>
+            <SectionHead label="Recorrências" title="Gastos Fixos do Mês" href="/gastos-fixos" />
+            <div className="card-premium overflow-hidden">
+              {/* summary strip */}
+              <div className="grid grid-cols-3 divide-x divide-[#1A1A1A] border-b border-[#1A1A1A]">
+                {[
+                  {l:"Total",    v:fixedTotal,   c:"#A1A1AA"},
+                  {l:"Próximas", v:fixedPending, c:"#F59E0B"},
+                  {l:"Vencidas", v:fixedOverdue, c:"#EF4444"},
+                ].map(s=>(
+                  <div key={s.l} className="p-3 text-center">
+                    <p className="text-[9.5px] uppercase tracking-wider mb-1" style={{color:"#52525B",fontFamily:"'Instrument Sans',sans-serif"}}>{s.l}</p>
+                    <Blurred hide={hideValues}>
+                      <p className="metric-value text-[14px]" style={{color:s.c}}>{formatCurrency(s.v)}</p>
+                    </Blurred>
+                  </div>
+                ))}
               </div>
-              <button className="btn-ghost text-[12px] py-1 px-3 flex items-center gap-1">
-                Ver todas <ArrowUpRight size={12} />
-              </button>
+              {/* rows */}
+              <div className="divide-y divide-[#141414]">
+                {fixedExpenses.filter(f=>f.active).slice(0,6).map(fe=>{
+                  const cfg = STATUS_CFG[fe.status as keyof typeof STATUS_CFG] || STATUS_CFG.pending;
+                  const Icon = cfg.icon;
+                  return (
+                    <div key={fe.id} className="flex items-center justify-between px-4 py-3 hover:bg-[#141414] transition-colors">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:"#1A1A1A"}}>
+                          <Icon size={13} style={{color:cfg.color}} />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-[13px] text-white truncate">{fe.name}</p>
+                          <p className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>{fe.category} · dia {fe.dueDay}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 flex-shrink-0 ml-3">
+                        <Blurred hide={hideValues}>
+                          <span className="metric-value text-[13px] text-white">{formatCurrency(fe.value)}</span>
+                        </Blurred>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full" style={{background:cfg.bg,color:cfg.color,fontFamily:"'Instrument Sans',sans-serif"}}>{cfg.label}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {fixedExpenses.filter(f=>f.active).length > 6 && (
+                <div className="px-4 py-2.5 border-t border-[#141414]">
+                  <Link href="/gastos-fixos" className="text-[11.5px] text-[#52525B] hover:text-[#D4AF37] transition-colors flex items-center gap-1"
+                    style={{fontFamily:"'Instrument Sans',sans-serif"}}>
+                    Ver todos ({fixedExpenses.filter(f=>f.active).length}) <ChevronRight size={11}/>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CARTÕES */}
+          <div>
+            <SectionHead label="Crédito" title="Seus Cartões" href="/cartoes" />
+            <div className="space-y-3">
+              {creditCards.slice(0,3).map(card=>{
+                const color = CARD_COLORS[card.bank] || card.color || "#D4AF37";
+                const usagePct = (card.used/card.limit)*100;
+                return (
+                  <div key={card.id} className="card-premium p-4"
+                    style={{borderLeft:`3px solid ${color}50`}}>
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:`${color}12`}}>
+                          <CreditCard size={14} style={{color}} />
+                        </div>
+                        <div>
+                          <p className="text-[13px] font-medium text-white">{card.name}</p>
+                          <p className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>
+                            {card.bank} · •••• {card.lastFour}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <Blurred hide={hideValues}>
+                          <p className="metric-value text-[15px]" style={{color:usagePct>80?"#EF4444":"#fff"}}>{formatCurrency(card.used)}</p>
+                        </Blurred>
+                        <p className="text-[10px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>de {formatCurrency(card.limit)}</p>
+                      </div>
+                    </div>
+                    <ProgressBar pct={usagePct} color={usagePct>80?"#EF4444":color} />
+                    <div className="flex justify-between mt-1.5 text-[10px] text-[#3F3F46]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>
+                      <span>{usagePct.toFixed(0)}% utilizado</span>
+                      <span>Vence dia {card.dueDay} · Fecha dia {card.closingDay}</span>
+                    </div>
+                  </div>
+                );
+              })}
+              {creditCards.length === 0 && (
+                <div className="card-premium p-8 text-center text-[#52525B] text-[13px]">Nenhum cartão cadastrado</div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ═══════════ 5 — COFRINHOS ════════════════════ */}
+        <motion.div variants={fadeUp}>
+          <SectionHead label="Poupança" title="Cofrinhos & Metas" href="/metas" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+            {/* Reserva */}
+            <div className="card-gold p-5">
+              <div className="flex items-center gap-2.5 mb-3">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{background:"rgba(212,175,55,0.12)"}}>
+                  <Shield size={16} className="text-gold" />
+                </div>
+                <div>
+                  <p className="text-[13px] font-medium text-white">Reserva de Emergência</p>
+                  <p className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>Segurança financeira</p>
+                </div>
+              </div>
+              <Blurred hide={hideValues}>
+                <p className="metric-value text-[24px] text-gold-gradient font-light mb-0.5">{formatCurrency(reserve)}</p>
+              </Blurred>
+              <p className="text-[10.5px] text-[#52525B] mb-3" style={{fontFamily:"'Instrument Sans',sans-serif"}}>
+                de {formatCurrency(60000)} · {((reserve/60000)*100).toFixed(0)}%
+              </p>
+              <ProgressBar pct={(reserve/60000)*100} />
             </div>
 
-            <table className="table-premium">
-              <thead>
-                <tr>
-                  <th>Descrição</th>
-                  <th>Categoria</th>
-                  <th>Data</th>
-                  <th className="text-right">Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.slice(0, 6).map((tx) => (
-                  <tr key={tx.id}>
-                    <td>
-                      <div className="flex items-center gap-2.5">
-                        <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center text-[11px]"
-                          style={{
-                            background: tx.type === "income" ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.08)",
-                          }}
-                        >
-                          {tx.type === "income" ? (
-                            <TrendingUp size={12} className="text-success" />
-                          ) : (
-                            <TrendingDown size={12} className="text-error" />
-                          )}
-                        </div>
-                        <span className="text-[13px] text-white">{tx.description}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className="badge badge-neutral text-[11px]">{tx.category}</span>
-                    </td>
-                    <td className="text-[#52525B] text-[12px]">
-                      {formatRelativeDate(tx.date)}
-                    </td>
-                    <td className="text-right">
-                      <span
-                        className="metric-value text-[13px] font-medium transition-all duration-300"
-                        style={{
-                          color: tx.value > 0 ? "#22C55E" : "#A1A1AA",
-                          filter: hideValues ? "blur(8px)" : "none",
-                          userSelect: hideValues ? "none" : "auto",
-                        }}
-                      >
-                        {tx.value > 0 ? "+" : ""}
-                        {formatCurrency(tx.value)}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {/* Goals */}
+            {financialGoals.slice(0,5).map(goal=>{
+              const pct = (goal.current/goal.target)*100;
+              return (
+                <div key={goal.id} className="card-premium p-5">
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center text-xl" style={{background:"#1A1A1A"}}>{goal.icon}</div>
+                    <div className="min-w-0">
+                      <p className="text-[13px] font-medium text-white truncate">{goal.name}</p>
+                      <p className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>{goal.category}</p>
+                    </div>
+                    <span className="ml-auto metric-value text-[14px]" style={{color:pct>=100?"#22C55E":"#D4AF37"}}>{pct.toFixed(0)}%</span>
+                  </div>
+                  <Blurred hide={hideValues}>
+                    <p className="metric-value text-[20px] text-white font-light mb-0.5">{formatCurrency(goal.current)}</p>
+                  </Blurred>
+                  <p className="text-[10.5px] text-[#52525B] mb-3" style={{fontFamily:"'Instrument Sans',sans-serif"}}>
+                    de {formatCurrency(goal.target)}
+                  </p>
+                  <ProgressBar pct={pct} color={pct>=100?"#22C55E":"#D4AF37"} />
+                </div>
+              );
+            })}
           </div>
         </motion.div>
+
+        {/* ═══════════ 6 — INVESTIMENTOS ════════════════ */}
+        <motion.div variants={fadeUp}>
+          <SectionHead label="Carteira" title="Seus Investimentos" href="/investimentos" />
+          <div className="card-premium overflow-hidden">
+            {/* summary */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-[#1A1A1A] border-b border-[#1A1A1A]">
+              {[
+                {l:"Total Investido",  v:formatCurrency(totalInvested),    c:"#A1A1AA"},
+                {l:"Valor Atual",      v:formatCurrency(totalCurrentInv),  c:"#fff"},
+                {l:"Rentabilidade",    v:`+${(((totalCurrentInv-totalInvested)/totalInvested||0)*100).toFixed(1)}%`, c:"#22C55E"},
+                {l:"Lucro",            v:formatCurrency(totalCurrentInv-totalInvested), c:"#D4AF37"},
+              ].map(s=>(
+                <div key={s.l} className="p-4 text-center">
+                  <p className="text-[9.5px] uppercase tracking-wider mb-1.5" style={{color:"#52525B",fontFamily:"'Instrument Sans',sans-serif"}}>{s.l}</p>
+                  <Blurred hide={hideValues}>
+                    <p className="metric-value text-[15px]" style={{color:s.c}}>{s.v}</p>
+                  </Blurred>
+                </div>
+              ))}
+            </div>
+            {/* list */}
+            <div className="divide-y divide-[#141414]">
+              {investments.slice(0,5).map(inv=>{
+                const gain = inv.currentValue - inv.amount;
+                const isPos = gain >= 0;
+                return (
+                  <div key={inv.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-[#141414] transition-colors">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{background:"rgba(212,175,55,0.08)",border:"1px solid rgba(212,175,55,0.15)"}}>
+                        <BarChart2 size={13} className="text-gold" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[13px] text-white truncate">{inv.name}</p>
+                        <p className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>{inv.type} · {inv.category}</p>
+                      </div>
+                    </div>
+                    <div className="text-right flex-shrink-0 ml-4">
+                      <Blurred hide={hideValues}>
+                        <p className="metric-value text-[14px] text-white">{formatCurrency(inv.currentValue)}</p>
+                      </Blurred>
+                      <p className="text-[10.5px]" style={{color:isPos?"#22C55E":"#EF4444",fontFamily:"'Instrument Sans',sans-serif"}}>
+                        {isPos?"+":""}{inv.yield}% ao ano
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            {investments.length > 5 && (
+              <div className="px-5 py-3 border-t border-[#141414]">
+                <Link href="/investimentos" className="text-[11.5px] text-[#52525B] hover:text-[#D4AF37] transition-colors flex items-center gap-1"
+                  style={{fontFamily:"'Instrument Sans',sans-serif"}}>
+                  Ver todos ({investments.length}) <ChevronRight size={11}/>
+                </Link>
+              </div>
+            )}
+          </div>
+        </motion.div>
+
+        {/* ═══════════ 7+8 — TRANSAÇÕES + ASSINATURAS ══ */}
+        <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
+
+          {/* ÚLTIMAS TRANSAÇÕES */}
+          <div className="lg:col-span-3">
+            <SectionHead label="Fluxo" title="Últimas Transações" href="/receitas" cta="Ver todas" />
+            <div className="card-premium overflow-hidden">
+              <div className="divide-y divide-[#141414]">
+                {transactions.slice(0,7).map(tx=>{
+                  const isIn = tx.value > 0;
+                  return (
+                    <div key={tx.id} className="flex items-center justify-between px-4 py-3.5 hover:bg-[#141414] transition-colors">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                          style={{background:isIn?"rgba(34,197,94,0.08)":"rgba(239,68,68,0.06)"}}>
+                          {isIn ? <ArrowUpRight size={13} className="text-success"/> : <ArrowDownRight size={13} className="text-error"/>}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-[13px] text-white truncate">{tx.description}</p>
+                          <p className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>{tx.category} · {tx.date}</p>
+                        </div>
+                      </div>
+                      <Blurred hide={hideValues} className="flex-shrink-0 ml-3">
+                        <span className="metric-value text-[13px]" style={{color:isIn?"#22C55E":"#A1A1AA"}}>
+                          {isIn?"+":"−"}{formatCurrency(Math.abs(tx.value))}
+                        </span>
+                      </Blurred>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* ASSINATURAS */}
+          <div className="lg:col-span-2">
+            <SectionHead label="Recorrências" title="Assinaturas" href="/assinaturas" />
+            <div className="card-premium overflow-hidden">
+              <div className="px-4 py-3 border-b border-[#1A1A1A] flex justify-between items-center">
+                <span className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>Total mensal</span>
+                <Blurred hide={hideValues}>
+                  <span className="metric-value text-[15px] text-gold">{formatCurrency(activeSubTotal)}</span>
+                </Blurred>
+              </div>
+              <div className="divide-y divide-[#141414]">
+                {subscriptions.filter(s=>s.status==="active").slice(0,6).map(sub=>(
+                  <div key={sub.id} className="flex items-center justify-between px-4 py-3 hover:bg-[#141414] transition-colors">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center text-[12px] font-bold"
+                        style={{background:"rgba(212,175,55,0.08)",color:"#D4AF37"}}>
+                        {sub.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-[12.5px] text-white">{sub.name}</p>
+                        <p className="text-[10px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>{sub.category} · dia {sub.billingDay}</p>
+                      </div>
+                    </div>
+                    <Blurred hide={hideValues}>
+                      <span className="metric-value text-[12.5px] text-white">{formatCurrency(sub.price)}</span>
+                    </Blurred>
+                  </div>
+                ))}
+                {subscriptions.filter(s=>s.status==="active").length === 0 && (
+                  <div className="p-8 text-center text-[#52525B] text-[12px]">Nenhuma assinatura ativa</div>
+                )}
+              </div>
+            </div>
+
+            {/* Contas bancárias mini */}
+            <div className="mt-6">
+              <SectionHead label="Contas" title="Saldo Bancário" href="/contas" />
+              <div className="card-premium overflow-hidden">
+                <div className="px-4 py-3 border-b border-[#1A1A1A] flex justify-between items-center">
+                  <span className="text-[10.5px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>Consolidado</span>
+                  <Blurred hide={hideValues}>
+                    <span className="metric-value text-[15px] text-gold">{formatCurrency(totalBank)}</span>
+                  </Blurred>
+                </div>
+                <div className="divide-y divide-[#141414]">
+                  {bankAccounts.slice(0,4).map(acc=>{
+                    const color = CARD_COLORS[acc.bank] || "#D4AF37";
+                    return (
+                      <div key={acc.id} className="flex items-center justify-between px-4 py-3 hover:bg-[#141414] transition-colors">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{background:`${color}12`}}>
+                            <Landmark size={12} style={{color}} />
+                          </div>
+                          <div>
+                            <p className="text-[12.5px] text-white">{acc.bank}</p>
+                            <p className="text-[10px] text-[#52525B]" style={{fontFamily:"'Instrument Sans',sans-serif"}}>{acc.type}</p>
+                          </div>
+                        </div>
+                        <Blurred hide={hideValues}>
+                          <span className="metric-value text-[12.5px] text-white">{formatCurrency(acc.balance)}</span>
+                        </Blurred>
+                      </div>
+                    );
+                  })}
+                  {bankAccounts.length === 0 && (
+                    <div className="p-6 text-center text-[#52525B] text-[12px]">Nenhuma conta cadastrada</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* bottom padding for mobile nav */}
+        <div className="h-2" />
       </motion.div>
     </div>
   );
 }
 
-function AlertCard({
-  icon,
-  title,
-  desc,
-  type,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  type: "warning" | "gold" | "error";
-}) {
-  const borderMap = {
-    warning: "rgba(245,158,11,0.15)",
-    gold: "rgba(212,175,55,0.15)",
-    error: "rgba(239,68,68,0.15)",
-  };
-  return (
-    <div
-      className="p-3.5 rounded-xl cursor-pointer transition-all duration-200 hover:bg-[#1A1A1A] group"
-      style={{ background: "#141414", border: `1px solid ${borderMap[type]}` }}
-    >
-      <div className="flex gap-2.5">
-        <div className="mt-0.5 flex-shrink-0">{icon}</div>
-        <div className="flex-1 min-w-0">
-          <p className="text-[12.5px] font-medium text-white leading-none">{title}</p>
-          <p className="text-[11.5px] text-[#52525B] mt-1 leading-relaxed">{desc}</p>
-        </div>
-        <ChevronRight size={13} className="text-[#3F3F46] group-hover:text-[#52525B] mt-0.5 flex-shrink-0 transition-colors" />
-      </div>
-    </div>
-  );
-}
+/* ── local color map (needed for bank accounts section) ─ */
+const CARD_COLORS: Record<string,string> = {
+  Nubank:"#8B5CF6",Itaú:"#F59E0B",Inter:"#F97316","XP Investimentos":"#22C55E",
+  Bradesco:"#EF4444",BTG:"#3B82F6","C6 Bank":"#6B7280",Warren:"#A78BFA",
+  Santander:"#DC2626","Banco do Brasil":"#FACC15",Outros:"#D4AF37",
+};
