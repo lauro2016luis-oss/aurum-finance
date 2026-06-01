@@ -82,7 +82,7 @@ export default function SeedDemoPage() {
         localStorage.setItem(`aurum_data_${userId}`, JSON.stringify(DEMO_DATA));
 
         setStatus("✓ Dados carregados! Abrindo dashboard...");
-        setTimeout(() => router.push("/dashboard"), 800);
+        setTimeout(() => { window.location.href = "/dashboard"; }, 800);
       } catch (err) {
         setStatus("Erro: " + String(err));
       }
