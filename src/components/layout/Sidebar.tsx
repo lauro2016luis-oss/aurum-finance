@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNav } from "@/lib/nav-context";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 const navSections = [
   {
@@ -57,6 +59,18 @@ const bottomItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const { sidebarOpen, closeSidebar } = useNav();
+  const [userName, setUserName] = useState("Usuário");
+  const [userInitial, setUserInitial] = useState("U");
+
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data }) => {
+      if (!data.user) return;
+      const meta = data.user.user_metadata;
+      const name = meta?.name || meta?.full_name || data.user.email?.split("@")[0] || "Usuário";
+      setUserName(name);
+      setUserInitial(name.charAt(0).toUpperCase());
+    });
+  }, []);
 
   const content = (
     <aside
@@ -91,10 +105,10 @@ export function Sidebar() {
         <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-[#1F1F1F] group transition-all"
           style={{ border:"1px solid #1E1E1E" }}>
           <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold text-black flex-shrink-0"
-            style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)" }}>L</div>
+            style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)" }}>{userInitial}</div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-medium text-white truncate leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif" }}>Lauro Luis</p>
+              style={{ fontFamily:"'Instrument Sans',sans-serif" }}>{userName}</p>
             <p className="text-[11px] text-[#52525B] mt-0.5 leading-none"
               style={{ fontFamily:"'Instrument Sans',sans-serif" }}>Pessoal</p>
           </div>
