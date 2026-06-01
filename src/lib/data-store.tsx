@@ -191,15 +191,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setUserId(uid_);
       if (uid_) {
         const existing = localStorage.getItem(`aurum_data_${uid_}`);
-        // Se é a conta demo e ainda não tem dados, popula automaticamente
         const isDemoAccount = email_ === "lauro212luis@hotmail.com";
-        const saved = existing
-          ? { ...EMPTY_STATE, ...JSON.parse(existing) }
-          : isDemoAccount ? DEMO_DATA : EMPTY_STATE;
 
-        if (!existing && isDemoAccount) {
+        // Para a conta demo: popula se não tem dados OU se os dados estão zerados
+        let parsed = existing ? { ...EMPTY_STATE, ...JSON.parse(existing) } : EMPTY_STATE;
+        const isEmpty = parsed.transactions.length === 0 && parsed.bankAccounts.length === 0;
+
+        if (isDemoAccount && isEmpty) {
+          parsed = DEMO_DATA as typeof EMPTY_STATE;
           localStorage.setItem(`aurum_data_${uid_}`, JSON.stringify(DEMO_DATA));
         }
+        const saved = parsed;
 
         setTx(saved.transactions as Transaction[]);
         setFE(saved.fixedExpenses as FixedExpense[]);
