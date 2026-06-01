@@ -53,35 +53,21 @@ export default function LoginPage() {
 
     setLoading(true);
 
-    // 1. Verificar se e-mail tem compra aprovada
-    const res = await fetch("/api/ativar-conta/check-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-    const data = await res.json();
-
-    if (!res.ok || !data.allowed) {
-      setError(data.message || "E-mail não encontrado. Realize sua compra primeiro.");
-      setLoading(false);
-      return;
-    }
-
-    // 2. Criar conta via API
-    const res2 = await fetch("/api/ativar-conta/register", {
+    // 1. Criar conta via API
+    const res = await fetch("/api/ativar-conta/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-    const data2 = await res2.json();
+    const data = await res.json();
 
-    if (!res2.ok) {
-      setError(data2.message || "Erro ao criar conta. Tente novamente.");
+    if (!res.ok) {
+      setError(data.message || "Erro ao criar conta. Tente novamente.");
       setLoading(false);
       return;
     }
 
-    // 3. Login automático
+    // 2. Login automático
     const supabase = createClient();
     await supabase.auth.signInWithPassword({ email, password });
     router.push("/dashboard");
@@ -366,8 +352,8 @@ export default function LoginPage() {
                 <>🔒 Acesso exclusivo para clientes.<br/>
                 <span style={{ color:"#3F3F46" }}>Após a compra, você recebe o link de ativação por e-mail.</span></>
               ) : (
-                <>✦ Só é possível criar conta com e-mail de compra aprovada.<br/>
-                <span style={{ color:"#3F3F46" }}>Não realizou a compra ainda? Entre em contato.</span></>
+                <>✦ Crie sua conta gratuitamente e comece agora.<br/>
+                <span style={{ color:"#3F3F46" }}>Já tem conta? Use a aba Entrar.</span></>
               )}
             </p>
           </div>
