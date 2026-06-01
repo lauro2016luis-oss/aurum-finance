@@ -63,7 +63,10 @@ export interface Transaction {
 }
 export interface FixedExpense {
   id: string; name: string; category: string; dueDay: number;
-  value: number; status: "paid" | "pending" | "overdue"; active: boolean;
+  value: number;
+  status: "paid" | "pending" | "overdue"; // status do mês atual (compat)
+  monthlyStatus: Record<string, "paid" | "pending" | "overdue">; // "2026-06" → status
+  active: boolean;
 }
 export interface Investment {
   id: string; name: string; type: string; amount: number;
@@ -131,7 +134,8 @@ interface DS {
   addFixedExpense: (e: Omit<FixedExpense, "id">) => void;
   updateFixedExpense: (id: string, data: Partial<FixedExpense>) => void;
   deleteFixedExpense: (id: string) => void;
-  toggleFixedExpenseStatus: (id: string) => void;
+  toggleFixedExpenseStatus: (id: string, monthKey?: string) => void;
+  getExpenseStatus: (expense: FixedExpense, monthKey: string) => "paid" | "pending" | "overdue";
 
   investments: Investment[];
   addInvestment: (i: Omit<Investment, "id">) => void;
@@ -249,14 +253,29 @@ export function DataProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Fixed expenses
-  const addFixedExpense = useCallback((e: Omit<FixedExpense,"id">) => setFE(prev => [...prev, { ...e, id: uid() }]), []);
+  const addFixedExpense = useCallback((e: Omit<FixedExpense,"id">) =>
+    setFE(prev => [...prev, { ...e, id: uid(), monthlyStatus: e.monthlyStatus ?? {} }]), []);
   const updateFixedExpense = useCallback((id: string, data: Partial<FixedExpense>) =>
     setFE(prev => prev.map(e => e.id === id ? { ...e, ...data } : e)), []);
   const deleteFixedExpense = useCallback((id: string) => setFE(prev => prev.filter(e => e.id !== id)), []);
-  const toggleFixedExpenseStatus = useCallback((id: string) =>
-    setFE(prev => prev.map(e => e.id === id
-      ? { ...e, status: e.status === "paid" ? "pending" : "paid" }
-      : e)), []);
+
+  const getExpenseStatus = useCallback((expense: FixedExpense, monthKey: string): "paid" | "pending" | "overdue" => {
+    return expense.monthlyStatus?.[monthKey] ?? "pending";
+  }, []);
+
+  const toggleFixedExpenseStatus = useCallback((id: string, monthKey?: string) => {
+    const key = monthKey ?? new Date().toISOString().slice(0,7); // "2026-06"
+    setFE(prev => prev.map(e => {
+      if (e.id !== id) return e;
+      const current = e.monthlyStatus?.[key] ?? "pending";
+      const next = current === "paid" ? "pending" : "paid";
+      return {
+        ...e,
+        monthlyStatus: { ...(e.monthlyStatus ?? {}), [key]: next },
+        status: next, // mantém compat
+      };
+    }));
+  }, []);
 
   // Investments
   const addInvestment    = useCallback((i: Omit<Investment,"id">) => setInv(prev => [...prev, { ...i, id: uid() }]), []);
@@ -290,7 +309,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   return (
     <DataContext.Provider value={{
       transactions, addTransaction, deleteTransaction,
-      fixedExpenses, addFixedExpense, updateFixedExpense, deleteFixedExpense, toggleFixedExpenseStatus,
+      fixedExpenses, addFixedExpense, updateFixedExpense, deleteFixedExpense, toggleFixedExpenseStatus, getExpenseStatus,
       investments, addInvestment, deleteInvestment,
       bankAccounts, addBankAccount, updateBankAccount, deleteBankAccount,
       creditCards, addCreditCard, deleteCreditCard,

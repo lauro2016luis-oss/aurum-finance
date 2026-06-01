@@ -26,7 +26,7 @@ const statusConfig = {
 const CATS = ["Moradia","Saúde","Serviços","Entretenimento","Educação","Transporte","Alimentação","Outros"];
 
 export default function GastosFixosPage() {
-  const { fixedExpenses, addFixedExpense, deleteFixedExpense, toggleFixedExpenseStatus, updateFixedExpense } = useData();
+  const { fixedExpenses, addFixedExpense, deleteFixedExpense, toggleFixedExpenseStatus, updateFixedExpense, getExpenseStatus } = useData();
   const now = new Date();
   const [showForm, setShowForm] = useState(false);
   const [newForm, setNewForm] = useState({ name:"", value:"", dueDay:"", category:"Moradia" });
@@ -54,17 +54,21 @@ export default function GastosFixosPage() {
     return `Ano ${currentYear}`;
   };
 
+  /* ── month key ex: "2026-06" ─────────────────────────────── */
+  const monthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}`;
+
   /* ── derived data ────────────────────────────────────────── */
   const filtered = fixedExpenses.filter((e) => {
-    if (filterStatus !== "all" && e.status !== filterStatus) return false;
+    const st = getExpenseStatus(e, monthKey);
+    if (filterStatus !== "all" && st !== filterStatus) return false;
     if (search && !e.name.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
 
   const total   = fixedExpenses.reduce((s, e) => s + e.value, 0);
-  const paid    = fixedExpenses.filter(e => e.status === "paid").reduce((s, e) => s + e.value, 0);
-  const pending = fixedExpenses.filter(e => e.status === "pending").reduce((s, e) => s + e.value, 0);
-  const overdue = fixedExpenses.filter(e => e.status === "overdue").reduce((s, e) => s + e.value, 0);
+  const paid    = fixedExpenses.filter(e => getExpenseStatus(e, monthKey) === "paid").reduce((s, e) => s + e.value, 0);
+  const pending = fixedExpenses.filter(e => getExpenseStatus(e, monthKey) === "pending").reduce((s, e) => s + e.value, 0);
+  const overdue = fixedExpenses.filter(e => getExpenseStatus(e, monthKey) === "overdue").reduce((s, e) => s + e.value, 0);
 
   const paidPct = (paid / total) * 100;
 
@@ -247,9 +251,9 @@ export default function GastosFixosPage() {
           </div>
           <div className="flex items-center gap-5 flex-shrink-0">
             {[
-              { label: "Pago",     value: fixedExpenses.filter(e => e.status === "paid").length,    color: "#22C55E" },
-              { label: "Pendente", value: fixedExpenses.filter(e => e.status === "pending").length,  color: "#F59E0B" },
-              { label: "Vencido",  value: fixedExpenses.filter(e => e.status === "overdue").length,  color: "#EF4444" },
+              { label: "Pago",     value: fixedExpenses.filter(e => getExpenseStatus(e, monthKey) === "paid").length,    color: "#22C55E" },
+              { label: "Pendente", value: fixedExpenses.filter(e => getExpenseStatus(e, monthKey) === "pending").length,  color: "#F59E0B" },
+              { label: "Vencido",  value: fixedExpenses.filter(e => getExpenseStatus(e, monthKey) === "overdue").length,  color: "#EF4444" },
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <p className="metric-value text-[22px]" style={{ color: s.color }}>{s.value}</p>
@@ -376,7 +380,8 @@ export default function GastosFixosPage() {
             </thead>
             <tbody>
               {filtered.map((expense) => {
-                const s = statusConfig[expense.status as keyof typeof statusConfig];
+                const statusForMonth = getExpenseStatus(expense, monthKey);
+                const s = statusConfig[statusForMonth];
                 const Icon = s.icon;
                 const nextDue = new Date(currentYear, currentMonth, expense.dueDay);
                 if (nextDue < new Date()) nextDue.setMonth(nextDue.getMonth() + 1);
@@ -406,7 +411,7 @@ export default function GastosFixosPage() {
                       <span className="metric-value text-[14px] text-white">{formatCurrency(expense.value)}</span>
                     </td>
                     <td className="text-center">
-                      <button onClick={() => toggleFixedExpenseStatus(expense.id)}
+                      <button onClick={() => toggleFixedExpenseStatus(expense.id, monthKey)}
                         className="badge inline-flex items-center gap-1 hover:opacity-80 transition-opacity cursor-pointer"
                         style={{ background:s.bg, color:s.color, fontFamily:"'Instrument Sans',sans-serif" }}>
                         <Icon size={10} />{s.label}

@@ -11,7 +11,7 @@ import {
 import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { CashFlowChart } from "@/components/dashboard/CashFlowChart";
-import { useData } from "@/lib/data-store";
+import { useData, FixedExpense } from "@/lib/data-store";
 import { formatCurrency } from "@/lib/utils";
 import { useNav } from "@/lib/nav-context";
 
@@ -68,8 +68,10 @@ export default function DashboardPage() {
   const {
     transactions, fixedExpenses, creditCards,
     bankAccounts, financialGoals, investments,
-    subscriptions, reserve,
+    subscriptions, reserve, getExpenseStatus,
   } = useData();
+  const now = new Date();
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
   const { hideValues } = useNav();
 
   /* ── derived metrics ──────────────────────────────────── */
@@ -79,7 +81,7 @@ export default function DashboardPage() {
   const totalOut  = Math.abs(expenses.reduce((s,t) => s+t.value, 0));
   const saldo     = totalIn - totalOut;
 
-  const pendingFE = fixedExpenses.filter(f => f.status !== "paid" && f.active);
+  const pendingFE = fixedExpenses.filter(f => getExpenseStatus(f, monthKey) !== "paid" && f.active);
   const faltaPagar = pendingFE.reduce((s,f) => s+f.value, 0)
     + creditCards.reduce((s,c) => s+c.used, 0);
 
@@ -161,7 +163,7 @@ export default function DashboardPage() {
               {/* rows */}
               <div className="divide-y divide-[#141414]">
                 {fixedExpenses.filter(f=>f.active).slice(0,6).map(fe=>{
-                  const cfg = STATUS_CFG[fe.status as keyof typeof STATUS_CFG] || STATUS_CFG.pending;
+                  const cfg = STATUS_CFG[getExpenseStatus(fe, monthKey)] || STATUS_CFG.pending;
                   const Icon = cfg.icon;
                   return (
                     <div key={fe.id} className="flex items-center justify-between px-4 py-3 hover:bg-[#141414] transition-colors">
