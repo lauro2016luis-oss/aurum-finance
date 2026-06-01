@@ -70,6 +70,13 @@ export function Sidebar() {
       setUserName(name);
       setUserInitial(name.charAt(0).toUpperCase());
     });
+
+    const handler = (e: Event) => {
+      const name = (e as CustomEvent).detail?.name;
+      if (name) { setUserName(name); setUserInitial(name.charAt(0).toUpperCase()); }
+    };
+    window.addEventListener("aurum:profile-updated", handler);
+    return () => window.removeEventListener("aurum:profile-updated", handler);
   }, []);
 
   const content = (
