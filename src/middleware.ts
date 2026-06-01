@@ -3,9 +3,12 @@ import { createServerClient } from "@supabase/ssr";
 
 /* rotas públicas — não precisam de auth */
 const PUBLIC_PATHS = [
+  "/",
+  "/landing",
   "/login",
   "/ativar-conta",
   "/acesso-bloqueado",
+  "/seed-demo",
   "/api/webhook",
   "/api/ativar-conta",
   "/_next",
