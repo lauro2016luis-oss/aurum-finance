@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -56,25 +56,47 @@ const DEMO_DATA = {
 
 export default function SeedDemoPage() {
   const router = useRouter();
+  const [status, setStatus] = useState("Verificando sessão...");
 
   useEffect(() => {
     const run = async () => {
-      const supabase = createClient();
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) { router.push("/login"); return; }
+      try {
+        setStatus("Obtendo usuário...");
+        const supabase = createClient();
 
-      localStorage.setItem(`aurum_data_${data.user.id}`, JSON.stringify(DEMO_DATA));
-      router.push("/dashboard");
+        // Tenta até 3x com delay (mobile pode ser lento)
+        let userId: string | null = null;
+        for (let i = 0; i < 3; i++) {
+          const { data } = await supabase.auth.getUser();
+          if (data.user?.id) { userId = data.user.id; break; }
+          await new Promise(r => setTimeout(r, 800));
+        }
+
+        if (!userId) {
+          setStatus("Não logado. Redirecionando...");
+          setTimeout(() => router.push("/login"), 1500);
+          return;
+        }
+
+        setStatus("Carregando dados demo...");
+        localStorage.setItem(`aurum_data_${userId}`, JSON.stringify(DEMO_DATA));
+
+        setStatus("✓ Dados carregados! Abrindo dashboard...");
+        setTimeout(() => router.push("/dashboard"), 800);
+      } catch (err) {
+        setStatus("Erro: " + String(err));
+      }
     };
     run();
   }, [router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: "#0A0A0A" }}>
-      <div className="text-center space-y-3">
-        <div className="w-10 h-10 rounded-full border-2 border-[#D4AF37] border-t-transparent animate-spin mx-auto" />
-        <p className="text-[#52525B] text-sm" style={{ fontFamily: "'Instrument Sans',sans-serif" }}>
-          Carregando dados de demonstração...
+      <div className="text-center space-y-4 p-8">
+        <div className="w-12 h-12 rounded-full border-2 border-[#D4AF37] border-t-transparent animate-spin mx-auto" />
+        <p className="text-white text-[15px]" style={{ fontFamily: "'Cormorant SC',serif" }}>AURUM Finance</p>
+        <p className="text-[#52525B] text-[13px]" style={{ fontFamily: "'Instrument Sans',sans-serif" }}>
+          {status}
         </p>
       </div>
     </div>

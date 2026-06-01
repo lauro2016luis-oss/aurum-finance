@@ -112,12 +112,21 @@ export default function DashboardPage() {
 
         {/* ═══════════ 1 — MÉTRICAS PRINCIPAIS ═══════════ */}
         <motion.div variants={fadeUp}>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-            <MetricCard title="Total Recebido"  value={formatCurrency(totalIn)}   changeValue={8.2}  icon={<TrendingUp size={14}/>}  subtitle="Entradas no período" />
-            <MetricCard title="Total Gasto"     value={formatCurrency(totalOut)}  changeValue={-3.1} icon={<TrendingDown size={14}/>} subtitle="Fixos + variáveis" />
-            <MetricCard title="Saldo Disponível" value={formatCurrency(saldo)}    changeValue={saldo>0?1:-1} icon={<Wallet size={14}/>} subtitle="Receitas − despesas" />
-            <MetricCard title="Falta Pagar"     value={formatCurrency(faltaPagar)} changeValue={-1} icon={<AlertCircle size={14}/>} subtitle="Pendentes + fatura" />
-            <MetricCard title="Patrimônio Total" value={formatCurrency(patrimonio)} changeValue={2.8} icon={<BarChart2 size={14}/>} subtitle="Contas + inv. + reserva" gold />
+          {/* Mobile: scroll horizontal — Desktop: grid */}
+          <div className="flex gap-3 overflow-x-auto pb-1 sm:pb-0 sm:grid sm:grid-cols-3 lg:grid-cols-5 sm:gap-4 scrollbar-none">
+            {[
+              { title:"Total Recebido",   value:formatCurrency(totalIn),      icon:<TrendingUp size={14}/>,   subtitle:"Entradas no período",    changeValue:8.2 },
+              { title:"Total Gasto",      value:formatCurrency(totalOut),     icon:<TrendingDown size={14}/>, subtitle:"Fixos + variáveis",       changeValue:-3.1 },
+              { title:"Saldo Disponível", value:formatCurrency(saldo),        icon:<Wallet size={14}/>,       subtitle:"Receitas − despesas",     changeValue:saldo>0?1:-1 },
+              { title:"Falta Pagar",      value:formatCurrency(faltaPagar),   icon:<AlertCircle size={14}/>,  subtitle:"Pendentes + fatura",      changeValue:-1 },
+            ].map(m => (
+              <div key={m.title} className="flex-shrink-0 w-[160px] sm:w-auto">
+                <MetricCard {...m} />
+              </div>
+            ))}
+            <div className="flex-shrink-0 w-[160px] sm:w-auto">
+              <MetricCard title="Patrimônio Total" value={formatCurrency(patrimonio)} changeValue={2.8} icon={<BarChart2 size={14}/>} subtitle="Contas + inv. + reserva" gold />
+            </div>
           </div>
         </motion.div>
 
