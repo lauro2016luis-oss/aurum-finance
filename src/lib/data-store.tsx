@@ -1,15 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
-import {
-  transactions as initTx,
-  fixedExpenses as initFE,
-  investments as initInv,
-  bankAccounts as initBA,
-  creditCards as initCC,
-  financialGoals as initGoals,
-  subscriptions as initSubs,
-} from "./mock-data";
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 /* ─────────────── Types ─────────────── */
 
@@ -44,6 +36,37 @@ export interface FinancialGoal {
 export interface Subscription {
   id: string; name: string; price: number; billingDay: number;
   category: string; status: "active" | "paused"; nextBilling: string;
+}
+
+/* ─────────────── Dados vazios para novos usuários ─────────────── */
+
+const EMPTY_STATE = {
+  transactions:   [] as Transaction[],
+  fixedExpenses:  [] as FixedExpense[],
+  investments:    [] as Investment[],
+  bankAccounts:   [] as BankAccount[],
+  creditCards:    [] as CreditCard[],
+  financialGoals: [] as FinancialGoal[],
+  subscriptions:  [] as Subscription[],
+  reserve:        0,
+};
+
+/* ─────────────── localStorage helpers ─────────────── */
+
+function loadUserData(userId: string) {
+  try {
+    const raw = localStorage.getItem(`aurum_data_${userId}`);
+    if (!raw) return EMPTY_STATE;
+    return { ...EMPTY_STATE, ...JSON.parse(raw) };
+  } catch {
+    return EMPTY_STATE;
+  }
+}
+
+function saveUserData(userId: string, data: typeof EMPTY_STATE) {
+  try {
+    localStorage.setItem(`aurum_data_${userId}`, JSON.stringify(data));
+  } catch { /* ignore */ }
 }
 
 /* ─────────────── Context ─────────────── */
@@ -88,18 +111,53 @@ interface DS {
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10);
-
 const DataContext = createContext<DS>({} as DS);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [transactions, setTx]     = useState<Transaction[]>(initTx as Transaction[]);
-  const [fixedExpenses, setFE]    = useState<FixedExpense[]>(initFE as FixedExpense[]);
-  const [investments, setInv]     = useState<Investment[]>(initInv as Investment[]);
-  const [bankAccounts, setBA]     = useState<BankAccount[]>(initBA as BankAccount[]);
-  const [creditCards, setCC]      = useState<CreditCard[]>(initCC as CreditCard[]);
-  const [financialGoals, setGoals]= useState<FinancialGoal[]>(initGoals as FinancialGoal[]);
-  const [subscriptions, setSubs]  = useState<Subscription[]>(initSubs as Subscription[]);
-  const [reserve, setReserve]     = useState(32400);
+  const [userId,   setUserId]  = useState<string | null>(null);
+  const [ready,    setReady]   = useState(false);
+
+  const [transactions,   setTx]    = useState<Transaction[]>([]);
+  const [fixedExpenses,  setFE]    = useState<FixedExpense[]>([]);
+  const [investments,    setInv]   = useState<Investment[]>([]);
+  const [bankAccounts,   setBA]    = useState<BankAccount[]>([]);
+  const [creditCards,    setCC]    = useState<CreditCard[]>([]);
+  const [financialGoals, setGoals] = useState<FinancialGoal[]>([]);
+  const [subscriptions,  setSubs]  = useState<Subscription[]>([]);
+  const [reserve,        setReserve] = useState(0);
+
+  /* ── Carregar dados do usuário logado ── */
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      const uid_ = data.user?.id ?? null;
+      setUserId(uid_);
+      if (uid_) {
+        const saved = loadUserData(uid_);
+        setTx(saved.transactions);
+        setFE(saved.fixedExpenses);
+        setInv(saved.investments);
+        setBA(saved.bankAccounts);
+        setCC(saved.creditCards);
+        setGoals(saved.financialGoals);
+        setSubs(saved.subscriptions);
+        setReserve(saved.reserve);
+      }
+      setReady(true);
+    });
+  }, []);
+
+  /* ── Salvar automaticamente no localStorage sempre que mudar ── */
+  useEffect(() => {
+    if (!userId || !ready) return;
+    saveUserData(userId, {
+      transactions, fixedExpenses, investments, bankAccounts,
+      creditCards, financialGoals, subscriptions, reserve,
+    });
+  }, [userId, ready, transactions, fixedExpenses, investments, bankAccounts,
+      creditCards, financialGoals, subscriptions, reserve]);
+
+  /* ─── Actions ─── */
 
   // Transactions — atualiza saldo da conta automaticamente
   const addTransaction = useCallback((t: Omit<Transaction,"id">) => {
@@ -120,7 +178,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
       if (tx && tx.status === "completed") {
         setBA(ba => ba.map(a => {
           if (a.bank !== tx.account) return a;
-          // reverter: se era despesa devolve, se era receita desconta
           const delta = tx.type === "income" ? -tx.value : tx.value;
           return { ...a, balance: Math.max(0, a.balance + delta) };
         }));
