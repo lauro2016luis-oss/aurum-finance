@@ -65,7 +65,7 @@ export interface FixedExpense {
   id: string; name: string; category: string; dueDay: number;
   value: number;
   status: "paid" | "pending" | "overdue"; // status do mês atual (compat)
-  monthlyStatus: Record<string, "paid" | "pending" | "overdue">; // "2026-06" → status
+  monthlyStatus?: Record<string, "paid" | "pending" | "overdue">; // "2026-06" → status
   active: boolean;
 }
 export interface Investment {
@@ -136,6 +136,7 @@ interface DS {
   deleteFixedExpense: (id: string) => void;
   toggleFixedExpenseStatus: (id: string, monthKey?: string) => void;
   getExpenseStatus: (expense: FixedExpense, monthKey: string) => "paid" | "pending" | "overdue";
+
 
   investments: Investment[];
   addInvestment: (i: Omit<Investment, "id">) => void;
