@@ -60,7 +60,7 @@ const EXPENSE_CATS = ["Moradia","Alimentação","Transporte","Saúde","Entreteni
 const ACCOUNTS     = ["Nubank","Itaú","Inter","XP Investimentos","Bradesco","C6 Bank"];
 
 export default function ReceitasPage() {
-  const { transactions, addTransaction, deleteTransaction } = useData();
+  const { transactions, addTransaction, deleteTransaction, bankAccounts } = useData();
   const now = new Date();
   const [tab, setTab]               = useState<Tab>("all");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("month");
@@ -545,7 +545,7 @@ export default function ReceitasPage() {
               <select className="input-premium w-full" style={{ colorScheme: "dark" }}
                 value={formData.account}
                 onChange={e => setFormData(f => ({ ...f, account: e.target.value }))}>
-                {ACCOUNTS.map(a => <option key={a}>{a}</option>)}
+                {bankAccounts.map(a => <option key={a.id} value={a.bank}>{a.bank} — {a.type}</option>)}
               </select>
             </div>
           </div>

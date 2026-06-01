@@ -101,9 +101,33 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [subscriptions, setSubs]  = useState<Subscription[]>(initSubs as Subscription[]);
   const [reserve, setReserve]     = useState(32400);
 
-  // Transactions
-  const addTransaction    = useCallback((t: Omit<Transaction,"id">) => setTx(prev => [{ ...t, id: uid() }, ...prev]), []);
-  const deleteTransaction = useCallback((id: string) => setTx(prev => prev.filter(t => t.id !== id)), []);
+  // Transactions — atualiza saldo da conta automaticamente
+  const addTransaction = useCallback((t: Omit<Transaction,"id">) => {
+    const newTx = { ...t, id: uid() };
+    setTx(prev => [newTx, ...prev]);
+    if (t.status === "completed") {
+      setBA(prev => prev.map(a => {
+        if (a.bank !== t.account) return a;
+        const delta = t.type === "income" ? t.value : -t.value;
+        return { ...a, balance: Math.max(0, a.balance + delta) };
+      }));
+    }
+  }, []);
+
+  const deleteTransaction = useCallback((id: string) => {
+    setTx(prev => {
+      const tx = prev.find(t => t.id === id);
+      if (tx && tx.status === "completed") {
+        setBA(ba => ba.map(a => {
+          if (a.bank !== tx.account) return a;
+          // reverter: se era despesa devolve, se era receita desconta
+          const delta = tx.type === "income" ? -tx.value : tx.value;
+          return { ...a, balance: Math.max(0, a.balance + delta) };
+        }));
+      }
+      return prev.filter(t => t.id !== id);
+    });
+  }, []);
 
   // Fixed expenses
   const addFixedExpense = useCallback((e: Omit<FixedExpense,"id">) => setFE(prev => [...prev, { ...e, id: uid() }]), []);
