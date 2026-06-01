@@ -65,6 +65,7 @@ interface DS {
 
   bankAccounts: BankAccount[];
   addBankAccount: (a: Omit<BankAccount, "id">) => void;
+  updateBankAccount: (id: string, data: Partial<BankAccount>) => void;
   deleteBankAccount: (id: string) => void;
 
   creditCards: CreditCard[];
@@ -120,6 +121,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   // Bank accounts
   const addBankAccount    = useCallback((a: Omit<BankAccount,"id">) => setBA(prev => [...prev, { ...a, id: uid() }]), []);
+  const updateBankAccount = useCallback((id: string, data: Partial<BankAccount>) => setBA(prev => prev.map(a => a.id === id ? { ...a, ...data } : a)), []);
   const deleteBankAccount = useCallback((id: string) => setBA(prev => prev.filter(a => a.id !== id)), []);
 
   // Credit cards
@@ -147,7 +149,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       transactions, addTransaction, deleteTransaction,
       fixedExpenses, addFixedExpense, updateFixedExpense, deleteFixedExpense, toggleFixedExpenseStatus,
       investments, addInvestment, deleteInvestment,
-      bankAccounts, addBankAccount, deleteBankAccount,
+      bankAccounts, addBankAccount, updateBankAccount, deleteBankAccount,
       creditCards, addCreditCard, deleteCreditCard,
       financialGoals, addGoal, addGoalContribution, deleteGoal,
       subscriptions, addSubscription, toggleSubscription, deleteSubscription,
