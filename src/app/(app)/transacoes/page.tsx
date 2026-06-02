@@ -8,12 +8,15 @@ import { MetricCard } from "@/components/shared/MetricCard";
 import { Modal } from "@/components/shared/Modal";
 import { useData } from "@/lib/data-store";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { useTheme } from "@/lib/theme-context";
 
 const CATEGORIES = ["Renda","Alimentação","Moradia","Transporte","Saúde","Entretenimento","Investimentos","Educação","Lazer","Outros","Renda Extra","Serviços"];
 const ACCOUNTS   = ["Nubank","Itaú","Inter","XP Investimentos","Bradesco","BTG","C6 Bank"];
 
 export default function TransacoesPage() {
   const { transactions, addTransaction, deleteTransaction } = useData();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [filter, setFilter]   = useState("Todos");
   const [search, setSearch]   = useState("");
   const [type, setType]       = useState<"all"|"income"|"expense">("all");
@@ -96,8 +99,18 @@ export default function TransacoesPage() {
             {allCats.map(cat => (
               <button key={cat} onClick={() => setFilter(cat)}
                 className="px-3 py-1.5 rounded-full text-[12px] whitespace-nowrap transition-all flex-shrink-0"
-                style={{ background:filter===cat?"rgba(212,175,55,0.1)":"#141414", color:filter===cat?"#D4AF37":"#52525B",
-                  border:`1px solid ${filter===cat?"rgba(212,175,55,0.3)":"#1E1E1E"}` }}>
+                style={{
+                  background: filter===cat
+                    ? (isLight ? "rgba(26,92,50,0.1)" : "rgba(212,175,55,0.1)")
+                    : (isLight ? "rgba(26,92,50,0.06)" : "#141414"),
+                  color: filter===cat
+                    ? (isLight ? "#1A5C32" : "#D4AF37")
+                    : (isLight ? "#3D6B4A" : "#52525B"),
+                  border: `1px solid ${filter===cat
+                    ? (isLight ? "rgba(26,92,50,0.3)" : "rgba(212,175,55,0.3)")
+                    : (isLight ? "rgba(26,92,50,0.15)" : "#1E1E1E")}`,
+                  fontWeight: filter===cat ? 600 : 400,
+                }}>
                 {cat}
               </button>
             ))}
