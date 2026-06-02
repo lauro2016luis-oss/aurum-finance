@@ -20,7 +20,7 @@ export function Modal({ open, onClose, title, subtitle, children, icon, width = 
         <>
           {/* Overlay */}
           <motion.div
-            className="fixed inset-0 z-50 bg-black/70"
+            className="fixed inset-0 z-[70] bg-black/70"
             style={{ backdropFilter: "blur(6px)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -28,16 +28,17 @@ export function Modal({ open, onClose, title, subtitle, children, icon, width = 
             onClick={onClose}
           />
 
-          {/* Modal */}
-          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+          {/* Modal — z maior que overlay para receber toques */}
+          <div className="fixed inset-0 z-[71] flex items-end sm:items-center justify-center p-0 sm:p-4 pointer-events-none">
             <motion.div
-              className={`w-full ${width} rounded-t-3xl sm:rounded-2xl overflow-hidden`}
+              className={`w-full ${width} rounded-t-3xl sm:rounded-2xl overflow-hidden pointer-events-auto`}
               style={{
                 background: "linear-gradient(145deg,#151515,#111111)",
                 border: "1px solid rgba(212,175,55,0.15)",
                 boxShadow: "0 -20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212,175,55,0.05)",
-                maxHeight: "90vh",
+                maxHeight: "85vh",
                 overflowY: "auto",
+                paddingBottom: "env(safe-area-inset-bottom, 0px)",
               }}
               initial={{ y: 60, opacity: 0, scale: 0.97 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
