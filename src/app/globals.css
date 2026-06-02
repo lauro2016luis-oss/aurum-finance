@@ -80,6 +80,41 @@
   box-shadow: 0 0 20px rgba(160,120,10,0.04), 0 2px 8px rgba(0,0,0,0.06);
 }
 
+/* ── Light mode: bolder typography globally ──────────── */
+[data-theme="light"] body {
+  font-weight: 450;
+  color: var(--text-primary);
+}
+
+/* Table cells, list text, general paragraphs */
+[data-theme="light"] td,
+[data-theme="light"] .table-premium td,
+[data-theme="light"] p:not(.text-gold-gradient) {
+  font-weight: 500;
+}
+
+/* Span text in lists/cards */
+[data-theme="light"] span:not(.badge):not(.metric-value) {
+  font-weight: 500;
+}
+
+/* Section labels */
+[data-theme="light"] .label-xs,
+[data-theme="light"] .label-sm {
+  font-weight: 600;
+}
+
+/* Nav items */
+[data-theme="light"] .nav-item {
+  font-weight: 500;
+}
+
+/* Headings bolder */
+[data-theme="light"] h1, [data-theme="light"] h2,
+[data-theme="light"] h3, [data-theme="light"] h4 {
+  font-weight: 500;
+}
+
 /* Inputs */
 [data-theme="light"] .input-premium {
   background: var(--bg-input);

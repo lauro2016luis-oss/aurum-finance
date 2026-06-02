@@ -234,7 +234,7 @@ export default function ReceitasPage() {
               className="overflow-hidden"
             >
               <div className="flex items-center gap-3 p-4 rounded-2xl"
-                style={{ background: "#141414", border: "1px solid rgba(212,175,55,0.12)" }}>
+                style={{ background: bgControl, border: `1px solid ${isLight?"rgba(160,120,10,0.2)":"rgba(212,175,55,0.12)"}` }}>
                 <Calendar size={14} className="text-[#D4AF37] flex-shrink-0" />
                 <span className="text-[12px] text-[#52525B]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>De</span>
                 <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)}
@@ -267,10 +267,10 @@ export default function ReceitasPage() {
           <div className="lg:col-span-2 card-premium p-6">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <p className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-1"
-                  style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Histórico</p>
-                <h3 className="text-[18px] text-white"
-                  style={{ fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
+                <p className="text-[10px] uppercase tracking-[0.13em] mb-1"
+                  style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif" }}>Histórico</p>
+                <h3 className="text-[18px]"
+                  style={{ color: textPrimary, fontFamily: "'Cormorant SC', serif", fontWeight: 500 }}>
                   Receitas vs. Despesas
                 </h3>
               </div>
@@ -291,11 +291,11 @@ export default function ReceitasPage() {
                     <stop offset="100%" stopColor="#EF4444" stopOpacity={0.01} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1E1E1E" vertical={false} />
-                <XAxis dataKey="month" tick={{ fill: "#52525B", fontSize: 11, fontFamily: "'Instrument Sans'" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: "#52525B", fontSize: 11, fontFamily: "'Instrument Sans'" }} axisLine={false} tickLine={false}
+                <CartesianGrid strokeDasharray="3 3" stroke={isLight?"#E5E3D8":"#182418"} vertical={false} />
+                <XAxis dataKey="month" tick={{ fill: isLight?"#6B6860":"#52525B", fontSize: 11, fontFamily: "'Instrument Sans'" }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill: isLight?"#6B6860":"#52525B", fontSize: 11, fontFamily: "'Instrument Sans'" }} axisLine={false} tickLine={false}
                   tickFormatter={v => `${(v/1000).toFixed(0)}k`} width={36} />
-                <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#262626", strokeWidth: 1 }} />
+                <Tooltip content={<CustomTooltip />} cursor={{ stroke: isLight?"#DDD9CC":"#1E2A1E", strokeWidth: 1 }} />
                 <Area type="monotone" dataKey="receitas" name="Receitas" stroke="#22C55E" strokeWidth={1.5}
                   fill="url(#gIn)" dot={false} activeDot={{ r: 4, fill: "#22C55E", stroke: "#0A0A0A", strokeWidth: 2 }} />
                 <Area type="monotone" dataKey="despesas" name="Despesas" stroke="#EF4444" strokeWidth={1.5}
@@ -313,10 +313,10 @@ export default function ReceitasPage() {
                 {topExpenses.map((item) => (
                   <div key={item.name}>
                     <div className="flex justify-between mb-1" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
-                      <span className="text-[12.5px] text-[#A1A1AA]">{item.name}</span>
-                      <span className="metric-value text-[12px] text-white">{formatCurrency(item.value, true)}</span>
+                      <span className="text-[12.5px]" style={{ color: textMuted }}>{item.name}</span>
+                      <span className="metric-value text-[12px]" style={{ color: textPrimary }}>{formatCurrency(item.value, true)}</span>
                     </div>
-                    <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#1A1A1A" }}>
+                    <div className="h-1.5 rounded-full overflow-hidden" style={{ background: isLight ? "#E5E3D8" : "#152015" }}>
                       <motion.div className="h-full rounded-full"
                         style={{ background: `linear-gradient(90deg, ${item.color}50, ${item.color})` }}
                         initial={{ width: "0%" }}
@@ -330,17 +330,17 @@ export default function ReceitasPage() {
             </div>
 
             {/* Balance summary */}
-            <div className="mt-auto pt-4 border-t border-[#1A1A1A] space-y-2">
+            <div className="mt-auto pt-4 space-y-2" style={{ borderTop: `1px solid ${borderCtrl}` }}>
               <div className="flex justify-between items-center">
-                <span className="text-[12px] text-[#52525B]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Entradas</span>
+                <span className="text-[12px]" style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif" }}>Entradas</span>
                 <span className="metric-value text-[13px] text-[#22C55E]">+{formatCurrency(totalIn)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[12px] text-[#52525B]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Saídas</span>
+                <span className="text-[12px]" style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif" }}>Saídas</span>
                 <span className="metric-value text-[13px] text-[#EF4444]">−{formatCurrency(totalOut)}</span>
               </div>
-              <div className="flex justify-between items-center pt-2 border-t border-[#1A1A1A]">
-                <span className="text-[12px] text-white font-medium" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Saldo</span>
+              <div className="flex justify-between items-center pt-2" style={{ borderTop: `1px solid ${borderCtrl}` }}>
+                <span className="text-[12px] font-medium" style={{ color: textPrimary, fontFamily: "'Instrument Sans', sans-serif" }}>Saldo</span>
                 <span className="metric-value text-[15px]"
                   style={{ color: balance >= 0 ? "#D4AF37" : "#EF4444" }}>
                   {balance >= 0 ? "+" : ""}{formatCurrency(balance)}
@@ -353,10 +353,10 @@ export default function ReceitasPage() {
         {/* ── Transactions table ────────────────────────────── */}
         <div className="card-premium overflow-hidden overflow-x-auto">
           {/* Table toolbar */}
-          <div className="p-5 border-b border-[#1A1A1A] flex items-center gap-4">
+          <div className="p-5 flex items-center gap-4" style={{ borderBottom: `1px solid ${borderCtrl}` }}>
             {/* Tabs */}
             <div className="flex items-center gap-1 p-1 rounded-xl flex-shrink-0"
-              style={{ background: "#111111", border: "1px solid #1E1E1E" }}>
+              style={{ background: bgControl, border: `1px solid ${borderCtrl}` }}>
               {([
                 ["all",     "Todos",    transactions.length],
                 ["income",  "Receitas", incomes.length],
@@ -366,18 +366,19 @@ export default function ReceitasPage() {
                   onClick={() => setTab(val)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] transition-all duration-200"
                   style={{
-                    background: tab === val ? "#1F1F1F" : "transparent",
+                    background: tab === val ? bgActive : "transparent",
                     color: tab === val
-                      ? val === "income" ? "#22C55E" : val === "expense" ? "#EF4444" : "#fff"
-                      : "#52525B",
-                    border: tab === val ? "1px solid #262626" : "1px solid transparent",
+                      ? val === "income" ? "#22C55E" : val === "expense" ? "#EF4444" : textPrimary
+                      : textMuted,
+                    border: tab === val ? `1px solid ${borderCtrl}` : "1px solid transparent",
                     fontFamily: "'Instrument Sans', sans-serif",
+                    fontWeight: tab === val ? 600 : 500,
                   }}>
                   {lbl}
                   <span className="px-1.5 py-0.5 rounded-full text-[10px]"
                     style={{
-                      background: tab === val ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.04)",
-                      color: tab === val ? "inherit" : "#3F3F46",
+                      background: tab === val ? (isLight?"rgba(0,0,0,0.06)":"rgba(255,255,255,0.08)") : (isLight?"rgba(0,0,0,0.04)":"rgba(255,255,255,0.04)"),
+                      color: tab === val ? "inherit" : textDisabled,
                     }}>
                     {count}
                   </span>
