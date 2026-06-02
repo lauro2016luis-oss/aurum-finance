@@ -82,30 +82,41 @@ export function Sidebar() {
     return () => window.removeEventListener("aurum:profile-updated", handler);
   }, []);
 
+  // In light mode the sidebar goes dark charcoal for luxury contrast
+  const SB = {
+    bg:         isLight ? "#1A1710" : "#111111",
+    bgHover:    isLight ? "#252218" : "#1F1F1F",
+    bgActive:   isLight ? "rgba(212,175,55,0.10)" : "rgba(212,175,55,0.08)",
+    border:     isLight ? "rgba(212,175,55,0.12)" : "#1E1E1E",
+    borderLine: isLight ? "rgba(212,175,55,0.1)" : "#1E1E1E",
+    textPrimary:isLight ? "#F5F0E8" : "#FFFFFF",
+    textMuted:  isLight ? "#8A8470" : "#52525B",
+    textLabel:  isLight ? "#5A5444" : "#3F3F46",
+    gold:       "#D4AF37",
+  };
+
   const content = (
     <aside
-      className="w-[260px] h-screen flex flex-col overflow-hidden"
-      style={{ background: "var(--bg-sidebar)" }}
+      className="w-[260px] h-screen flex flex-col overflow-hidden relative"
+      style={{ background: SB.bg, borderRight: `1px solid ${SB.border}` }}
     >
       {/* Gold top line */}
       <div className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg,transparent,rgba(212,175,55,0.3),transparent)" }} />
+        style={{ background: "linear-gradient(90deg,transparent,rgba(212,175,55,0.4),transparent)" }} />
 
-      {/* Logo + close btn (mobile) */}
+      {/* Logo */}
       <div className="px-5 pt-6 pb-4 flex-shrink-0 flex items-center justify-between">
         <Link href="/dashboard" className="flex items-center gap-3 group" onClick={closeSidebar}>
-          <div className="relative">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)", boxShadow:"0 0 16px rgba(212,175,55,0.35)" }}>
-              <span className="text-black font-bold text-base leading-none"
-                style={{ fontFamily:"'Cormorant SC',serif", letterSpacing:"-0.02em" }}>A</span>
-            </div>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+            style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)", boxShadow:"0 0 16px rgba(212,175,55,0.35)" }}>
+            <span className="text-black font-bold text-base leading-none"
+              style={{ fontFamily:"'Cormorant SC',serif", letterSpacing:"-0.02em" }}>A</span>
           </div>
           <div>
-            <h1 className="text-[18px] tracking-[0.06em] leading-none"
-              style={{ fontFamily:"'Cormorant SC',serif", fontWeight:500, letterSpacing:"0.08em", color: isLight ? "#1C1A14" : "#FFFFFF" }}>AURUM</h1>
+            <h1 className="text-[18px] leading-none"
+              style={{ fontFamily:"'Cormorant SC',serif", fontWeight:500, letterSpacing:"0.08em", color: SB.textPrimary }}>AURUM</h1>
             <p className="text-[9.5px] mt-[3px] leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.22em", textTransform:"uppercase", color: isLight ? "#A8A598" : "#3F3F46" }}>Finance</p>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.22em", textTransform:"uppercase", color: SB.textLabel }}>Finance</p>
           </div>
         </Link>
       </div>
@@ -113,22 +124,19 @@ export function Sidebar() {
       {/* Profile */}
       <div className="px-3 mb-4 flex-shrink-0">
         <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer group transition-all"
-          style={{
-            border: isLight ? "1px solid #DDD9CC" : "1px solid #1E1E1E",
-            background: "transparent",
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = isLight ? "#EEECe4" : "#1F1F1F"; }}
+          style={{ border: `1px solid ${SB.border}`, background: "transparent" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = SB.bgHover; }}
           onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = "transparent"; }}
         >
           <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold text-black flex-shrink-0"
             style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)" }}>{userInitial}</div>
           <div className="flex-1 min-w-0">
             <p className="text-[13px] font-medium truncate leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", color: isLight ? "#1C1A14" : "#FFFFFF" }}>{userName}</p>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", color: SB.textPrimary }}>{userName}</p>
             <p className="text-[11px] mt-0.5 leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", color: isLight ? "#6B6860" : "#52525B" }}>Pessoal</p>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", color: SB.textMuted }}>Pessoal</p>
           </div>
-          <ChevronRight size={13} style={{ color: isLight ? "#A8A598" : "#3F3F46" }} className="transition-colors flex-shrink-0" />
+          <ChevronRight size={13} style={{ color: SB.textLabel }} className="transition-colors flex-shrink-0" />
         </div>
       </div>
 
@@ -137,7 +145,7 @@ export function Sidebar() {
         {navSections.map((section) => (
           <div key={section.label}>
             <p className="px-3 mb-1.5 text-[9.5px]"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.14em", textTransform:"uppercase", color: isLight ? "#A8A598" : "#3F3F46" }}>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:600, letterSpacing:"0.14em", textTransform:"uppercase", color: SB.textLabel }}>
               {section.label}
             </p>
             <div className="space-y-0.5">
@@ -146,13 +154,28 @@ export function Sidebar() {
                 const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
                 return (
                   <Link key={item.href} href={item.href} onClick={closeSidebar}>
-                    <motion.div className={cn("nav-item", isActive && "active")} whileHover={{ x: 1 }} transition={{ duration: 0.15 }}>
-                      <Icon size={15} className="flex-shrink-0 transition-colors"
-                        style={{ color: isActive ? (isLight ? "#A07810" : "#D4AF37") : (isLight ? "#6B6860" : "#52525B") }} />
+                    <motion.div
+                      className="flex items-center gap-[10px] px-3 py-2 rounded-[10px] cursor-pointer transition-all text-[13px]"
+                      style={{
+                        background: isActive ? SB.bgActive : "transparent",
+                        color: isActive ? SB.gold : SB.textMuted,
+                        fontFamily: "'Instrument Sans',sans-serif",
+                        fontWeight: isActive ? 600 : 500,
+                        position: "relative",
+                      }}
+                      onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLDivElement).style.background = SB.bgHover; (e.currentTarget as HTMLDivElement).style.color = isActive ? SB.gold : SB.textPrimary; }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = isActive ? SB.bgActive : "transparent"; (e.currentTarget as HTMLDivElement).style.color = isActive ? SB.gold : SB.textMuted; }}
+                      whileHover={{ x: 1 }} transition={{ duration: 0.15 }}
+                    >
+                      {isActive && (
+                        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-[60%] rounded-r-full"
+                          style={{ background: SB.gold, boxShadow: "0 0 8px rgba(212,175,55,0.6)" }} />
+                      )}
+                      <Icon size={15} className="flex-shrink-0" style={{ color: isActive ? SB.gold : SB.textMuted }} />
                       <span className="flex-1 truncate">{item.label}</span>
                       {"badge" in item && item.badge && (
                         <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded tracking-wider"
-                          style={{ background:"rgba(212,175,55,0.12)", color:"#D4AF37", border:"1px solid rgba(212,175,55,0.2)" }}>
+                          style={{ background:"rgba(212,175,55,0.15)", color:"#D4AF37", border:"1px solid rgba(212,175,55,0.25)" }}>
                           {item.badge}
                         </span>
                       )}
@@ -167,27 +190,42 @@ export function Sidebar() {
 
       {/* Bottom */}
       <div className="flex-shrink-0 px-3 pb-5">
-        <div className="h-px mb-3" style={{ background: isLight ? "linear-gradient(90deg,transparent,#DDD9CC,transparent)" : "linear-gradient(90deg,transparent,#1E1E1E,transparent)" }} />
+        <div className="h-px mb-3"
+          style={{ background: `linear-gradient(90deg,transparent,${SB.border},transparent)` }} />
         <div className="space-y-0.5">
           {bottomItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
             return (
               <Link key={item.href} href={item.href} onClick={closeSidebar}>
-                <div className={cn("nav-item", isActive && "active")}>
-                  <Icon size={15} className="flex-shrink-0"
-                    style={{ color: isActive ? (isLight ? "#A07810" : "#D4AF37") : (isLight ? "#6B6860" : "#52525B") }} />
+                <div
+                  className="flex items-center gap-[10px] px-3 py-2 rounded-[10px] cursor-pointer transition-all text-[13px]"
+                  style={{
+                    background: isActive ? SB.bgActive : "transparent",
+                    color: isActive ? SB.gold : SB.textMuted,
+                    fontFamily: "'Instrument Sans',sans-serif",
+                    fontWeight: 500,
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = SB.bgHover; (e.currentTarget as HTMLDivElement).style.color = SB.textPrimary; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = isActive ? SB.bgActive : "transparent"; (e.currentTarget as HTMLDivElement).style.color = isActive ? SB.gold : SB.textMuted; }}
+                >
+                  <Icon size={15} className="flex-shrink-0" style={{ color: isActive ? SB.gold : SB.textMuted }} />
                   <span>{item.label}</span>
                 </div>
               </Link>
             );
           })}
-          <button className="nav-item w-full text-left" style={{ color: isLight ? "#6B6860" : "#52525B" }} onClick={async () => {
-            const { createClient } = await import("@/lib/supabase/client");
-            const supabase = createClient();
-            await supabase.auth.signOut();
-            window.location.href = "/login";
-          }}>
+          <button
+            className="flex items-center gap-[10px] px-3 py-2 rounded-[10px] cursor-pointer transition-all text-[13px] w-full text-left"
+            style={{ color: SB.textMuted, fontFamily: "'Instrument Sans',sans-serif", fontWeight: 500, background: "transparent" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = SB.bgHover; (e.currentTarget as HTMLButtonElement).style.color = "#EF4444"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; (e.currentTarget as HTMLButtonElement).style.color = SB.textMuted; }}
+            onClick={async () => {
+              const { createClient } = await import("@/lib/supabase/client");
+              const supabase = createClient();
+              await supabase.auth.signOut();
+              window.location.href = "/login";
+            }}>
             <LogOut size={15} className="flex-shrink-0" />
             <span>Sair</span>
           </button>
