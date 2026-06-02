@@ -83,11 +83,13 @@ export function MetricCard({
         <p
           className={cn(
             "metric-value leading-none transition-all duration-300",
-            large ? "text-[28px] sm:text-[38px]" : "text-[18px] sm:text-[21px]",
+            large ? "text-[28px] sm:text-[38px]" : "text-[20px] sm:text-[24px]",
             gold ? "text-gold-gradient" : ""
           )}
           style={{
             color: gold ? undefined : (isLight ? "#1A5C32" : "#FFFFFF"),
+            fontWeight: 600,
+            letterSpacing: "-0.03em",
             ...(hideValues ? { filter: "blur(10px)", userSelect: "none" } : {}),
           }}
         >

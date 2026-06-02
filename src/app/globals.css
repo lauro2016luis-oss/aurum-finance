@@ -114,8 +114,8 @@
 [data-theme="light"] .badge-neutral { background: #E8E6DE; color: var(--text-muted); }
 [data-theme="light"] .badge-gold { background: rgba(160,120,10,0.1); color: var(--gold); }
 
-/* Metric values — financial numbers in forest green */
-[data-theme="light"] .metric-value { color: #1A5C32 !important; }
+/* Metric values — financial numbers in forest green, bold */
+[data-theme="light"] .metric-value { color: #1A5C32 !important; font-weight: 600 !important; }
 
 /* ── Fix hover states in light mode — prevent dark rows ── */
 [data-theme="light"] tr:hover td { background: rgba(26,92,50,0.04) !important; }
