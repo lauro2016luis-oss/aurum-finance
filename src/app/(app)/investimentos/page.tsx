@@ -118,7 +118,7 @@ function BankDropdown({
             {filtered.map((bank) => (
               <button
                 key={bank.id}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 hover:bg-[#1A1A1A] transition-colors text-left group"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 hover:bg-[#152015] transition-colors text-left group"
                 onClick={() => {
                   setQuery(bank.name);
                   onChange(bank.name);
@@ -314,7 +314,7 @@ function NovoAtivoPanel({ onClose, onAdd }: { onClose: () => void; onAdd: (data:
         </div>
         <button
           onClick={onClose}
-          className="w-8 h-8 rounded-xl flex items-center justify-center text-[#3F3F46] hover:text-white hover:bg-[#1A1A1A] transition-all"
+          className="w-8 h-8 rounded-xl flex items-center justify-center text-[#3F3F46] hover:text-white hover:bg-[#152015] transition-all"
         >
           <X size={15} />
         </button>

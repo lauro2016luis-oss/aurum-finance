@@ -104,7 +104,7 @@ export default function ContasPage() {
                       <div className="w-2 h-2 rounded-full mr-1" style={{ background:color, boxShadow:`0 0 6px ${color}80` }} />
                       {/* Editar saldo */}
                       <button onClick={() => openMov(account.id, account.bank, account.balance, "edit")}
-                        className="opacity-0 group-hover:opacity-100 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#1A1A1A] text-[#52525B] hover:text-[#D4AF37] transition-all">
+                        className="opacity-0 group-hover:opacity-100 w-7 h-7 flex items-center justify-center rounded-lg hover:bg-[#152015] text-[#52525B] hover:text-[#D4AF37] transition-all">
                         <Pencil size={12} />
                       </button>
                       {/* Deletar */}

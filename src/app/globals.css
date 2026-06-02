@@ -117,6 +117,23 @@
 /* Metric values — financial numbers in forest green */
 [data-theme="light"] .metric-value { color: #1A5C32 !important; }
 
+/* ── Fix hover states in light mode — prevent dark rows ── */
+[data-theme="light"] tr:hover td { background: rgba(26,92,50,0.04) !important; }
+[data-theme="light"] .table-premium tr:hover td { background: rgba(26,92,50,0.04) !important; }
+
+/* Override Tailwind dark hover bg utilities in light mode */
+[data-theme="light"] .hover\:bg-\[\#101810\]:hover,
+[data-theme="light"] .hover\:bg-\[\#152015\]:hover,
+[data-theme="light"] .hover\:bg-\[\#0E150E\]:hover,
+[data-theme="light"] .hover\:bg-\[\#1A221A\]:hover,
+[data-theme="light"] .hover\:bg-\[\#162016\]:hover,
+[data-theme="light"] .hover\:bg-\[\#141414\]:hover,
+[data-theme="light"] .hover\:bg-\[\#1A1A1A\]:hover,
+[data-theme="light"] .hover\:bg-\[\#1F1F1F\]:hover,
+[data-theme="light"] .hover\:bg-\[\#111111\]:hover {
+  background-color: rgba(26,92,50,0.05) !important;
+}
+
 /* Buttons */
 [data-theme="light"] .btn-ghost {
   color: var(--text-secondary);

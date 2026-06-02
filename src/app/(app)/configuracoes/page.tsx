@@ -95,7 +95,7 @@ export default function ConfiguracoesPage() {
               <div className="flex items-center gap-2">
                 <h3 className="text-[18px] font-medium text-white">{name}</h3>
                 <button onClick={() => { setEditName(name); setEditing(true); }}
-                  className="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:bg-[#1A1A1A]"
+                  className="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:bg-[#152015]"
                   style={{ color: "#52525B" }}>
                   <Pencil size={13} />
                 </button>
@@ -124,7 +124,7 @@ export default function ConfiguracoesPage() {
         <div>
           <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-3">Conta</p>
           <div className="card-premium overflow-hidden">
-            <button className="w-full flex items-center gap-4 p-5 hover:bg-[#1A1A1A] transition-colors text-left border-b border-[#1A1A1A] group"
+            <button className="w-full flex items-center gap-4 p-5 hover:bg-[#152015] transition-colors text-left border-b border-[#1A1A1A] group"
               onClick={() => { setEditName(name); setEditing(true); }}>
               <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:"#1A1A1A" }}>
                 <Settings size={16} className="text-[#52525B] group-hover:text-[#D4AF37] transition-colors" />
@@ -135,7 +135,7 @@ export default function ConfiguracoesPage() {
               </div>
               <ChevronRight size={14} className="text-[#3F3F46] group-hover:text-[#52525B] transition-colors" />
             </button>
-            <button className="w-full flex items-center gap-4 p-5 hover:bg-[#1A1A1A] transition-colors text-left border-b border-[#1A1A1A] group">
+            <button className="w-full flex items-center gap-4 p-5 hover:bg-[#152015] transition-colors text-left border-b border-[#1A1A1A] group">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:"#1A1A1A" }}>
                 <Shield size={16} className="text-[#52525B] group-hover:text-[#D4AF37] transition-colors" />
               </div>
@@ -145,7 +145,7 @@ export default function ConfiguracoesPage() {
               </div>
               <ChevronRight size={14} className="text-[#3F3F46]" />
             </button>
-            <button className="w-full flex items-center gap-4 p-5 hover:bg-[#1A1A1A] transition-colors text-left group">
+            <button className="w-full flex items-center gap-4 p-5 hover:bg-[#152015] transition-colors text-left group">
               <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:"#1A1A1A" }}>
                 <CreditCard size={16} className="text-[#52525B] group-hover:text-[#D4AF37] transition-colors" />
               </div>
@@ -166,7 +166,7 @@ export default function ConfiguracoesPage() {
                 const Icon = item.icon;
                 return (
                   <button key={i}
-                    className="w-full flex items-center gap-4 p-5 hover:bg-[#1A1A1A] transition-colors text-left border-b border-[#1A1A1A] last:border-0 group">
+                    className="w-full flex items-center gap-4 p-5 hover:bg-[#152015] transition-colors text-left border-b border-[#1A1A1A] last:border-0 group">
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:"#1A1A1A" }}>
                       <Icon size={16} className="text-[#52525B] group-hover:text-[#D4AF37] transition-colors" />
                     </div>

@@ -122,7 +122,7 @@ export default function GastosFixosPage() {
           >
             <button
               onClick={() => stepMonth(-1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#1F1F1F] text-[#52525B] hover:text-white transition-colors"
+              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors"
             >
               <ChevronLeft size={13} />
             </button>
@@ -134,7 +134,7 @@ export default function GastosFixosPage() {
             </span>
             <button
               onClick={() => stepMonth(1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#1F1F1F] text-[#52525B] hover:text-white transition-colors"
+              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors"
             >
               <ChevronRight size={13} />
             </button>

@@ -121,7 +121,7 @@ export default function IAFinanceiraPage() {
                   initial={{ opacity: 0, x: -12 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  className="mb-3 p-4 rounded-xl cursor-pointer hover:bg-[#1A1A1A] transition-all duration-200"
+                  className="mb-3 p-4 rounded-xl cursor-pointer hover:bg-[#152015] transition-all duration-200"
                   style={{ border: `1px solid ${insight.color}18`, background: "#141414" }}
                 >
                   <div className="flex items-start gap-2.5">

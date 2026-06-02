@@ -75,7 +75,7 @@ export default function AssinaturasPage() {
                   <motion.div key={sub.id}
                     initial={{ opacity:0, height:0 }} animate={{ opacity:1, height:"auto" }}
                     exit={{ opacity:0, height:0 }} transition={{ duration:0.2 }}
-                    className="flex items-center justify-between px-5 py-4 hover:bg-[#141414] transition-colors group">
+                    className="flex items-center justify-between px-5 py-4 hover:bg-[#101810] transition-colors group">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center text-[15px] font-bold"
                         style={{ background:`${color}15`, color }}>
@@ -96,7 +96,7 @@ export default function AssinaturasPage() {
                       </span>
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button onClick={() => toggleSubscription(sub.id)}
-                          className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-[#1F1F1F] text-[#52525B] hover:text-[#F59E0B] transition-all"
+                          className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-[#162016] text-[#52525B] hover:text-[#F59E0B] transition-all"
                           title={sub.status === "active" ? "Pausar" : "Ativar"}>
                           {sub.status === "active" ? <Pause size={12} /> : <Play size={12} />}
                         </button>

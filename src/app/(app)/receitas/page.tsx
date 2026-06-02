@@ -172,7 +172,7 @@ export default function ReceitasPage() {
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl"
             style={{ background: "#141414", border: "1px solid #1E1E1E" }}>
             <button onClick={() => stepMonth(-1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#1F1F1F] text-[#52525B] hover:text-white transition-colors">
+              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors">
               <ChevronLeft size={13} />
             </button>
             <span className="text-[13px] text-white min-w-[160px] text-center"
@@ -180,7 +180,7 @@ export default function ReceitasPage() {
               {periodLabel()}
             </span>
             <button onClick={() => stepMonth(1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#1F1F1F] text-[#52525B] hover:text-white transition-colors">
+              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors">
               <ChevronRight size={13} />
             </button>
           </div>
