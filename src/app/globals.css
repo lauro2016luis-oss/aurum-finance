@@ -39,6 +39,38 @@
   --info: #3B82F6;
 }
 
+/* ── Tema Claro ────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-primary: #F5F5F0;
+  --bg-sidebar: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F0EFE8;
+  --bg-input: #F5F4EE;
+  --border: #E5E3D8;
+  --border-strong: #D0CEC0;
+  --border-gold: rgba(180,140,20,0.3);
+  --text-primary: #1A1A14;
+  --text-secondary: #4A4A40;
+  --text-muted: #7A7A6A;
+  --text-disabled: #AAAAAA;
+  --gold: #B8952A;
+  --gold-light: #D4AF37;
+  --gold-dark: #8A6E1A;
+  --gold-glow: rgba(180,140,20,0.12);
+  --gold-50: rgba(180,140,20,0.05);
+  --gold-100: rgba(180,140,20,0.10);
+  --gold-200: rgba(180,140,20,0.20);
+}
+[data-theme="light"] body { background-color: var(--bg-primary); color: var(--text-primary); }
+[data-theme="light"] .card-premium { background: #FFFFFF; border-color: var(--border); box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
+[data-theme="light"] .card-gold { background: linear-gradient(145deg,#FFFDF5,#FFF8E0); border-color: rgba(180,140,20,0.3); }
+[data-theme="light"] .input-premium { background: var(--bg-input); border-color: var(--border); color: var(--text-primary); }
+[data-theme="light"] .nav-item { color: var(--text-muted); }
+[data-theme="light"] .nav-item:hover,[data-theme="light"] .nav-item.active { background: var(--bg-hover); color: var(--text-primary); }
+[data-theme="light"] .table-premium th { background: #F5F4EE; color: var(--text-muted); border-bottom-color: var(--border); }
+[data-theme="light"] .table-premium td { border-bottom-color: var(--border); }
+[data-theme="light"] .badge-neutral { background: #EEEEE8; color: var(--text-muted); }
+
 * {
   box-sizing: border-box;
   margin: 0;
