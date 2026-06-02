@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, Eye, EyeOff, Sun, Moon } from "lucide-react";
+import { Bell, Search, Eye, EyeOff, Sun, Moon, Menu } from "lucide-react";
 import { useNav } from "@/lib/nav-context";
 import { useTheme } from "@/lib/theme-context";
 
@@ -11,7 +11,7 @@ interface HeaderProps {
 }
 
 export function Header({ title, subtitle, children }: HeaderProps) {
-  const { hideValues, toggleHideValues } = useNav();
+  const { hideValues, toggleHideValues, sidebarOpen, toggleSidebar } = useNav();
   const { theme, toggleTheme } = useTheme();
   const isLight = theme === "light";
 
@@ -25,6 +25,15 @@ export function Header({ title, subtitle, children }: HeaderProps) {
         borderBottom: isLight ? "1px solid #DDD9CC" : "1px solid #1A1A1A",
       }}
     >
+      {/* Hamburger — mobile only */}
+      <button
+        className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl mr-1 transition-all flex-shrink-0"
+        style={{ color: "var(--text-muted)" }}
+        onClick={toggleSidebar}
+      >
+        <Menu size={18} />
+      </button>
+
       {/* Left: title */}
       <div className="flex items-center gap-3 min-w-0 flex-1">
         <div className="min-w-0">

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, ArrowLeftRight, TrendingUp, Receipt,
   CreditCard, Landmark, LineChart, Target, Shield,
@@ -235,9 +235,38 @@ export function Sidebar() {
   );
 
   return (
-    /* Desktop only — BottomNav handles mobile/tablet */
-    <div className="hidden lg:flex fixed left-0 top-0 h-screen w-[260px] z-50 flex-col">
-      {content}
-    </div>
+    <>
+      {/* Desktop sidebar */}
+      <div className="hidden lg:flex fixed left-0 top-0 h-screen w-[260px] z-50 flex-col">
+        {content}
+      </div>
+
+      {/* Mobile drawer — slides in from left */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              className="lg:hidden fixed inset-0 z-[55] bg-black/60"
+              style={{ backdropFilter: "blur(4px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeSidebar}
+            />
+            {/* Drawer */}
+            <motion.div
+              className="lg:hidden fixed left-0 top-0 h-screen w-[280px] z-[56] flex flex-col"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            >
+              {content}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

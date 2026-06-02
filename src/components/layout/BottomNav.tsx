@@ -42,18 +42,19 @@ export function BottomNav() {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
-  const gold        = isLight ? "#A07810" : "#D4AF37";
-  const textInactive = isLight ? "#6B6860" : "#52525B";
-  const textLabel    = isLight ? "#A8A598" : "#3F3F46";
-  const bgBar        = isLight ? "rgba(255,255,255,0.97)" : "rgba(13,13,13,0.97)";
-  const borderTop    = isLight ? "#DDD9CC" : "#1E1E1E";
-  const bgSheet      = isLight ? "#FFFFFF" : "#131313";
-  const borderSheet  = isLight ? "#DDD9CC" : "#1E1E1E";
-  const bgHandle     = isLight ? "#D0CEC0" : "#2A2A2A";
-  const bgItemDefault = isLight ? "#F2F0E8" : "#1A1A1A";
-  const borderItem   = isLight ? "#DDD9CC" : "#222222";
-  const bgIconDefault = isLight ? "#EEECe4" : "#242424";
-  const textItemLabel = isLight ? "#3D3B32" : "#A1A1AA";
+  // Dark charcoal in light mode to match sidebar — consistent luxury feel
+  const gold         = "#D4AF37";
+  const textInactive = isLight ? "#8A8470" : "#52525B";
+  const textLabel    = isLight ? "#5A5444" : "#3F3F46";
+  const bgBar        = isLight ? "rgba(26,23,16,0.97)" : "rgba(13,13,13,0.97)";
+  const borderTop    = isLight ? "rgba(212,175,55,0.15)" : "#1E1E1E";
+  const bgSheet      = isLight ? "#1A1710" : "#131313";
+  const borderSheet  = isLight ? "rgba(212,175,55,0.12)" : "#1E1E1E";
+  const bgHandle     = isLight ? "rgba(212,175,55,0.2)" : "#2A2A2A";
+  const bgItemDefault = isLight ? "#252218" : "#1A1A1A";
+  const borderItem   = isLight ? "rgba(212,175,55,0.1)" : "#222222";
+  const bgIconDefault = isLight ? "#2E2B20" : "#242424";
+  const textItemLabel = isLight ? "#C8BFA0" : "#A1A1AA";
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -89,9 +90,7 @@ export function BottomNav() {
               <div
                 className="w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-200"
                 style={{
-                  background: active
-                    ? isLight ? "rgba(160,120,10,0.1)" : "rgba(212,175,55,0.12)"
-                    : "transparent",
+                  background: active ? "rgba(212,175,55,0.12)" : "transparent",
                 }}
               >
                 <Icon size={18} style={{ color: active ? gold : textInactive }} />
@@ -127,9 +126,7 @@ export function BottomNav() {
           <div
             className="w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-200"
             style={{
-              background: anyMoreActive
-                ? isLight ? "rgba(160,120,10,0.1)" : "rgba(212,175,55,0.12)"
-                : "transparent",
+              background: anyMoreActive ? "rgba(212,175,55,0.12)" : "transparent",
             }}
           >
             <MoreHorizontal size={18} style={{ color: anyMoreActive ? gold : textInactive }} />
