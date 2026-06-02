@@ -134,6 +134,24 @@
   background-color: rgba(26,92,50,0.05) !important;
 }
 
+/* ── Global text class overrides for light theme ─────── */
+/* Prevent Tailwind hardcoded-color text classes from showing dark text */
+[data-theme="light"] .text-white { color: var(--text-primary) !important; }
+[data-theme="light"] .text-\[\#52525B\] { color: var(--text-muted) !important; }
+[data-theme="light"] .text-\[\#3F3F46\] { color: var(--text-disabled) !important; }
+[data-theme="light"] .text-\[\#A1A1AA\] { color: var(--text-secondary) !important; }
+[data-theme="light"] .hover\:text-white:hover { color: var(--text-primary) !important; }
+
+/* ── Inline style backgrounds — lighten dark bg elements ─ */
+/* Control groups (period pickers, filter pills) */
+[data-theme="light"] [style*="background: \"#0E150E\""],
+[data-theme="light"] [style*="background: \"#101810\""],
+[data-theme="light"] [style*="background: \"#152015\""],
+[data-theme="light"] [style*="background: \"#182418\""] {
+  background-color: #F2F0E8 !important;
+  border-color: #DDD9CC !important;
+}
+
 /* Buttons */
 [data-theme="light"] .btn-ghost {
   color: var(--text-secondary);

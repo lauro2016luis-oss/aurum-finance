@@ -11,6 +11,7 @@ import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { formatCurrency } from "@/lib/utils";
 import { useData } from "@/lib/data-store";
+import { useTheme } from "@/lib/theme-context";
 
 const MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
                  "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
@@ -27,6 +28,20 @@ const CATS = ["Moradia","Saúde","Serviços","Entretenimento","Educação","Tran
 
 export default function GastosFixosPage() {
   const { fixedExpenses, addFixedExpense, deleteFixedExpense, toggleFixedExpenseStatus, updateFixedExpense, getExpenseStatus } = useData();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+
+  // theme shortcuts
+  const bgControl   = isLight ? "#F2F0E8" : "#0E150E";
+  const bgActive    = isLight ? "#FFFFFF" : "#162016";
+  const borderCtrl  = isLight ? "#DDD9CC" : "#182418";
+  const textPrimary = isLight ? "#1C1A14" : "#FFFFFF";
+  const textMuted   = isLight ? "#6B6860" : "#52525B";
+  const textDisabled= isLight ? "#A8A598" : "#3F3F46";
+  const goldColor   = isLight ? "#A07810" : "#D4AF37";
+  const bgProgress  = isLight ? "#E5E3D8" : "#152015";
+  const bgForm      = isLight ? "#FAFAF6" : "#101610";
+
   const now = new Date();
   const [showForm, setShowForm] = useState(false);
   const [newForm, setNewForm] = useState({ name:"", value:"", dueDay:"", category:"Moradia" });
@@ -96,7 +111,7 @@ export default function GastosFixosPage() {
           {/* Mode pills */}
           <div
             className="flex items-center p-1 rounded-xl gap-0.5"
-            style={{ background: "#111111", border: "1px solid #1E1E1E" }}
+            style={{ background: bgControl, border: `1px solid ${borderCtrl}` }}
           >
             {(["month","quarter","semester","year"] as PeriodMode[]).map((m) => (
               <button
@@ -104,10 +119,11 @@ export default function GastosFixosPage() {
                 onClick={() => setPeriodMode(m)}
                 className="px-3 py-1.5 rounded-lg text-[12px] transition-all duration-200 whitespace-nowrap"
                 style={{
-                  background: periodMode === m ? "#1F1F1F" : "transparent",
-                  color: periodMode === m ? "#D4AF37" : "#52525B",
-                  border: periodMode === m ? "1px solid rgba(212,175,55,0.2)" : "1px solid transparent",
+                  background: periodMode === m ? bgActive : "transparent",
+                  color: periodMode === m ? goldColor : textMuted,
+                  border: periodMode === m ? `1px solid ${isLight ? "rgba(160,120,10,0.25)" : "rgba(212,175,55,0.2)"}` : "1px solid transparent",
                   fontFamily: "'Instrument Sans', sans-serif",
+                  fontWeight: periodMode === m ? 600 : 400,
                 }}
               >
                 {m === "month" ? "Mês" : m === "quarter" ? "Trimestre" : m === "semester" ? "Semestre" : "Ano"}
@@ -118,23 +134,25 @@ export default function GastosFixosPage() {
           {/* Arrow navigation */}
           <div
             className="flex items-center gap-2 px-3 py-1.5 rounded-xl"
-            style={{ background: "#141414", border: "1px solid #1E1E1E" }}
+            style={{ background: bgControl, border: `1px solid ${borderCtrl}` }}
           >
             <button
               onClick={() => stepMonth(-1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors"
+              className="w-6 h-6 flex items-center justify-center rounded-lg transition-colors"
+              style={{ color: textMuted }}
             >
               <ChevronLeft size={13} />
             </button>
             <span
-              className="text-[13px] text-white min-w-[160px] text-center"
-              style={{ fontFamily: "'Instrument Sans', sans-serif" }}
+              className="text-[13px] min-w-[160px] text-center"
+              style={{ fontFamily: "'Instrument Sans', sans-serif", color: textPrimary, fontWeight: 500 }}
             >
               {periodLabel()}
             </span>
             <button
               onClick={() => stepMonth(1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors"
+              className="w-6 h-6 flex items-center justify-center rounded-lg transition-colors"
+              style={{ color: textMuted }}
             >
               <ChevronRight size={13} />
             </button>
@@ -145,9 +163,9 @@ export default function GastosFixosPage() {
             onClick={() => setShowCustom(!showCustom)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] transition-all duration-200"
             style={{
-              background: showCustom ? "rgba(212,175,55,0.08)" : "#141414",
-              color: showCustom ? "#D4AF37" : "#52525B",
-              border: `1px solid ${showCustom ? "rgba(212,175,55,0.2)" : "#1E1E1E"}`,
+              background: showCustom ? (isLight ? "rgba(160,120,10,0.08)" : "rgba(212,175,55,0.08)") : bgControl,
+              color: showCustom ? goldColor : textMuted,
+              border: `1px solid ${showCustom ? (isLight ? "rgba(160,120,10,0.25)" : "rgba(212,175,55,0.2)") : borderCtrl}`,
               fontFamily: "'Instrument Sans', sans-serif",
             }}
           >
@@ -182,7 +200,7 @@ export default function GastosFixosPage() {
             >
               <div
                 className="flex items-center gap-3 p-4 rounded-2xl"
-                style={{ background: "#141414", border: "1px solid rgba(212,175,55,0.12)" }}
+                style={{ background: bgControl, border: `1px solid ${isLight ? "rgba(160,120,10,0.2)" : "rgba(212,175,55,0.12)"}` }}
               >
                 <Calendar size={14} className="text-[#D4AF37] flex-shrink-0" />
                 <span className="text-[12px] text-[#52525B]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>De</span>
@@ -230,12 +248,12 @@ export default function GastosFixosPage() {
         >
           <div className="flex-1">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] text-[#52525B]" style={{ fontFamily: "'Instrument Sans', sans-serif", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+              <span className="text-[11px]" style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif", letterSpacing: "0.12em", textTransform: "uppercase" }}>
                 Progresso do mês — {periodLabel()}
               </span>
-              <span className="metric-value text-[13px] text-[#D4AF37]">{paidPct.toFixed(1)}%</span>
+              <span className="metric-value text-[13px]" style={{ color: goldColor }}>{paidPct.toFixed(1)}%</span>
             </div>
-            <div className="h-2 rounded-full overflow-hidden" style={{ background: "#1A1A1A" }}>
+            <div className="h-2 rounded-full overflow-hidden" style={{ background: bgProgress }}>
               <motion.div
                 className="h-full rounded-full"
                 style={{ background: "linear-gradient(90deg, #B8952A, #D4AF37, #E8CC6A)" }}
@@ -244,7 +262,7 @@ export default function GastosFixosPage() {
                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
               />
             </div>
-            <div className="flex justify-between mt-1.5 text-[11px] text-[#3F3F46]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
+            <div className="flex justify-between mt-1.5 text-[11px]" style={{ color: textDisabled, fontFamily: "'Instrument Sans', sans-serif" }}>
               <span>Pago: {formatCurrency(paid)}</span>
               <span>Restante: {formatCurrency(total - paid)}</span>
             </div>
@@ -257,7 +275,7 @@ export default function GastosFixosPage() {
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <p className="metric-value text-[22px]" style={{ color: s.color }}>{s.value}</p>
-                <p className="text-[10.5px] text-[#3F3F46] mt-0.5" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>{s.label}</p>
+                <p className="text-[10.5px] mt-0.5" style={{ color: textDisabled, fontFamily: "'Instrument Sans', sans-serif" }}>{s.label}</p>
               </div>
             ))}
           </div>
@@ -273,7 +291,7 @@ export default function GastosFixosPage() {
               className="overflow-hidden"
             >
               <div className="card-gold p-6">
-                <h3 className="text-[18px] text-white mb-5" style={{ fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
+                <h3 className="text-[18px] mb-5" style={{ color: textPrimary, fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
                   Novo Gasto Fixo
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -318,10 +336,10 @@ export default function GastosFixosPage() {
 
         {/* Table */}
         <div className="card-premium overflow-hidden overflow-x-auto">
-          <div className="p-5 border-b border-[#1A1A1A] flex items-center gap-4">
+          <div className="p-5 flex items-center gap-4" style={{ borderBottom: `1px solid ${borderCtrl}` }}>
             <div className="flex-1">
-              <p className="text-[10px] text-[#52525B] uppercase tracking-[0.13em] mb-0.5" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>Lançamentos</p>
-              <h3 className="text-[17px] text-white" style={{ fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
+              <p className="text-[10px] uppercase tracking-[0.13em] mb-0.5" style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif" }}>Lançamentos</p>
+              <h3 className="text-[17px]" style={{ color: textPrimary, fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
                 Recorrentes — {periodLabel()}
               </h3>
             </div>
@@ -341,7 +359,7 @@ export default function GastosFixosPage() {
             {/* Status filter */}
             <div
               className="flex items-center gap-1 p-1 rounded-xl"
-              style={{ background: "#111111", border: "1px solid #1E1E1E" }}
+              style={{ background: bgControl, border: `1px solid ${borderCtrl}` }}
             >
               {[["all","Todos"],["paid","Pagos"],["pending","Pendentes"],["overdue","Vencidos"]].map(([val, lbl]) => (
                 <button
@@ -349,10 +367,11 @@ export default function GastosFixosPage() {
                   onClick={() => setFilterStatus(val)}
                   className="px-2.5 py-1 rounded-lg text-[11.5px] transition-all duration-200 whitespace-nowrap"
                   style={{
-                    background: filterStatus === val ? "#1F1F1F" : "transparent",
-                    color: filterStatus === val ? "#fff" : "#52525B",
-                    border: filterStatus === val ? "1px solid #262626" : "1px solid transparent",
+                    background: filterStatus === val ? bgActive : "transparent",
+                    color: filterStatus === val ? textPrimary : textMuted,
+                    border: filterStatus === val ? `1px solid ${borderCtrl}` : "1px solid transparent",
                     fontFamily: "'Instrument Sans', sans-serif",
+                    fontWeight: filterStatus === val ? 600 : 400,
                   }}
                 >
                   {lbl}

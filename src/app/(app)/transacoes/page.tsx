@@ -7,8 +7,8 @@ import { Header } from "@/components/layout/Header";
 import { MetricCard } from "@/components/shared/MetricCard";
 import { Modal } from "@/components/shared/Modal";
 import { useData } from "@/lib/data-store";
-import { formatCurrency, formatDate } from "@/lib/utils";
 import { useTheme } from "@/lib/theme-context";
+import { formatCurrency, formatDate } from "@/lib/utils";
 
 const CATEGORIES = ["Renda","Alimentação","Moradia","Transporte","Saúde","Entretenimento","Investimentos","Educação","Lazer","Outros","Renda Extra","Serviços"];
 const ACCOUNTS   = ["Nubank","Itaú","Inter","XP Investimentos","Bradesco","BTG","C6 Bank"];
@@ -82,11 +82,17 @@ export default function TransacoesPage() {
               <input type="text" placeholder="Buscar transação..." className="input-premium pl-9 w-full"
                 value={search} onChange={e => setSearch(e.target.value)} />
             </div>
-            <div className="flex items-center gap-1 p-1 rounded-xl flex-shrink-0" style={{ background:"#111111", border:"1px solid #1E1E1E" }}>
+            <div className="flex items-center gap-1 p-1 rounded-xl flex-shrink-0"
+              style={{ background: isLight?"#F2F0E8":"#0E150E", border:`1px solid ${isLight?"#DDD9CC":"#182418"}` }}>
               {(["all","income","expense"] as const).map(t => (
                 <button key={t} onClick={() => setType(t)}
                   className="px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all"
-                  style={{ background:type===t?"#1F1F1F":"transparent", color:type===t?"#fff":"#52525B", border:type===t?"1px solid #262626":"1px solid transparent" }}>
+                  style={{
+                    background: type===t ? (isLight?"#FFFFFF":"#162016") : "transparent",
+                    color: type===t ? (isLight?"#1C1A14":"#fff") : (isLight?"#6B6860":"#52525B"),
+                    border: type===t ? `1px solid ${isLight?"#DDD9CC":"#1E2A1E"}` : "1px solid transparent",
+                    fontWeight: type===t ? 600 : 400,
+                  }}>
                   {t==="all"?"Todos":t==="income"?"Receitas":"Despesas"}
                 </button>
               ))}

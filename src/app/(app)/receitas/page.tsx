@@ -13,6 +13,7 @@ import { MetricCard } from "@/components/shared/MetricCard";
 import { Modal } from "@/components/shared/Modal";
 import { categoryData } from "@/lib/mock-data";
 import { useData } from "@/lib/data-store";
+import { useTheme } from "@/lib/theme-context";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import {
   AreaChart, Area, BarChart, Bar,
@@ -61,6 +62,15 @@ const ACCOUNTS     = ["Nubank","Itaú","Inter","XP Investimentos","Bradesco","C6
 
 export default function ReceitasPage() {
   const { transactions, addTransaction, deleteTransaction, bankAccounts } = useData();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+  const bgControl  = isLight ? "#F2F0E8" : "#0E150E";
+  const bgActive   = isLight ? "#FFFFFF" : "#162016";
+  const borderCtrl = isLight ? "#DDD9CC" : "#182418";
+  const textPrimary= isLight ? "#1C1A14" : "#FFFFFF";
+  const textMuted  = isLight ? "#6B6860" : "#52525B";
+  const textDisabled=isLight ? "#A8A598" : "#3F3F46";
+  const goldColor  = isLight ? "#A07810" : "#D4AF37";
   const now = new Date();
   const [tab, setTab]               = useState<Tab>("all");
   const [periodMode, setPeriodMode] = useState<PeriodMode>("month");
@@ -153,16 +163,17 @@ export default function ReceitasPage() {
         {/* ── Period controls ───────────────────────────────── */}
         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <div className="flex items-center p-1 rounded-xl gap-0.5"
-            style={{ background: "#111111", border: "1px solid #1E1E1E" }}>
+            style={{ background: bgControl, border: `1px solid ${borderCtrl}` }}>
             {(["month","quarter","semester","year"] as PeriodMode[]).map((m) => (
               <button key={m}
                 onClick={() => setPeriodMode(m)}
                 className="px-3 py-1.5 rounded-lg text-[12px] transition-all duration-200"
                 style={{
-                  background: periodMode === m ? "#1F1F1F" : "transparent",
-                  color: periodMode === m ? "#D4AF37" : "#52525B",
-                  border: periodMode === m ? "1px solid rgba(212,175,55,0.2)" : "1px solid transparent",
+                  background: periodMode === m ? bgActive : "transparent",
+                  color: periodMode === m ? goldColor : textMuted,
+                  border: periodMode === m ? `1px solid ${isLight?"rgba(160,120,10,0.25)":"rgba(212,175,55,0.2)"}` : "1px solid transparent",
                   fontFamily: "'Instrument Sans', sans-serif",
+                  fontWeight: periodMode === m ? 600 : 400,
                 }}>
                 {m === "month" ? "Mês" : m === "quarter" ? "Trimestre" : m === "semester" ? "Semestre" : "Ano"}
               </button>
@@ -170,17 +181,19 @@ export default function ReceitasPage() {
           </div>
 
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl"
-            style={{ background: "#141414", border: "1px solid #1E1E1E" }}>
+            style={{ background: bgControl, border: `1px solid ${borderCtrl}` }}>
             <button onClick={() => stepMonth(-1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors">
+              className="w-6 h-6 flex items-center justify-center rounded-lg transition-colors"
+              style={{ color: textMuted }}>
               <ChevronLeft size={13} />
             </button>
-            <span className="text-[13px] text-white min-w-[160px] text-center"
-              style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
+            <span className="text-[13px] min-w-[160px] text-center"
+              style={{ fontFamily: "'Instrument Sans', sans-serif", color: textPrimary, fontWeight: 500 }}>
               {periodLabel()}
             </span>
             <button onClick={() => stepMonth(1)}
-              className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-[#162016] text-[#52525B] hover:text-white transition-colors">
+              className="w-6 h-6 flex items-center justify-center rounded-lg transition-colors"
+              style={{ color: textMuted }}>
               <ChevronRight size={13} />
             </button>
           </div>
@@ -189,9 +202,9 @@ export default function ReceitasPage() {
             onClick={() => setShowCustom(!showCustom)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] transition-all duration-200"
             style={{
-              background: showCustom ? "rgba(212,175,55,0.08)" : "#141414",
-              color: showCustom ? "#D4AF37" : "#52525B",
-              border: `1px solid ${showCustom ? "rgba(212,175,55,0.2)" : "#1E1E1E"}`,
+              background: showCustom ? (isLight?"rgba(160,120,10,0.08)":"rgba(212,175,55,0.08)") : bgControl,
+              color: showCustom ? goldColor : textMuted,
+              border: `1px solid ${showCustom ? (isLight?"rgba(160,120,10,0.25)":"rgba(212,175,55,0.2)") : borderCtrl}`,
               fontFamily: "'Instrument Sans', sans-serif",
             }}>
             <Calendar size={12} />
