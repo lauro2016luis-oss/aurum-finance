@@ -35,10 +35,11 @@ export function MetricCard({
   const isLight = theme === "light";
 
   const textMuted    = isLight ? "#6B6860" : "#52525B";
-  const textDisabled = isLight ? "#A8A598" : "#3F3F46";
+  const textDisabled = isLight ? "#9A9588" : "#3F3F46";
   const textPrimary  = isLight ? "#1C1A14" : "#FFFFFF";
-  const bgIcon       = isLight ? "#EEECe4" : "#1E1E1E";
+  const bgIcon       = isLight ? "#F0EEE6" : "#1E1E1E";
   const goldColor    = isLight ? "#A07810" : "#D4AF37";
+  const borderLight  = isLight ? "#E8E6DE" : undefined;
 
   return (
     <motion.div
