@@ -11,6 +11,7 @@ import {
   RefreshCcw, BarChart3, Building2, Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/lib/theme-context";
 
 // Main 5 items always visible in the bar
 const mainItems = [
@@ -38,6 +39,21 @@ const moreItems = [
 export function BottomNav() {
   const pathname = usePathname();
   const [showMore, setShowMore] = useState(false);
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+
+  const gold        = isLight ? "#A07810" : "#D4AF37";
+  const textInactive = isLight ? "#6B6860" : "#52525B";
+  const textLabel    = isLight ? "#A8A598" : "#3F3F46";
+  const bgBar        = isLight ? "rgba(255,255,255,0.97)" : "rgba(13,13,13,0.97)";
+  const borderTop    = isLight ? "#DDD9CC" : "#1E1E1E";
+  const bgSheet      = isLight ? "#FFFFFF" : "#131313";
+  const borderSheet  = isLight ? "#DDD9CC" : "#1E1E1E";
+  const bgHandle     = isLight ? "#D0CEC0" : "#2A2A2A";
+  const bgItemDefault = isLight ? "#F2F0E8" : "#1A1A1A";
+  const borderItem   = isLight ? "#DDD9CC" : "#222222";
+  const bgIconDefault = isLight ? "#EEECe4" : "#242424";
+  const textItemLabel = isLight ? "#3D3B32" : "#A1A1AA";
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -51,11 +67,13 @@ export function BottomNav() {
         className="lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around px-2"
         style={{
           height: "64px",
-          background: "rgba(13,13,13,0.97)",
+          background: bgBar,
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
-          borderTop: "1px solid #1E1E1E",
-          boxShadow: "0 -8px 32px rgba(0,0,0,0.4)",
+          borderTop: `1px solid ${borderTop}`,
+          boxShadow: isLight
+            ? "0 -4px 24px rgba(0,0,0,0.08)"
+            : "0 -8px 32px rgba(0,0,0,0.4)",
         }}
       >
         {mainItems.map((item) => {
@@ -71,24 +89,17 @@ export function BottomNav() {
               <div
                 className="w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-200"
                 style={{
-                  background: active ? "rgba(212,175,55,0.12)" : "transparent",
+                  background: active
+                    ? isLight ? "rgba(160,120,10,0.1)" : "rgba(212,175,55,0.12)"
+                    : "transparent",
                 }}
               >
-                <Icon
-                  size={18}
-                  style={{ color: active ? "#D4AF37" : "#52525B" }}
-                />
-                {active && item.href === "/ia-financeira" && (
-                  <span
-                    className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full"
-                    style={{ background: "#D4AF37" }}
-                  />
-                )}
+                <Icon size={18} style={{ color: active ? gold : textInactive }} />
               </div>
               <span
                 className="text-[9.5px] leading-none tracking-wide transition-colors"
                 style={{
-                  color: active ? "#D4AF37" : "#3F3F46",
+                  color: active ? gold : textLabel,
                   fontFamily: "'Instrument Sans', sans-serif",
                   fontWeight: active ? 600 : 400,
                 }}
@@ -99,7 +110,7 @@ export function BottomNav() {
                 <motion.div
                   layoutId="bottomNavIndicator"
                   className="absolute bottom-0 w-8 h-0.5 rounded-full"
-                  style={{ background: "linear-gradient(90deg, #D4AF37, #B8952A)" }}
+                  style={{ background: `linear-gradient(90deg, ${gold}, ${isLight ? "#7A5C08" : "#B8952A"})` }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -116,18 +127,17 @@ export function BottomNav() {
           <div
             className="w-8 h-8 flex items-center justify-center rounded-xl transition-all duration-200"
             style={{
-              background: anyMoreActive ? "rgba(212,175,55,0.12)" : "transparent",
+              background: anyMoreActive
+                ? isLight ? "rgba(160,120,10,0.1)" : "rgba(212,175,55,0.12)"
+                : "transparent",
             }}
           >
-            <MoreHorizontal
-              size={18}
-              style={{ color: anyMoreActive ? "#D4AF37" : "#52525B" }}
-            />
+            <MoreHorizontal size={18} style={{ color: anyMoreActive ? gold : textInactive }} />
           </div>
           <span
             className="text-[9.5px] leading-none tracking-wide"
             style={{
-              color: anyMoreActive ? "#D4AF37" : "#3F3F46",
+              color: anyMoreActive ? gold : textLabel,
               fontFamily: "'Instrument Sans', sans-serif",
               fontWeight: anyMoreActive ? 600 : 400,
             }}
@@ -155,10 +165,12 @@ export function BottomNav() {
             <motion.div
               className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] rounded-t-3xl overflow-hidden"
               style={{
-                background: "#131313",
-                border: "1px solid #1E1E1E",
+                background: bgSheet,
+                border: `1px solid ${borderSheet}`,
                 borderBottom: "none",
-                boxShadow: "0 -20px 60px rgba(0,0,0,0.6)",
+                boxShadow: isLight
+                  ? "0 -8px 40px rgba(0,0,0,0.12)"
+                  : "0 -20px 60px rgba(0,0,0,0.6)",
               }}
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
@@ -167,21 +179,21 @@ export function BottomNav() {
             >
               {/* Handle */}
               <div className="flex justify-center pt-3 pb-2">
-                <div className="w-10 h-1 rounded-full" style={{ background: "#2A2A2A" }} />
+                <div className="w-10 h-1 rounded-full" style={{ background: bgHandle }} />
               </div>
 
               {/* Header */}
               <div className="flex items-center justify-between px-5 pb-3">
                 <div>
                   <p
-                    className="text-[10px] text-[#52525B] uppercase tracking-[0.14em]"
-                    style={{ fontFamily: "'Instrument Sans', sans-serif" }}
+                    className="text-[10px] uppercase tracking-[0.14em]"
+                    style={{ color: isLight ? "#6B6860" : "#52525B", fontFamily: "'Instrument Sans', sans-serif" }}
                   >
                     Navegação
                   </p>
                   <h3
-                    className="text-[17px] text-white font-light"
-                    style={{ fontFamily: "'Cormorant SC', serif" }}
+                    className="text-[17px] font-light"
+                    style={{ color: isLight ? "#1C1A14" : "#FFFFFF", fontFamily: "'Cormorant SC', serif" }}
                   >
                     Todas as Seções
                   </h3>
@@ -189,9 +201,12 @@ export function BottomNav() {
                 <button
                   onClick={() => setShowMore(false)}
                   className="w-9 h-9 flex items-center justify-center rounded-xl transition-all"
-                  style={{ background: "#1A1A1A", border: "1px solid #262626" }}
+                  style={{
+                    background: isLight ? "#EEECe4" : "#1A1A1A",
+                    border: `1px solid ${isLight ? "#DDD9CC" : "#262626"}`,
+                  }}
                 >
-                  <X size={15} className="text-[#52525B]" />
+                  <X size={15} style={{ color: isLight ? "#6B6860" : "#52525B" }} />
                 </button>
               </div>
 
@@ -207,29 +222,28 @@ export function BottomNav() {
                       onClick={() => setShowMore(false)}
                       className="flex flex-col items-center gap-2 p-3 rounded-2xl transition-all active:scale-95"
                       style={{
-                        background: active ? "rgba(212,175,55,0.08)" : "#1A1A1A",
+                        background: active
+                          ? isLight ? "rgba(160,120,10,0.07)" : "rgba(212,175,55,0.08)"
+                          : bgItemDefault,
                         border: active
-                          ? "1px solid rgba(212,175,55,0.2)"
-                          : "1px solid #222222",
+                          ? `1px solid ${isLight ? "rgba(160,120,10,0.2)" : "rgba(212,175,55,0.2)"}`
+                          : `1px solid ${borderItem}`,
                       }}
                     >
                       <div
                         className="w-10 h-10 flex items-center justify-center rounded-xl"
                         style={{
                           background: active
-                            ? "rgba(212,175,55,0.12)"
-                            : "#242424",
+                            ? isLight ? "rgba(160,120,10,0.1)" : "rgba(212,175,55,0.12)"
+                            : bgIconDefault,
                         }}
                       >
-                        <Icon
-                          size={18}
-                          style={{ color: active ? "#D4AF37" : "#52525B" }}
-                        />
+                        <Icon size={18} style={{ color: active ? gold : textInactive }} />
                       </div>
                       <span
                         className="text-[10px] text-center leading-tight"
                         style={{
-                          color: active ? "#D4AF37" : "#A1A1AA",
+                          color: active ? gold : textItemLabel,
                           fontFamily: "'Instrument Sans', sans-serif",
                           fontWeight: active ? 600 : 400,
                         }}

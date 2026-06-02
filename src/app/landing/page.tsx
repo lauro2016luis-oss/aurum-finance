@@ -544,15 +544,20 @@ export default function LandingPage() {
             <span style={{ fontFamily: F.h, fontWeight: 800, fontSize: 18, color: "#FFFFFF" }}>AURUM</span>
           </div>
           <div className="lp-nl lp-hide-mob">
-            {["Funcionalidades","Vera IA","Preços","FAQ"].map(link => (
-              <a key={link} href={`#${link.toLowerCase().replace(" ","")}`} style={{ fontFamily: F.d, fontSize: 14, color: "#A1A1AA", textDecoration: "none", transition: "color .2s" }}
+            {[
+              { label: "Funcionalidades", href: "#funcionalidades" },
+              { label: "Vera IA", href: "#vera" },
+              { label: "Preços", href: "#precos" },
+              { label: "FAQ", href: "#faq" },
+            ].map(link => (
+              <a key={link.label} href={link.href} style={{ fontFamily: F.d, fontSize: 14, color: "#A1A1AA", textDecoration: "none", transition: "color .2s" }}
                 onMouseEnter={e => (e.currentTarget.style.color = "#FFFFFF")}
                 onMouseLeave={e => (e.currentTarget.style.color = "#A1A1AA")}>
-                {link}
+                {link.label}
               </a>
             ))}
           </div>
-          <a href="#precos" className="lp-btn" style={{ fontSize: 13, padding: "9px 20px" }}>Começar Agora</a>
+          <a href="/login" className="lp-btn" style={{ fontSize: 13, padding: "9px 20px" }}>Começar Agora</a>
         </div>
       </nav>
 
@@ -730,36 +735,39 @@ export default function LandingPage() {
           <p style={{ fontFamily: F.d, fontSize: 16, color: "#A1A1AA", maxWidth: 440, margin: "0 auto 56px", lineHeight: 1.65 }}>
             Sem assinatura. Sem cobrança recorrente. Um pagamento e acesso vitalício a todas as funcionalidades e atualizações.
           </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap" }}>
-            {[
-              { plan: "Essencial", price: "R$ 197", desc: "Para quem quer organizar a vida financeira pessoal", features: ["Dashboard pessoal","Gestão de cartões","Controle de metas","Relatórios mensais","Suporte por e-mail"], highlight: false },
-              { plan: "Premium", price: "R$ 297", desc: "Para quem gerencia pessoal + empresa e quer IA", features: ["Tudo do Essencial","Finanças empresariais","Vera IA ilimitada","Integração Open Finance","Suporte prioritário"], highlight: true },
-            ].map(p => (
-              <div key={p.plan} style={{
-                background: p.highlight ? "#111111" : "#0D0D0D",
-                border: p.highlight ? "1px solid #D4AF3760" : "1px solid #1F1F1F",
-                borderRadius: 16, padding: "32px 36px", width: 300, position: "relative",
-                boxShadow: p.highlight ? "0 0 40px #D4AF3720" : "none",
-              }}>
-                {p.highlight && (
-                  <div style={{ position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg,#D4AF37,#B8952A)", color: "#0A0A0A", fontFamily: F.h, fontWeight: 700, fontSize: 11, padding: "4px 16px", borderRadius: 100, whiteSpace: "nowrap" as const }}>
-                    MAIS ESCOLHIDO
-                  </div>
-                )}
-                <div style={{ fontFamily: F.h, fontSize: 20, fontWeight: 800, color: "#FFFFFF", marginBottom: 4 }}>{p.plan}</div>
-                <div style={{ fontFamily: F.d, fontSize: 13, color: "#52525B", marginBottom: 20 }}>{p.desc}</div>
-                <div style={{ fontFamily: F.m, fontSize: 36, fontWeight: 500, color: p.highlight ? "#D4AF37" : "#FFFFFF", marginBottom: 24 }}>{p.price}</div>
-                {p.features.map(f => (
-                  <div key={f} style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 10 }}>
-                    <span style={{ color: "#D4AF37" }}>✓</span>
-                    <span style={{ fontFamily: F.d, fontSize: 13, color: "#A1A1AA" }}>{f}</span>
-                  </div>
-                ))}
-                <a href="#" className="lp-btn" style={{ width: "100%", textAlign: "center" as const, marginTop: 24, display: "block", background: p.highlight ? "linear-gradient(135deg,#D4AF37,#B8952A)" : "#1F1F1F", color: p.highlight ? "#0A0A0A" : "#FFFFFF" }}>
-                  Quero o {p.plan}
-                </a>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{
+              background: "#111111", border: "1px solid #D4AF3760", borderRadius: 20,
+              padding: "40px 48px", width: 360, position: "relative",
+              boxShadow: "0 0 60px #D4AF3725",
+            }}>
+              <div style={{ position: "absolute", top: -16, left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg,#D4AF37,#B8952A)", color: "#0A0A0A", fontFamily: F.h, fontWeight: 700, fontSize: 11, padding: "5px 20px", borderRadius: 100, whiteSpace: "nowrap" as const }}>
+                🔥 OFERTA DE LANÇAMENTO
               </div>
-            ))}
+              <div style={{ fontFamily: F.h, fontSize: 22, fontWeight: 800, color: "#FFFFFF", marginBottom: 4 }}>AURUM Finance</div>
+              <div style={{ fontFamily: F.d, fontSize: 13, color: "#52525B", marginBottom: 24 }}>Acesso completo · Pagamento único · Vitalício</div>
+              {/* preço comparativo riscado */}
+              <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6 }}>
+                <span style={{ fontFamily: F.m, fontSize: 16, color: "#52525B", textDecoration: "line-through" }}>R$ 119,90</span>
+                <span style={{ fontFamily: F.d, fontSize: 12, color: "#F87171", fontWeight: 600 }}>58% OFF</span>
+              </div>
+              {/* preço real */}
+              <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 28 }}>
+                <span style={{ fontFamily: F.d, fontSize: 16, color: "#D4AF37", fontWeight: 500 }}>R$</span>
+                <span style={{ fontFamily: F.m, fontSize: 52, fontWeight: 500, color: "#D4AF37", lineHeight: 1, animation: "goldPulse 3s ease-in-out infinite" }}>49</span>
+                <span style={{ fontFamily: F.m, fontSize: 28, color: "#D4AF37", fontWeight: 500 }}>,90</span>
+              </div>
+              {["Dashboard pessoal e empresarial","Gestão de cartões e faturas","Controle de investimentos","Vera IA ilimitada","Metas e planejamento mensal","Relatórios automáticos","Suporte prioritário","Atualizações vitalícias"].map(f => (
+                <div key={f} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
+                  <span style={{ color: "#D4AF37", fontSize: 13 }}>✓</span>
+                  <span style={{ fontFamily: F.d, fontSize: 13, color: "#A1A1AA" }}>{f}</span>
+                </div>
+              ))}
+              <a href="/login" className="lp-btn" style={{ width: "100%", textAlign: "center" as const, marginTop: 28, display: "block", fontSize: 15, padding: "15px 0" }}>
+                Quero Entrar no AURUM Finance →
+              </a>
+              <p style={{ fontFamily: F.d, fontSize: 11, color: "#52525B", textAlign: "center" as const, marginTop: 12 }}>Garantia de 30 dias · Acesso imediato</p>
+            </div>
           </div>
         </div>
       </section>
@@ -821,7 +829,7 @@ export default function LandingPage() {
           <p style={{ fontFamily: F.d, fontSize: 16, color: "#A1A1AA", maxWidth: 460, margin: "0 auto 40px", lineHeight: 1.65 }}>
             Cada mês que passa sem clareza financeira é dinheiro que escorrega sem você perceber. Hora de mudar isso.
           </p>
-          <a href="#precos" className="lp-btn" style={{ fontSize: 16, padding: "17px 36px" }}>
+          <a href="/login" className="lp-btn" style={{ fontSize: 16, padding: "17px 36px" }}>
             Quero Entrar no AURUM Finance Agora →
           </a>
           <p style={{ fontFamily: F.d, fontSize: 12, color: "#52525B", marginTop: 16 }}>

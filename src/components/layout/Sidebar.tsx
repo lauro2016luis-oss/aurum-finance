@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNav } from "@/lib/nav-context";
+import { useTheme } from "@/lib/theme-context";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -59,6 +60,8 @@ const bottomItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const { sidebarOpen, closeSidebar } = useNav();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [userName, setUserName] = useState("Usuário");
   const [userInitial, setUserInitial] = useState("U");
 
@@ -99,27 +102,33 @@ export function Sidebar() {
             </div>
           </div>
           <div>
-            <h1 className="text-[18px] tracking-[0.06em] text-white leading-none"
-              style={{ fontFamily:"'Cormorant SC',serif", fontWeight:500, letterSpacing:"0.08em" }}>AURUM</h1>
-            <p className="text-[9.5px] text-[#3F3F46] mt-[3px] leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.22em", textTransform:"uppercase" }}>Finance</p>
+            <h1 className="text-[18px] tracking-[0.06em] leading-none"
+              style={{ fontFamily:"'Cormorant SC',serif", fontWeight:500, letterSpacing:"0.08em", color: isLight ? "#1C1A14" : "#FFFFFF" }}>AURUM</h1>
+            <p className="text-[9.5px] mt-[3px] leading-none"
+              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.22em", textTransform:"uppercase", color: isLight ? "#A8A598" : "#3F3F46" }}>Finance</p>
           </div>
         </Link>
       </div>
 
       {/* Profile */}
       <div className="px-3 mb-4 flex-shrink-0">
-        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-[#1F1F1F] group transition-all"
-          style={{ border:"1px solid #1E1E1E" }}>
+        <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer group transition-all"
+          style={{
+            border: isLight ? "1px solid #DDD9CC" : "1px solid #1E1E1E",
+            background: "transparent",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.background = isLight ? "#EEECe4" : "#1F1F1F"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.background = "transparent"; }}
+        >
           <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold text-black flex-shrink-0"
             style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)" }}>{userInitial}</div>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-medium text-white truncate leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif" }}>{userName}</p>
-            <p className="text-[11px] text-[#52525B] mt-0.5 leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif" }}>Pessoal</p>
+            <p className="text-[13px] font-medium truncate leading-none"
+              style={{ fontFamily:"'Instrument Sans',sans-serif", color: isLight ? "#1C1A14" : "#FFFFFF" }}>{userName}</p>
+            <p className="text-[11px] mt-0.5 leading-none"
+              style={{ fontFamily:"'Instrument Sans',sans-serif", color: isLight ? "#6B6860" : "#52525B" }}>Pessoal</p>
           </div>
-          <ChevronRight size={13} className="text-[#3F3F46] group-hover:text-[#A1A1AA] transition-colors flex-shrink-0" />
+          <ChevronRight size={13} style={{ color: isLight ? "#A8A598" : "#3F3F46" }} className="transition-colors flex-shrink-0" />
         </div>
       </div>
 
@@ -127,8 +136,8 @@ export function Sidebar() {
       <nav className="flex-1 overflow-y-auto sidebar-scroll px-3 pb-4 space-y-5">
         {navSections.map((section) => (
           <div key={section.label}>
-            <p className="px-3 mb-1.5 text-[9.5px] text-[#3F3F46]"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.14em", textTransform:"uppercase" }}>
+            <p className="px-3 mb-1.5 text-[9.5px]"
+              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.14em", textTransform:"uppercase", color: isLight ? "#A8A598" : "#3F3F46" }}>
               {section.label}
             </p>
             <div className="space-y-0.5">
@@ -138,8 +147,8 @@ export function Sidebar() {
                 return (
                   <Link key={item.href} href={item.href} onClick={closeSidebar}>
                     <motion.div className={cn("nav-item", isActive && "active")} whileHover={{ x: 1 }} transition={{ duration: 0.15 }}>
-                      <Icon size={15} className={cn("flex-shrink-0 transition-colors",
-                        isActive ? "text-[#D4AF37]" : "text-[#52525B] group-hover:text-[#A1A1AA]")} />
+                      <Icon size={15} className="flex-shrink-0 transition-colors"
+                        style={{ color: isActive ? (isLight ? "#A07810" : "#D4AF37") : (isLight ? "#6B6860" : "#52525B") }} />
                       <span className="flex-1 truncate">{item.label}</span>
                       {"badge" in item && item.badge && (
                         <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded tracking-wider"
@@ -158,7 +167,7 @@ export function Sidebar() {
 
       {/* Bottom */}
       <div className="flex-shrink-0 px-3 pb-5">
-        <div className="h-px mb-3" style={{ background:"linear-gradient(90deg,transparent,#1E1E1E,transparent)" }} />
+        <div className="h-px mb-3" style={{ background: isLight ? "linear-gradient(90deg,transparent,#DDD9CC,transparent)" : "linear-gradient(90deg,transparent,#1E1E1E,transparent)" }} />
         <div className="space-y-0.5">
           {bottomItems.map((item) => {
             const Icon = item.icon;
@@ -166,13 +175,14 @@ export function Sidebar() {
             return (
               <Link key={item.href} href={item.href} onClick={closeSidebar}>
                 <div className={cn("nav-item", isActive && "active")}>
-                  <Icon size={15} className={cn("flex-shrink-0", isActive ? "text-[#D4AF37]" : "text-[#52525B]")} />
+                  <Icon size={15} className="flex-shrink-0"
+                    style={{ color: isActive ? (isLight ? "#A07810" : "#D4AF37") : (isLight ? "#6B6860" : "#52525B") }} />
                   <span>{item.label}</span>
                 </div>
               </Link>
             );
           })}
-          <button className="nav-item w-full text-left text-[#52525B] hover:text-[#EF4444]" onClick={async () => {
+          <button className="nav-item w-full text-left" style={{ color: isLight ? "#6B6860" : "#52525B" }} onClick={async () => {
             const { createClient } = await import("@/lib/supabase/client");
             const supabase = createClient();
             await supabase.auth.signOut();

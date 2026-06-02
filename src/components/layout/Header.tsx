@@ -19,10 +19,10 @@ export function Header({ title, subtitle, children }: HeaderProps) {
     <header
       className="h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8 flex-shrink-0 sticky top-0 z-30 gap-2"
       style={{
-        background: isLight ? "rgba(245,245,240,0.95)" : "rgba(10,10,10,0.92)",
+        background: isLight ? "rgba(247,245,239,0.96)" : "rgba(10,10,10,0.92)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        borderBottom: isLight ? "1px solid #E5E3D8" : "1px solid #1A1A1A",
+        borderBottom: isLight ? "1px solid #DDD9CC" : "1px solid #1A1A1A",
       }}
     >
       {/* Left: title */}
@@ -66,9 +66,9 @@ export function Header({ title, subtitle, children }: HeaderProps) {
         <button onClick={toggleTheme}
           className="w-9 h-9 flex items-center justify-center rounded-xl transition-all"
           style={{
-            background: isLight ? "rgba(180,140,20,0.1)" : "#1A1A1A",
-            border: isLight ? "1px solid rgba(180,140,20,0.25)" : "1px solid #262626",
-            color: isLight ? "#B8952A" : "#A1A1AA",
+            background: isLight ? "rgba(160,120,10,0.08)" : "#1A1A1A",
+            border: isLight ? "1px solid rgba(160,120,10,0.22)" : "1px solid #262626",
+            color: isLight ? "#A07810" : "#A1A1AA",
           }}
           title={isLight ? "Mudar para tema escuro" : "Mudar para tema claro"}
         >
@@ -79,17 +79,17 @@ export function Header({ title, subtitle, children }: HeaderProps) {
         <button onClick={toggleHideValues}
           className="flex items-center gap-1.5 h-9 px-2 sm:px-3 rounded-xl transition-all"
           style={{
-            background: hideValues ? "rgba(212,175,55,0.1)" : (isLight ? "#F0EFE8" : "#1A1A1A"),
-            border: hideValues ? "1px solid rgba(212,175,55,0.25)" : (isLight ? "1px solid #E5E3D8" : "1px solid #262626"),
+            background: hideValues ? (isLight ? "rgba(160,120,10,0.08)" : "rgba(212,175,55,0.1)") : (isLight ? "#EEECEA" : "#1A1A1A"),
+            border: hideValues ? (isLight ? "1px solid rgba(160,120,10,0.22)" : "1px solid rgba(212,175,55,0.25)") : (isLight ? "1px solid #DDD9CC" : "1px solid #262626"),
           }}
           title={hideValues ? "Mostrar valores" : "Ocultar valores"}
         >
           {hideValues
-            ? <EyeOff size={15} style={{ color:"var(--gold)" }} />
+            ? <EyeOff size={15} style={{ color: isLight ? "#A07810" : "var(--gold)" }} />
             : <Eye size={15} style={{ color:"var(--text-secondary)" }} />
           }
           <span className="hidden sm:block text-[11px]"
-            style={{ color: hideValues ? "var(--gold)" : "var(--text-muted)", fontFamily:"'Instrument Sans',sans-serif" }}>
+            style={{ color: hideValues ? (isLight ? "#A07810" : "var(--gold)") : "var(--text-muted)", fontFamily:"'Instrument Sans',sans-serif" }}>
             {hideValues ? "Exibir" : "Ocultar"}
           </span>
         </button>
