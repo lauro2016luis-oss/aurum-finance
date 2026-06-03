@@ -64,8 +64,8 @@ export function MetricCard({
       {/* Top row */}
       <div className="flex items-center justify-between relative z-10">
         <p
-          className="text-[10px] leading-none"
-          style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif", fontWeight: isLight ? 700 : 500, letterSpacing: "0.13em", textTransform: "uppercase" }}
+          className="text-[11px] leading-none"
+          style={{ color: isLight ? "#6B6860" : "#71717A", fontFamily: "'Instrument Sans', sans-serif", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}
         >
           {title}
         </p>
