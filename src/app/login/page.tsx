@@ -110,8 +110,8 @@ export default function LoginPage() {
             <span className="text-[#0A0A0A] font-bold text-[16px]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>A</span>
           </div>
           <div>
-            <p className="text-white text-[17px] tracking-[0.12em]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>AURUM</p>
-            <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color:"#D4AF37", fontFamily:"'Instrument Sans',sans-serif" }}>Finance</p>
+            <p className="text-white text-[17px] tracking-[0.12em]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>AurumCash</p>
+            <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color:"#D4AF37", fontFamily:"'Instrument Sans',sans-serif" }}>Cash</p>
           </div>
         </motion.div>
 
@@ -165,7 +165,7 @@ export default function LoginPage() {
         <motion.p className="relative z-10 text-[11px]"
           initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.5 }}
           style={{ color:"#3F3F46", fontFamily:"'Instrument Sans',sans-serif" }}>
-          © 2025 AURUM Finance — Todos os direitos reservados
+          © 2025 AurumCash — Todos os direitos reservados
         </motion.p>
       </div>
 
@@ -179,7 +179,7 @@ export default function LoginPage() {
             style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)" }}>
             <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>A</span>
           </div>
-          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>AURUM</span>
+          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>AurumCash</span>
         </motion.div>
 
         <motion.div className="w-full max-w-[420px]"

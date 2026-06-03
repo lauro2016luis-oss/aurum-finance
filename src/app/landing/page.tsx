@@ -497,22 +497,22 @@ export default function LandingPage() {
   ];
 
   const testimonials = [
-    { text: "Nunca imaginei que organizar dinheiro pudesse ser tão simples. O AURUM me mostrou R$ 2.100 que eu jogava fora todo mês sem perceber.", name: "Carolina M.", role: "Empresária", initial: "C" },
+    { text: "Nunca imaginei que organizar dinheiro pudesse ser tão simples. O AurumCash me mostrou R$ 2.100 que eu jogava fora todo mês sem perceber.", name: "Carolina M.", role: "Empresária", initial: "C" },
     { text: "Finalmente tenho visão clara do fluxo de caixa da minha empresa. O que levava horas em planilha agora está sempre atualizado automaticamente.", name: "Roberto T.", role: "MEI — Consultoria", initial: "R" },
     { text: "A Vera me avisou que eu estava gastando 40% acima do orçamento em restaurantes. Economizei R$ 800 só no mês seguinte.", name: "Amanda S.", role: "Designer Freelancer", initial: "A" },
     { text: "Juntei minha vida financeira pessoal e do escritório num lugar só. Simples, rápido e sem enrolação.", name: "Fernando L.", role: "Advogado", initial: "F" },
-    { text: "O AURUM substituiu quatro apps diferentes que eu usava. Agora tudo está conectado e faz sentido junto.", name: "Juliana P.", role: "Médica", initial: "J" },
-    { text: "Comecei a investir de verdade depois que o AURUM me mostrou quanto dinheiro eu deixava parado sem rentabilidade.", name: "Marcos V.", role: "Engenheiro", initial: "M" },
+    { text: "O AurumCash substituiu quatro apps diferentes que eu usava. Agora tudo está conectado e faz sentido junto.", name: "Juliana P.", role: "Médica", initial: "J" },
+    { text: "Comecei a investir de verdade depois que o AurumCash me mostrou quanto dinheiro eu deixava parado sem rentabilidade.", name: "Marcos V.", role: "Engenheiro", initial: "M" },
   ];
 
   const faqs = [
-    { q: "Vou precisar pagar mensalidade?", a: "Nunca. O AURUM Finance funciona com pagamento único — você paga uma vez e usa para sempre. Sem renovações, sem surpresas na fatura." },
-    { q: "Serve tanto para mim quanto para minha empresa?", a: "Sim. O AURUM reúne gestão financeira pessoal e empresarial em um único sistema. Você alterna entre os contextos sem precisar de contas separadas." },
-    { q: "O que é a Vera IA?", a: "A Vera é a inteligência artificial integrada ao AURUM. Ela analisa seus dados financeiros e responde perguntas em linguagem natural — tipo um contador pessoal disponível 24 horas." },
-    { q: "Preciso ser expert em finanças para usar?", a: "Não precisa. O AURUM foi projetado para ser direto ao ponto: você lança os dados e o sistema organiza, categoriza e exibe tudo de forma visual e clara." },
+    { q: "Vou precisar pagar mensalidade?", a: "Nunca. O AurumCash funciona com pagamento único — você paga uma vez e usa para sempre. Sem renovações, sem surpresas na fatura." },
+    { q: "Serve tanto para mim quanto para minha empresa?", a: "Sim. O AurumCash reúne gestão financeira pessoal e empresarial em um único sistema. Você alterna entre os contextos sem precisar de contas separadas." },
+    { q: "O que é a Vera IA?", a: "A Vera é a inteligência artificial integrada ao AurumCash. Ela analisa seus dados financeiros e responde perguntas em linguagem natural — tipo um contador pessoal disponível 24 horas." },
+    { q: "Preciso ser expert em finanças para usar?", a: "Não precisa. O AurumCash foi projetado para ser direto ao ponto: você lança os dados e o sistema organiza, categoriza e exibe tudo de forma visual e clara." },
     { q: "Meus dados ficam seguros?", a: "Sim. Todos os dados são criptografados e armazenados com os mais altos padrões de segurança. Seus dados não são compartilhados com terceiros em hipótese alguma." },
-    { q: "Posso importar dados de outros apps?", a: "Sim. O AURUM permite importação via OFX, CSV e integração direta com bancos via Open Finance — trazendo seu histórico de forma rápida." },
-    { q: "Funciona em celular também?", a: "Sim, o AURUM é totalmente responsivo e conta com aplicativo nativo para iOS e Android — com sincronização em tempo real entre dispositivos." },
+    { q: "Posso importar dados de outros apps?", a: "Sim. O AurumCash permite importação via OFX, CSV e integração direta com bancos via Open Finance — trazendo seu histórico de forma rápida." },
+    { q: "Funciona em celular também?", a: "Sim, o AurumCash é totalmente responsivo e conta com aplicativo nativo para iOS e Android — com sincronização em tempo real entre dispositivos." },
     { q: "E se eu precisar de ajuda?", a: "Oferecemos suporte via chat, e-mail e base de conhecimento detalhada. Clientes do plano Premium também têm acesso a atendimento prioritário." },
   ];
 
@@ -541,7 +541,7 @@ export default function LandingPage() {
         <div className="lp-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 30, height: 30, background: "linear-gradient(135deg,#D4AF37,#B8952A)", borderRadius: 7 }} />
-            <span style={{ fontFamily: F.h, fontWeight: 800, fontSize: 18, color: "#FFFFFF" }}>AURUM</span>
+            <span style={{ fontFamily: F.h, fontWeight: 800, fontSize: 18, color: "#FFFFFF" }}>AurumCash</span>
           </div>
           <div className="lp-nl lp-hide-mob">
             {[
@@ -575,7 +575,7 @@ export default function LandingPage() {
             — não contra você
           </h1>
           <p style={{ fontFamily: F.d, fontSize: 18, color: "#A1A1AA", maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.65 }}>
-            O AURUM Finance reúne <strong style={{ color: "#FFFFFF" }}>todas as suas finanças</strong> — pessoal e empresarial — em um painel único com inteligência artificial que te ajuda a tomar decisões de verdade.
+            O AurumCash reúne <strong style={{ color: "#FFFFFF" }}>todas as suas finanças</strong> — pessoal e empresarial — em um painel único com inteligência artificial que te ajuda a tomar decisões de verdade.
           </p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <a href="#precos" className="lp-btn" style={{ fontSize: 15, padding: "15px 30px" }}>
@@ -618,7 +618,7 @@ export default function LandingPage() {
         <div className="lp-wrap" style={{ textAlign: "center" }}>
           <Chip>A solução</Chip>
           <h2 style={{ fontFamily: F.h, fontSize: "clamp(26px,3.2vw,42px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 16 }}>
-            O AURUM Finance foi construído<br />para acabar com <Gold>essa confusão de vez</Gold>
+            O AurumCash foi construído<br />para acabar com <Gold>essa confusão de vez</Gold>
           </h2>
           <p style={{ fontFamily: F.d, fontSize: 16, color: "#A1A1AA", maxWidth: 520, margin: "0 auto 64px", lineHeight: 1.65 }}>
             Um único sistema que conecta suas contas bancárias, cartões, investimentos e finanças da empresa — com IA que interpreta os dados e te orienta.
@@ -703,7 +703,7 @@ export default function LandingPage() {
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <Chip>Para quem é</Chip>
             <h2 style={{ fontFamily: F.h, fontSize: "clamp(26px,3.2vw,42px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15 }}>
-              O AURUM foi feito para quem<br />quer <Gold>resultados, não promessas</Gold>
+              O AurumCash foi feito para quem<br />quer <Gold>resultados, não promessas</Gold>
             </h2>
           </div>
           <div className="lp-g4">
@@ -744,7 +744,7 @@ export default function LandingPage() {
               <div style={{ position: "absolute", top: -16, left: "50%", transform: "translateX(-50%)", background: "linear-gradient(135deg,#D4AF37,#B8952A)", color: "#0A0A0A", fontFamily: F.h, fontWeight: 700, fontSize: 11, padding: "5px 20px", borderRadius: 100, whiteSpace: "nowrap" as const }}>
                 🔥 OFERTA DE LANÇAMENTO
               </div>
-              <div style={{ fontFamily: F.h, fontSize: 22, fontWeight: 800, color: "#FFFFFF", marginBottom: 4 }}>AURUM Finance</div>
+              <div style={{ fontFamily: F.h, fontSize: 22, fontWeight: 800, color: "#FFFFFF", marginBottom: 4 }}>AurumCash</div>
               <div style={{ fontFamily: F.d, fontSize: 13, color: "#52525B", marginBottom: 24 }}>Acesso completo · Pagamento único · Vitalício</div>
               {/* preço comparativo riscado */}
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6 }}>
@@ -764,7 +764,7 @@ export default function LandingPage() {
                 </div>
               ))}
               <a href="/login" className="lp-btn" style={{ width: "100%", textAlign: "center" as const, marginTop: 28, display: "block", fontSize: 15, padding: "15px 0" }}>
-                Quero Entrar no AURUM Finance →
+                Quero Entrar no AurumCash →
               </a>
               <p style={{ fontFamily: F.d, fontSize: 11, color: "#52525B", textAlign: "center" as const, marginTop: 12 }}>Garantia de 30 dias · Acesso imediato</p>
             </div>
@@ -830,7 +830,7 @@ export default function LandingPage() {
             Cada mês que passa sem clareza financeira é dinheiro que escorrega sem você perceber. Hora de mudar isso.
           </p>
           <a href="/login" className="lp-btn" style={{ fontSize: 16, padding: "17px 36px" }}>
-            Quero Entrar no AURUM Finance Agora →
+            Quero Entrar no AurumCash Agora →
           </a>
           <p style={{ fontFamily: F.d, fontSize: 12, color: "#52525B", marginTop: 16 }}>
             Pagamento único · Garantia de 30 dias · Acesso imediato
@@ -843,9 +843,9 @@ export default function LandingPage() {
         <div className="lp-wrap" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 24, height: 24, background: "linear-gradient(135deg,#D4AF37,#B8952A)", borderRadius: 5 }} />
-            <span style={{ fontFamily: F.h, fontWeight: 800, fontSize: 15, color: "#FFFFFF" }}>AURUM Finance</span>
+            <span style={{ fontFamily: F.h, fontWeight: 800, fontSize: 15, color: "#FFFFFF" }}>AurumCash</span>
           </div>
-          <p style={{ fontFamily: F.d, fontSize: 12, color: "#52525B" }}>© 2025 AURUM Finance. Todos os direitos reservados.</p>
+          <p style={{ fontFamily: F.d, fontSize: 12, color: "#52525B" }}>© 2025 AurumCash. Todos os direitos reservados.</p>
           <div style={{ display: "flex", gap: 20 }}>
             {["Termos","Privacidade","Suporte"].map(l => (
               <a key={l} href="#" style={{ fontFamily: F.d, fontSize: 12, color: "#52525B", textDecoration: "none" }}>{l}</a>

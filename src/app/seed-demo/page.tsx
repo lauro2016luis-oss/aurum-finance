@@ -94,7 +94,7 @@ export default function SeedDemoPage() {
     <div className="min-h-screen flex items-center justify-center" style={{ background: "#0A0A0A" }}>
       <div className="text-center space-y-4 p-8">
         <div className="w-12 h-12 rounded-full border-2 border-[#D4AF37] border-t-transparent animate-spin mx-auto" />
-        <p className="text-white text-[15px]" style={{ fontFamily: "'Instrument Sans',sans-serif" }}>AURUM Finance</p>
+        <p className="text-white text-[15px]" style={{ fontFamily: "'Instrument Sans',sans-serif" }}>AurumCash</p>
         <p className="text-[#52525B] text-[13px]" style={{ fontFamily: "'Instrument Sans',sans-serif" }}>
           {status}
         </p>

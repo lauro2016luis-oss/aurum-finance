@@ -114,9 +114,9 @@ export function Sidebar() {
           </div>
           <div>
             <h1 className="text-[18px] leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.08em", color: SB.textPrimary }}>AURUM</h1>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:700, letterSpacing:"-0.01em", color: SB.textPrimary }}>AurumCash</h1>
             <p className="text-[9.5px] mt-[3px] leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.22em", textTransform:"uppercase", color: SB.textLabel }}>Finance</p>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.18em", textTransform:"uppercase", color: SB.textLabel }}>Finance</p>
           </div>
         </Link>
       </div>

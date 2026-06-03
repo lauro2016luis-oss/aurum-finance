@@ -101,7 +101,7 @@ function ActivateContent() {
             style={{ background: "linear-gradient(135deg, #D4AF37, #B8952A)" }}>
             <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>A</span>
           </div>
-          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>AURUM</span>
+          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>AurumCash</span>
         </div>
 
         <AnimatePresence mode="wait">
@@ -133,7 +133,7 @@ function ActivateContent() {
                   Este link de ativação não é válido ou já expirou. Entre em contato com o suporte se precisar de ajuda.
                 </p>
               </div>
-              <a href="mailto:suporte@aurumfinance.app"
+              <a href="mailto:suporte@aurumcash.app"
                 className="inline-block btn-ghost py-2.5 px-6 text-[13px]">
                 Falar com suporte
               </a>
@@ -149,7 +149,7 @@ function ActivateContent() {
 
                 <div className="mb-7">
                   <p className="text-[11px] uppercase tracking-[0.16em] mb-1" style={{ color: "#D4AF37", fontFamily: "'Instrument Sans', sans-serif" }}>
-                    Bem-vindo ao AURUM
+                    Bem-vindo ao AurumCash
                   </p>
                   <h2 className="text-[26px] font-light text-white" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                     {name ? `Olá, ${name.split(" ")[0]}!` : "Crie sua senha"}
@@ -269,7 +269,7 @@ function ActivateContent() {
                   Conta ativada!
                 </h2>
                 <p className="text-[13px]" style={{ color: "#52525B", fontFamily: "'Instrument Sans', sans-serif" }}>
-                  Bem-vindo ao AURUM Finance. Redirecionando…
+                  Bem-vindo ao AurumCash. Redirecionando…
                 </p>
               </div>
               <div className="flex justify-center">

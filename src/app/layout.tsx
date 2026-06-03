@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AURUM — Gestão Financeira Premium",
+  title: "AurumCash — Gestão Financeira Premium",
   description: "Plataforma de gestão financeira pessoal e empresarial de alto padrão",
   keywords: "finanças, gestão financeira, controle financeiro, investimentos, orçamento",
 };

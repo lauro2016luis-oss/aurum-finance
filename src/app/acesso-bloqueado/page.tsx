@@ -21,7 +21,7 @@ export default function AcessoBloqueadoPage() {
             style={{ background: "linear-gradient(135deg, #D4AF37, #B8952A)" }}>
             <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>A</span>
           </div>
-          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>AURUM</span>
+          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>AurumCash</span>
         </div>
 
         <div className="card-premium p-8 text-center space-y-6">
@@ -42,7 +42,7 @@ export default function AcessoBloqueadoPage() {
           </div>
 
           <div className="space-y-3">
-            <a href="mailto:suporte@aurumfinance.app"
+            <a href="mailto:suporte@aurumcash.app"
               className="w-full flex items-center justify-center gap-2 btn-gold py-3 text-[13px]">
               <Mail size={14} /> Falar com suporte
             </a>

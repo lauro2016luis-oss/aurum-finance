@@ -103,7 +103,7 @@ export default function ConfiguracoesPage() {
             )}
             <p className="text-[13px] text-[#52525B] mt-0.5">{email}</p>
             <div className="flex items-center gap-1.5 mt-2">
-              <span className="badge badge-gold text-[10px]">AURUM Pro</span>
+              <span className="badge badge-gold text-[10px]">AurumCash Pro</span>
               <span className="text-[11px] text-[#52525B]">· Ativo até Jan 2026</span>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function ConfiguracoesPage() {
               </div>
               <div className="flex-1">
                 <p className="text-[14px] text-white">Assinatura e plano</p>
-                <p className="text-[12px] text-[#52525B] mt-0.5">AURUM Pro · R$ 49,90/mês</p>
+                <p className="text-[12px] text-[#52525B] mt-0.5">AurumCash Pro · R$ 49,90/mês</p>
               </div>
               <ChevronRight size={14} className="text-[#3F3F46]" />
             </button>
