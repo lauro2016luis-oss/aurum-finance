@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="20" y1="4" x2="20" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8C84A"/>
+      <stop offset="100%" stop-color="#A07010"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#231F14"/>
+      <stop offset="100%" stop-color="#161209"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Badge background -->
+  <rect width="40" height="40" rx="10" fill="url(#bgGrad)"/>
+
+  <!-- Subtle inner border -->
+  <rect x="0.75" y="0.75" width="38.5" height="38.5" rx="9.25" fill="none" stroke="url(#goldGrad)" stroke-width="0.5" stroke-opacity="0.4"/>
+
+  <!-- Geometric A mark -->
+  <!-- Left leg -->
+  <path d="M11 31 L20 9 L21.5 9 L13 31 Z" fill="url(#goldGrad)"/>
+  <!-- Right leg -->
+  <path d="M29 31 L20 9 L18.5 9 L27 31 Z" fill="url(#goldGrad)"/>
+  <!-- Crossbar with arrow tip -->
+  <path d="M14.8 22.5 H24.2 L26.5 19.5 L24.2 19.5 H14.8 Z" fill="url(#goldGrad)"/>
+  <!-- Arrow tip accent -->
+  <path d="M24.2 19.5 L27.5 21 L24.2 22.5 Z" fill="url(#goldGrad)"/>
+</svg>

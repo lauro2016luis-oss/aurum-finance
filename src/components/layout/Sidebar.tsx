@@ -10,6 +10,7 @@ import {
   Settings, HelpCircle, ChevronRight, Building2, LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/shared/Logo";
 import { useNav } from "@/lib/nav-context";
 import { useTheme } from "@/lib/theme-context";
 import { useEffect, useState } from "react";
@@ -106,18 +107,8 @@ export function Sidebar() {
 
       {/* Logo */}
       <div className="px-5 pt-6 pb-4 flex-shrink-0 flex items-center justify-between">
-        <Link href="/dashboard" className="flex items-center gap-3 group" onClick={closeSidebar}>
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)", boxShadow:"0 0 16px rgba(212,175,55,0.35)" }}>
-            <span className="text-black font-bold text-base leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", letterSpacing:"-0.02em" }}>A</span>
-          </div>
-          <div>
-            <h1 className="text-[18px] leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:700, letterSpacing:"-0.01em", color: SB.textPrimary }}>AurumCash</h1>
-            <p className="text-[9.5px] mt-[3px] leading-none"
-              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.18em", textTransform:"uppercase", color: SB.textLabel }}>Cash</p>
-          </div>
+        <Link href="/dashboard" className="flex items-center group" onClick={closeSidebar}>
+          <Logo variant="full" theme="dark" size={38} />
         </Link>
       </div>
 

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" fill="none">
+  <defs>
+    <linearGradient id="goldG" x1="24" y1="4" x2="24" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E8C84A"/>
+      <stop offset="100%" stop-color="#A07010"/>
+    </linearGradient>
+    <linearGradient id="bgG" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#231F14"/>
+      <stop offset="100%" stop-color="#161209"/>
+    </linearGradient>
+  </defs>
+
+  <!-- DARK VARIANT (default) -->
+  <g id="dark">
+    <!-- Icon badge -->
+    <rect width="48" height="48" rx="12" fill="url(#bgG)"/>
+    <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="11.25" fill="none" stroke="url(#goldG)" stroke-width="0.5" stroke-opacity="0.4"/>
+
+    <!-- A mark -->
+    <path d="M13 37 L24 11 L25.8 11 L15.5 37 Z" fill="url(#goldG)"/>
+    <path d="M35 37 L24 11 L22.2 11 L32.5 37 Z" fill="url(#goldG)"/>
+    <!-- Crossbar + arrow -->
+    <path d="M17.5 27 H29.5 L17.5 27 Z" fill="none"/>
+    <rect x="17.5" y="25.5" width="10" height="3" rx="0.5" fill="url(#goldG)"/>
+    <path d="M27.5 25.5 L31.5 27 L27.5 28.5 Z" fill="url(#goldG)"/>
+
+    <!-- Wordmark — AurumCash -->
+    <text x="62" y="31" font-family="'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-weight="700" font-size="19" letter-spacing="-0.3" fill="#F5F0E8">AurumCash</text>
+  </g>
+</svg>
