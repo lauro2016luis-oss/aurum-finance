@@ -27,8 +27,8 @@ function SectionHead({ label, title, href, cta="Gerenciar", isLight }:{label:str
       <div>
         <p className="text-[10px] uppercase tracking-[0.16em] mb-1"
           style={{color: isLight ? "#A07810" : "#D4AF37", fontFamily:"'Instrument Sans',sans-serif", fontWeight: 600}}>{label}</p>
-        <h2 className="text-[20px] leading-none"
-          style={{fontFamily:"'Cormorant SC',serif", fontWeight: isLight ? 700 : 300, color: isLight ? "#1C1A14" : "#FFFFFF"}}>{title}</h2>
+        <h2 className="text-[18px] leading-none"
+          style={{fontFamily:"'Instrument Sans',sans-serif", fontWeight: isLight ? 700 : 400, letterSpacing: "-0.01em", color: isLight ? "#1C1A14" : "#FFFFFF"}}>{title}</h2>
       </div>
       <Link href={href} className="flex items-center gap-1 text-[11.5px] transition-colors"
         style={{color: isLight ? "#6B6860" : "#52525B", fontFamily:"'Instrument Sans',sans-serif"}}>
