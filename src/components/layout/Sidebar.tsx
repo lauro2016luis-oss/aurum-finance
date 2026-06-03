@@ -90,8 +90,8 @@ export function Sidebar() {
     border:     isLight ? "rgba(212,175,55,0.12)" : "#1E1E1E",
     borderLine: isLight ? "rgba(212,175,55,0.1)" : "#1E1E1E",
     textPrimary:isLight ? "#F5F0E8" : "#FFFFFF",
-    textMuted:  isLight ? "#8A8470" : "#52525B",
-    textLabel:  isLight ? "#5A5444" : "#3F3F46",
+    textMuted:  isLight ? "#C8BFA0" : "#52525B",
+    textLabel:  isLight ? "#8A8070" : "#3F3F46",
     gold:       "#D4AF37",
   };
 
