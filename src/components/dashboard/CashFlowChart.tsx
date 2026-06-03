@@ -48,7 +48,7 @@ export function CashFlowChart() {
           <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em] mb-1">Fluxo de Caixa</p>
           <h3
             className="text-[18px] font-light text-white"
-            style={{ fontFamily: "'Cormorant SC', serif" }}
+            style={{ fontFamily: "'Instrument Sans', sans-serif" }}
           >
             Receitas vs. Despesas
           </h3>

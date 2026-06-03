@@ -137,7 +137,7 @@ export default function ReservaPage() {
         {/* Chart */}
         <div className="card-premium p-5">
           <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Evolução</p>
-          <h3 className="text-[17px] text-white mb-4" style={{ fontFamily:"'Cormorant SC',serif" }}>Histórico da Reserva</h3>
+          <h3 className="text-[17px] text-white mb-4" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>Histórico da Reserva</h3>
           <ResponsiveContainer width="100%" height={180}>
             <AreaChart data={reserveHistory}>
               <defs>

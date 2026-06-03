@@ -33,7 +33,7 @@ export function CategoryChart() {
         <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em] mb-1">Categorias</p>
         <h3
           className="text-[18px] font-light text-white"
-          style={{ fontFamily: "'Cormorant SC', serif" }}
+          style={{ fontFamily: "'Instrument Sans', sans-serif" }}
         >
           Gastos por Categoria
         </h3>

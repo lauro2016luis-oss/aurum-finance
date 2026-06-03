@@ -78,7 +78,7 @@ export function Modal({ open, onClose, title, subtitle, children, icon, width = 
                   <div>
                     <h3 className="text-[15px] font-light"
                       style={{
-                        fontFamily:"'Cormorant SC',serif",
+                        fontFamily:"'Instrument Sans',sans-serif",
                         letterSpacing:"0.04em",
                         color: isLight ? "#1C1A14" : "#FFFFFF"
                       }}>{title}</h3>

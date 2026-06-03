@@ -305,7 +305,7 @@ function NovoAtivoPanel({ onClose, onAdd }: { onClose: () => void; onAdd: (data:
           <div>
             <h3
               className="text-[15px] font-light text-white"
-              style={{ fontFamily: "'Cormorant SC', serif", letterSpacing: "0.04em" }}
+              style={{ fontFamily: "'Instrument Sans', sans-serif", letterSpacing: "0.04em" }}
             >
               Novo Investimento
             </h3>
@@ -519,7 +519,7 @@ export default function InvestimentosPage() {
           {/* Portfolio allocation */}
           <div className="card-premium p-6">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Distribuição</p>
-            <h3 className="text-[18px] font-light text-white mb-4" style={{ fontFamily: "'Cormorant SC', serif" }}>
+            <h3 className="text-[18px] font-light text-white mb-4" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               Carteira
             </h3>
             <div className="relative">
@@ -566,7 +566,7 @@ export default function InvestimentosPage() {
           <div className="lg:col-span-2 card-premium overflow-hidden overflow-x-auto">
             <div className="p-5 border-b border-[#1A1A1A]">
               <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-0.5">Posições</p>
-              <h3 className="text-[17px] font-light text-white" style={{ fontFamily: "'Cormorant SC', serif" }}>
+              <h3 className="text-[17px] font-light text-white" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                 Ativos em Carteira
               </h3>
             </div>

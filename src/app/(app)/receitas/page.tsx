@@ -270,7 +270,7 @@ export default function ReceitasPage() {
                 <p className="text-[10px] uppercase tracking-[0.13em] mb-1"
                   style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif" }}>Histórico</p>
                 <h3 className="text-[18px]"
-                  style={{ color: textPrimary, fontFamily: "'Cormorant SC', serif", fontWeight: 500 }}>
+                  style={{ color: textPrimary, fontFamily: "'Instrument Sans', sans-serif", fontWeight: 500 }}>
                   Receitas vs. Despesas
                 </h3>
               </div>

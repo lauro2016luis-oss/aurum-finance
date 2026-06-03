@@ -44,7 +44,7 @@ export function Header({ title, subtitle, children }: HeaderProps) {
             </p>
           )}
           <h1 className="text-[17px] sm:text-[22px] leading-none truncate"
-            style={{ color:"var(--text-primary)", fontFamily:"'Cormorant SC',serif", fontWeight:400, letterSpacing:"-0.01em" }}>
+            style={{ color:"var(--text-primary)", fontFamily:"'Instrument Sans',sans-serif", fontWeight:400, letterSpacing:"-0.01em" }}>
             {title}
           </h1>
         </div>

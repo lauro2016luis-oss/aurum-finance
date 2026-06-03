@@ -39,7 +39,7 @@ export default function DespesasPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
           <div className="card-premium p-6">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Distribuição</p>
-            <h3 className="text-[18px] font-light text-white mb-4" style={{ fontFamily: "'Cormorant SC', serif" }}>
+            <h3 className="text-[18px] font-light text-white mb-4" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               Por Categoria
             </h3>
             <div className="relative">
@@ -70,7 +70,7 @@ export default function DespesasPage() {
 
           <div className="lg:col-span-2 card-premium overflow-hidden">
             <div className="p-5 border-b border-[#1A1A1A]">
-              <h3 className="text-[17px] font-light text-white" style={{ fontFamily: "'Cormorant SC', serif" }}>
+              <h3 className="text-[17px] font-light text-white" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                 Todas as Despesas
               </h3>
             </div>

@@ -14,7 +14,7 @@ export function UpcomingBills() {
           <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em] mb-0.5">Próximas</p>
           <h3
             className="text-[16px] font-light text-white"
-            style={{ fontFamily: "'Cormorant SC', serif" }}
+            style={{ fontFamily: "'Instrument Sans', sans-serif" }}
           >
             Contas a Pagar
           </h3>

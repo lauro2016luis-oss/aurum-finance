@@ -71,7 +71,7 @@ export default function RelatoriosPage() {
           <div className="flex items-center justify-between mb-5">
             <div>
               <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-0.5">Visão Geral</p>
-              <h3 className="text-[18px] font-light text-white" style={{ fontFamily: "'Cormorant SC', serif" }}>
+              <h3 className="text-[18px] font-light text-white" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                 Receitas vs. Despesas — 2024
               </h3>
             </div>

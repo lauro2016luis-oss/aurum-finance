@@ -19,9 +19,9 @@ export default function AcessoBloqueadoPage() {
         <div className="flex items-center gap-3 justify-center mb-10">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{ background: "linear-gradient(135deg, #D4AF37, #B8952A)" }}>
-            <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily: "'Cormorant SC', serif" }}>A</span>
+            <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>A</span>
           </div>
-          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Cormorant SC', serif" }}>AURUM</span>
+          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>AURUM</span>
         </div>
 
         <div className="card-premium p-8 text-center space-y-6">
@@ -33,7 +33,7 @@ export default function AcessoBloqueadoPage() {
           </div>
 
           <div>
-            <h2 className="text-[26px] font-light text-white mb-2" style={{ fontFamily: "'Cormorant SC', serif" }}>
+            <h2 className="text-[26px] font-light text-white mb-2" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               Acesso não liberado
             </h2>
             <p className="text-[13px] leading-relaxed" style={{ color: "#52525B", fontFamily: "'Instrument Sans', sans-serif" }}>

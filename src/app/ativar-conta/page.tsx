@@ -99,9 +99,9 @@ function ActivateContent() {
         <div className="flex items-center gap-3 justify-center mb-10">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{ background: "linear-gradient(135deg, #D4AF37, #B8952A)" }}>
-            <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily: "'Cormorant SC', serif" }}>A</span>
+            <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>A</span>
           </div>
-          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Cormorant SC', serif" }}>AURUM</span>
+          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>AURUM</span>
         </div>
 
         <AnimatePresence mode="wait">
@@ -126,7 +126,7 @@ function ActivateContent() {
                 <XCircle size={24} style={{ color: "#EF4444" }} />
               </div>
               <div>
-                <h2 className="text-[22px] font-light text-white mb-2" style={{ fontFamily: "'Cormorant SC', serif" }}>
+                <h2 className="text-[22px] font-light text-white mb-2" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                   Link inválido ou expirado
                 </h2>
                 <p className="text-[13px]" style={{ color: "#52525B", fontFamily: "'Instrument Sans', sans-serif" }}>
@@ -151,7 +151,7 @@ function ActivateContent() {
                   <p className="text-[11px] uppercase tracking-[0.16em] mb-1" style={{ color: "#D4AF37", fontFamily: "'Instrument Sans', sans-serif" }}>
                     Bem-vindo ao AURUM
                   </p>
-                  <h2 className="text-[26px] font-light text-white" style={{ fontFamily: "'Cormorant SC', serif" }}>
+                  <h2 className="text-[26px] font-light text-white" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                     {name ? `Olá, ${name.split(" ")[0]}!` : "Crie sua senha"}
                   </h2>
                   <p className="text-[13px] mt-1.5" style={{ color: "#52525B", fontFamily: "'Instrument Sans', sans-serif" }}>
@@ -265,7 +265,7 @@ function ActivateContent() {
                 <CheckCircle2 size={28} style={{ color: "#D4AF37" }} />
               </div>
               <div>
-                <h2 className="text-[24px] font-light text-white mb-2" style={{ fontFamily: "'Cormorant SC', serif" }}>
+                <h2 className="text-[24px] font-light text-white mb-2" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
                   Conta ativada!
                 </h2>
                 <p className="text-[13px]" style={{ color: "#52525B", fontFamily: "'Instrument Sans', sans-serif" }}>

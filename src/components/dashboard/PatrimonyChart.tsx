@@ -49,7 +49,7 @@ export function PatrimonyChart() {
           <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em] mb-1">Evolução</p>
           <h3
             className="text-[18px] font-light text-white"
-            style={{ fontFamily: "'Cormorant SC', serif" }}
+            style={{ fontFamily: "'Instrument Sans', sans-serif" }}
           >
             Patrimônio Total
           </h3>

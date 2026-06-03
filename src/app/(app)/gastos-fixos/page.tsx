@@ -291,7 +291,7 @@ export default function GastosFixosPage() {
               className="overflow-hidden"
             >
               <div className="card-gold p-6">
-                <h3 className="text-[18px] mb-5" style={{ color: textPrimary, fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
+                <h3 className="text-[18px] mb-5" style={{ color: textPrimary, fontFamily: "'Instrument Sans', sans-serif", fontWeight: 400 }}>
                   Novo Gasto Fixo
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -339,7 +339,7 @@ export default function GastosFixosPage() {
           <div className="p-5 flex items-center gap-4" style={{ borderBottom: `1px solid ${borderCtrl}` }}>
             <div className="flex-1">
               <p className="text-[10px] uppercase tracking-[0.13em] mb-0.5" style={{ color: textMuted, fontFamily: "'Instrument Sans', sans-serif" }}>Lançamentos</p>
-              <h3 className="text-[17px]" style={{ color: textPrimary, fontFamily: "'Cormorant SC', serif", fontWeight: 400 }}>
+              <h3 className="text-[17px]" style={{ color: textPrimary, fontFamily: "'Instrument Sans', sans-serif", fontWeight: 400 }}>
                 Recorrentes — {periodLabel()}
               </h3>
             </div>

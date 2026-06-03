@@ -48,7 +48,7 @@ export default function EmpresaPage() {
           {/* DRE */}
           <div className="card-premium p-6">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">DRE</p>
-            <h3 className="text-[18px] font-light text-white mb-5" style={{ fontFamily: "'Cormorant SC', serif" }}>
+            <h3 className="text-[18px] font-light text-white mb-5" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
               Demonstrativo de Resultados
             </h3>
             <div className="space-y-1">

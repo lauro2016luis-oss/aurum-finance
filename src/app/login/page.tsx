@@ -107,10 +107,10 @@ export default function LoginPage() {
           initial={{ opacity:0, y:-10 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.6 }}>
           <div className="w-10 h-10 rounded-xl flex items-center justify-center"
             style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)", boxShadow:"0 0 24px rgba(212,175,55,0.3)" }}>
-            <span className="text-[#0A0A0A] font-bold text-[16px]" style={{ fontFamily:"'Cormorant SC',serif" }}>A</span>
+            <span className="text-[#0A0A0A] font-bold text-[16px]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>A</span>
           </div>
           <div>
-            <p className="text-white text-[17px] tracking-[0.12em]" style={{ fontFamily:"'Cormorant SC',serif" }}>AURUM</p>
+            <p className="text-white text-[17px] tracking-[0.12em]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>AURUM</p>
             <p className="text-[10px] tracking-[0.2em] uppercase" style={{ color:"#D4AF37", fontFamily:"'Instrument Sans',sans-serif" }}>Finance</p>
           </div>
         </motion.div>
@@ -126,7 +126,7 @@ export default function LoginPage() {
                 IA FINANCEIRA INTEGRADA
               </span>
             </div>
-            <h1 className="text-[48px] leading-[1.08] font-light text-white" style={{ fontFamily:"'Cormorant SC',serif" }}>
+            <h1 className="text-[48px] leading-[1.08] font-light text-white" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>
               Controle total<br/>
               <span style={{ color:"#D4AF37" }}>das suas finanças</span>
             </h1>
@@ -177,9 +177,9 @@ export default function LoginPage() {
           initial={{ opacity:0, y:-8 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.5 }}>
           <div className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)" }}>
-            <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily:"'Cormorant SC',serif" }}>A</span>
+            <span className="text-[#0A0A0A] font-bold text-[14px]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>A</span>
           </div>
-          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily:"'Cormorant SC',serif" }}>AURUM</span>
+          <span className="text-white text-[16px] tracking-[0.12em]" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>AURUM</span>
         </motion.div>
 
         <motion.div className="w-full max-w-[420px]"
@@ -212,7 +212,7 @@ export default function LoginPage() {
                 style={{ color:"#D4AF37", fontFamily:"'Instrument Sans',sans-serif" }}>
                 {mode === "login" ? "Plataforma exclusiva" : "Acesso para clientes"}
               </p>
-              <h2 className="text-[30px] font-light text-white leading-tight" style={{ fontFamily:"'Cormorant SC',serif" }}>
+              <h2 className="text-[30px] font-light text-white leading-tight" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>
                 {mode === "login" ? "Bem-vindo de volta" : "Crie sua conta"}
               </h2>
               <p className="text-[13px] mt-1.5" style={{ color:"#52525B", fontFamily:"'Instrument Sans',sans-serif" }}>

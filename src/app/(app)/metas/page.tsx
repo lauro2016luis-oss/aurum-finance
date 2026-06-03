@@ -54,7 +54,7 @@ export default function MetasPage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Progresso Geral</p>
-              <h3 className="text-[22px] font-light text-white" style={{ fontFamily:"'Cormorant SC',serif" }}>
+              <h3 className="text-[22px] font-light text-white" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>
                 {overallPct.toFixed(1)}% das metas atingido
               </h3>
             </div>

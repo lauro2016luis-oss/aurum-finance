@@ -110,11 +110,11 @@ export function Sidebar() {
           <div className="w-9 h-9 rounded-xl flex items-center justify-center"
             style={{ background:"linear-gradient(135deg,#D4AF37,#B8952A)", boxShadow:"0 0 16px rgba(212,175,55,0.35)" }}>
             <span className="text-black font-bold text-base leading-none"
-              style={{ fontFamily:"'Cormorant SC',serif", letterSpacing:"-0.02em" }}>A</span>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", letterSpacing:"-0.02em" }}>A</span>
           </div>
           <div>
             <h1 className="text-[18px] leading-none"
-              style={{ fontFamily:"'Cormorant SC',serif", fontWeight:500, letterSpacing:"0.08em", color: SB.textPrimary }}>AURUM</h1>
+              style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.08em", color: SB.textPrimary }}>AURUM</h1>
             <p className="text-[9.5px] mt-[3px] leading-none"
               style={{ fontFamily:"'Instrument Sans',sans-serif", fontWeight:500, letterSpacing:"0.22em", textTransform:"uppercase", color: SB.textLabel }}>Finance</p>
           </div>

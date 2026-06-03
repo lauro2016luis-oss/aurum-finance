@@ -62,7 +62,7 @@ export default function AssinaturasPage() {
         <div className="card-premium overflow-hidden">
           <div className="p-5 border-b border-[#1A1A1A]">
             <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-0.5">Lista</p>
-            <h3 className="text-[17px] font-light text-white" style={{ fontFamily:"'Cormorant SC',serif" }}>
+            <h3 className="text-[17px] font-light text-white" style={{ fontFamily:"'Instrument Sans',sans-serif" }}>
               Suas Assinaturas
             </h3>
           </div>

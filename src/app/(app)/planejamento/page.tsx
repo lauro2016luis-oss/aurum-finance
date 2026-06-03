@@ -97,7 +97,7 @@ export default function PlanejamentoPage() {
         {/* Projection chart */}
         <div className="card-premium p-6">
           <p className="text-[11px] text-[#52525B] uppercase tracking-wider mb-1">Projeção</p>
-          <h3 className="text-[18px] font-light text-white mb-5" style={{ fontFamily: "'Cormorant SC', serif" }}>
+          <h3 className="text-[18px] font-light text-white mb-5" style={{ fontFamily: "'Instrument Sans', sans-serif" }}>
             Evolução Patrimonial Projetada
           </h3>
           <ResponsiveContainer width="100%" height={280}>

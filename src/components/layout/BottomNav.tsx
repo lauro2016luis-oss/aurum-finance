@@ -190,7 +190,7 @@ export function BottomNav() {
                   </p>
                   <h3
                     className="text-[17px] font-light"
-                    style={{ color: isLight ? "#1C1A14" : "#FFFFFF", fontFamily: "'Cormorant SC', serif" }}
+                    style={{ color: isLight ? "#1C1A14" : "#FFFFFF", fontFamily: "'Instrument Sans', sans-serif" }}
                   >
                     Todas as Seções
                   </h3>

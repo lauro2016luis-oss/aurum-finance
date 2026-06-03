@@ -32,7 +32,7 @@ export function FinancialScore({ score }: FinancialScoreProps) {
         <p className="text-[11px] text-[#52525B] uppercase tracking-[0.12em] mb-0.5">Saúde</p>
         <h3
           className="text-[16px] font-light text-white"
-          style={{ fontFamily: "'Cormorant SC', serif" }}
+          style={{ fontFamily: "'Instrument Sans', sans-serif" }}
         >
           Score Financeiro
         </h3>
