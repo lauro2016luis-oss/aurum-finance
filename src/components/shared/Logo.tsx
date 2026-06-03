@@ -107,33 +107,18 @@ export function Logo({ variant = "full", theme = "dark", size = 36, className }:
       style={{ display: "flex", alignItems: "center", gap, lineHeight: 1 }}
     >
       <IconMark s={size} />
-      <div style={{ display: "flex", flexDirection: "column", gap: Math.round(size * 0.09) }}>
-        <span
-          style={{
-            fontFamily: "'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif",
-            fontWeight: 700,
-            fontSize: nameSize,
-            letterSpacing: "-0.02em",
-            color: wordColor,
-            lineHeight: 1,
-          }}
-        >
-          AurumCash
-        </span>
-        <span
-          style={{
-            fontFamily: "'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif",
-            fontWeight: 500,
-            fontSize: subSize,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase" as const,
-            color: subColor,
-            lineHeight: 1,
-          }}
-        >
-          Finance
-        </span>
-      </div>
+      <span
+        style={{
+          fontFamily: "'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif",
+          fontWeight: 700,
+          fontSize: nameSize,
+          letterSpacing: "-0.02em",
+          color: wordColor,
+          lineHeight: 1,
+        }}
+      >
+        AurumCash
+      </span>
     </div>
   );
 }
