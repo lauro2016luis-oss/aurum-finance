@@ -129,60 +129,7 @@ export default function DashboardPage() {
         variants={stagger} initial="hidden" animate="show"
       >
 
-        {/* ═══════════ 0 — RESULTADO DO MÊS (light only) ══ */}
-        {isLight && (
-          <motion.div variants={fadeUp}>
-            <motion.div
-              className="rounded-2xl px-5 py-4 flex items-center justify-between gap-4"
-              style={{
-                background: saldo > 0
-                  ? "linear-gradient(135deg, rgba(34,197,94,0.07) 0%, rgba(22,163,74,0.04) 100%)"
-                  : "linear-gradient(135deg, rgba(239,68,68,0.06) 0%, rgba(220,38,38,0.03) 100%)",
-                border: `1px solid ${saldo > 0 ? "rgba(34,197,94,0.22)" : "rgba(239,68,68,0.18)"}`,
-                boxShadow: saldo > 0
-                  ? "0 2px 16px rgba(34,197,94,0.07)"
-                  : "0 2px 16px rgba(239,68,68,0.06)",
-              }}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: saldo > 0 ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.1)" }}>
-                  {saldo > 0
-                    ? <ArrowUpRight size={16} style={{ color: "#16A34A" }} />
-                    : <ArrowDownRight size={16} style={{ color: "#DC2626" }} />
-                  }
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] leading-none mb-1"
-                    style={{ color: saldo > 0 ? "#15803D" : "#B91C1C", fontFamily: "'Instrument Sans',sans-serif" }}>
-                    {saldo > 0 ? "✓ Você está no lucro este mês" : "↓ Atenção: despesas maiores que receitas"}
-                  </p>
-                  <Blurred hide={hideValues}>
-                    <p className="metric-value text-[26px] sm:text-[30px] leading-none font-bold"
-                      style={{ color: saldo > 0 ? "#15803D" : "#DC2626", letterSpacing: "-0.04em" }}>
-                      {formatCurrency(Math.abs(saldo))}
-                    </p>
-                  </Blurred>
-                </div>
-              </div>
-              {totalIn > 0 && (
-                <div className="text-right flex-shrink-0 hidden sm:block">
-                  <p className="text-[10px] uppercase tracking-[0.14em] font-semibold mb-1"
-                    style={{ color: saldo > 0 ? "#15803D" : "#B91C1C", fontFamily: "'Instrument Sans',sans-serif", opacity: 0.7 }}>
-                    Margem
-                  </p>
-                  <p className="metric-value text-[22px] font-bold"
-                    style={{ color: saldo > 0 ? "#16A34A" : "#DC2626", letterSpacing: "-0.03em" }}>
-                    {totalIn > 0 ? ((saldo / totalIn) * 100).toFixed(1) : "0.0"}%
-                  </p>
-                </div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
+
 
         {/* ═══════════ 1 — MÉTRICAS PRINCIPAIS ═══════════ */}
         <motion.div variants={fadeUp}>
