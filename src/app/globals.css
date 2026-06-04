@@ -497,6 +497,25 @@ body::after {
   transition: all 0.2s ease;
   width: 100%;
   outline: none;
+  /* Remove browser autofill/password icons */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Hide browser's native password reveal and autofill icons */
+.input-premium::-ms-reveal,
+.input-premium::-ms-clear,
+.input-premium::-webkit-contacts-auto-fill-button,
+.input-premium::-webkit-credentials-auto-fill-button,
+.input-premium::-webkit-textfield-decoration-container { display: none !important; }
+
+/* Fix autofill background flash */
+.input-premium:-webkit-autofill,
+.input-premium:-webkit-autofill:hover,
+.input-premium:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 100px var(--bg-input) inset !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  caret-color: var(--text-primary);
 }
 
 .input-premium::placeholder {
