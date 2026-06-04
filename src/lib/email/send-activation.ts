@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM   = process.env.RESEND_FROM ?? "AURUM Finance <noreply@aurumfinance.app>";
+const FROM   = process.env.RESEND_FROM ?? "AurumCash <noreply@aurumcash.app>";
 const APP    = process.env.NEXT_PUBLIC_APP_URL ?? "https://appfinancas-nu.vercel.app";
 
 interface SendActivationParams {
@@ -20,7 +20,7 @@ export async function sendActivationEmail({ to, name, token }: SendActivationPar
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sua conta está pronta — AURUM Finance</title>
+  <title>Sua conta está pronta — AurumCash</title>
 </head>
 <body style="margin:0;padding:0;background:#0A0A0A;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0A0A0A;padding:40px 16px;">
@@ -108,7 +108,7 @@ export async function sendActivationEmail({ to, name, token }: SendActivationPar
           <!-- footer -->
           <tr>
             <td align="center" style="padding-top:24px;">
-              <p style="margin:0;color:#3F3F46;font-size:11px;">© 2025 AURUM Finance — Todos os direitos reservados</p>
+              <p style="margin:0;color:#3F3F46;font-size:11px;">© 2025 AurumCash — Todos os direitos reservados</p>
             </td>
           </tr>
 
@@ -122,7 +122,7 @@ export async function sendActivationEmail({ to, name, token }: SendActivationPar
   const { data, error } = await resend.emails.send({
     from:    FROM,
     to,
-    subject: "Sua conta está pronta — AURUM Finance",
+    subject: "Sua conta está pronta — AurumCash",
     html,
   });
 
