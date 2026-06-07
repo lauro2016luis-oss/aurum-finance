@@ -44,12 +44,15 @@ export async function middleware(req: NextRequest) {
   );
 
   // 1. verificar sessão
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!user || authError) {
     const loginUrl = req.nextUrl.clone();
     loginUrl.pathname = "/login";
-    return NextResponse.redirect(loginUrl);
+    const redirect = NextResponse.redirect(loginUrl);
+    // No-cache para evitar que o Vercel sirva página protegida do cache
+    redirect.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+    return redirect;
   }
 
   // 2. verificar assinatura ativa
