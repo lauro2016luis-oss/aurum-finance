@@ -24,7 +24,16 @@ function tokenExpiresAt(): string {
  */
 function validateSignature(body: string, req: NextRequest): boolean {
   const secret = process.env.WEBHOOK_SECRET;
-  if (!secret) return true; // em dev sem secret, aceita tudo — remova em prod
+  // If no secret is configured, skip validation (only acceptable in local dev).
+  // In production, always set WEBHOOK_SECRET.
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      // Reject all requests in production when secret is not configured
+      console.error("[webhook] WEBHOOK_SECRET is not set in production — rejecting request");
+      return false;
+    }
+    return true;
+  }
 
   const header =
     req.headers.get("x-webhook-signature") ||
@@ -32,18 +41,24 @@ function validateSignature(body: string, req: NextRequest): boolean {
     req.headers.get("x-signature") ||
     "";
 
+  const received = header.replace(/^sha256=/, "");
+
   const expected = crypto
     .createHmac("sha256", secret)
     .update(body)
     .digest("hex");
 
-  // alguns gateways prefixam "sha256="
-  const received = header.replace(/^sha256=/, "");
+  // Both buffers must be same length for timingSafeEqual
+  if (received.length !== expected.length) return false;
 
-  return crypto.timingSafeEqual(
-    Buffer.from(expected, "hex"),
-    Buffer.from(received.padEnd(expected.length, "0"), "hex")
-  );
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(expected, "hex"),
+      Buffer.from(received, "hex")
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**

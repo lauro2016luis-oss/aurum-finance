@@ -5,7 +5,12 @@ export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   const { email } = await req.json();
-  if (!email) return NextResponse.json({ allowed: false, message: "E-mail não informado." }, { status: 400 });
+  if (!email || typeof email !== "string") {
+    return NextResponse.json({ allowed: false, message: "E-mail não informado." }, { status: 400 });
+  }
+  if (email.length > 254) {
+    return NextResponse.json({ allowed: false, message: "E-mail inválido." }, { status: 400 });
+  }
 
   const supabase = createAdminClient();
   const { data } = await supabase

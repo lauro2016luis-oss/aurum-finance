@@ -10,8 +10,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Token e senha obrigatórios" }, { status: 400 });
   }
 
+  if (typeof token !== "string" || token.length > 256) {
+    return NextResponse.json({ error: "Token inválido" }, { status: 400 });
+  }
+
+  if (typeof password !== "string") {
+    return NextResponse.json({ error: "Senha inválida" }, { status: 400 });
+  }
+
   if (password.length < 8) {
     return NextResponse.json({ error: "Senha muito curta" }, { status: 400 });
+  }
+
+  if (password.length > 128) {
+    return NextResponse.json({ error: "Senha muito longa" }, { status: 400 });
   }
 
   const supabase = createAdminClient();
@@ -38,26 +50,22 @@ export async function POST(req: NextRequest) {
   // 2. criar usuário no Supabase Auth (ou atualizar senha se já existir)
   let authUserId: string;
 
-  // verificar se já existe user auth com esse e-mail
-  const { data: users } = await supabase.auth.admin.listUsers();
-  const existing = users?.users?.find(u => u.email === record.email);
-
-  if (existing) {
-    // atualizar senha
+  if (record.auth_user_id) {
+    // Usuário já existe — apenas atualiza a senha
     const { error: updateErr } = await supabase.auth.admin.updateUserById(
-      existing.id,
+      record.auth_user_id,
       { password, email_confirm: true }
     );
     if (updateErr) {
       return NextResponse.json({ error: "Erro ao atualizar senha" }, { status: 500 });
     }
-    authUserId = existing.id;
+    authUserId = record.auth_user_id;
   } else {
     // criar novo usuário
     const { data: newUser, error: createErr } = await supabase.auth.admin.createUser({
-      email:            record.email,
+      email:         record.email,
       password,
-      email_confirm:    true,      // marca e-mail como confirmado
+      email_confirm: true,
       user_metadata: {
         full_name: record.customer_name,
       },

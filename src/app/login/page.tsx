@@ -248,7 +248,7 @@ export default function LoginPage() {
               </div>
               <div className="relative">
                 <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color:"#3F3F46" }} />
-                <input type={showPass ? "text" : "password"} className="input-premium w-full pl-10 pr-11"
+                <input type={showPass ? "text" : "password"} className="input-premium w-full" style={{ paddingRight: 44 }}
                   placeholder={mode === "register" ? "Mínimo 6 caracteres" : "Sua senha"}
                   value={password} onChange={e => setPassword(e.target.value)} required />
                 <button type="button" onClick={() => setShowPass(v => !v)}
@@ -279,7 +279,7 @@ export default function LoginPage() {
                   <label className="label-xs block mb-1.5">Confirmar senha</label>
                   <div className="relative">
                     <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color:"#3F3F46" }} />
-                    <input type={showConf ? "text" : "password"} className="input-premium w-full pl-10 pr-11"
+                    <input type={showConf ? "text" : "password"} className="input-premium w-full" style={{ paddingRight: 44 }}
                       placeholder="Repita a senha"
                       value={confirm} onChange={e => setConfirm(e.target.value)} required={mode === "register"} />
                     <button type="button" onClick={() => setShowConf(v => !v)}

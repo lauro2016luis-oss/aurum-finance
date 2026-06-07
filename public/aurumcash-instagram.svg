@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="1080" height="1080">
+  <defs>
+    <!-- Gold gradient for A mark -->
+    <linearGradient id="goldA" x1="540" y1="260" x2="540" y2="680" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#EDD45C"/>
+      <stop offset="50%"  stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#9A6E0A"/>
+    </linearGradient>
+    <!-- Background radial -->
+    <radialGradient id="bgRadial" cx="50%" cy="45%" r="65%" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#2C2618"/>
+      <stop offset="100%" stop-color="#0D0B07"/>
+    </radialGradient>
+    <!-- Gold glow for badge -->
+    <radialGradient id="badgeGlow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%"   stop-color="#D4AF37" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Badge bg gradient -->
+    <linearGradient id="badgeBg" x1="380" y1="280" x2="700" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#2E2718"/>
+      <stop offset="100%" stop-color="#16120A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1080" height="1080" fill="url(#bgRadial)"/>
+
+  <!-- Subtle grid texture lines -->
+  <g opacity="0.04" stroke="#D4AF37" stroke-width="0.5">
+    <line x1="0" y1="216" x2="1080" y2="216"/>
+    <line x1="0" y1="432" x2="1080" y2="432"/>
+    <line x1="0" y1="648" x2="1080" y2="648"/>
+    <line x1="0" y1="864" x2="1080" y2="864"/>
+    <line x1="216" y1="0" x2="216" y2="1080"/>
+    <line x1="432" y1="0" x2="432" y2="1080"/>
+    <line x1="648" y1="0" x2="648" y2="1080"/>
+    <line x1="864" y1="0" x2="864" y2="1080"/>
+  </g>
+
+  <!-- Outer glow circle -->
+  <circle cx="540" cy="420" r="310" fill="url(#badgeGlow)"/>
+
+  <!-- Badge rounded square -->
+  <rect x="350" y="230" width="380" height="380" rx="76" fill="url(#badgeBg)"/>
+  <!-- Badge border -->
+  <rect x="351.5" y="231.5" width="377" height="377" rx="74.5" fill="none" stroke="url(#goldA)" stroke-width="1.2" stroke-opacity="0.5"/>
+
+  <!-- Geometric A mark, centered in badge (badge center = 540, 420) -->
+  <!-- A spans roughly x:430–650, y:280–590 -->
+
+  <!-- Left leg of A -->
+  <path d="M430 590 L520 285 L555 285 L472 590 Z" fill="url(#goldA)"/>
+  <!-- Right leg of A -->
+  <path d="M650 590 L555 285 L520 285 L608 590 Z" fill="url(#goldA)"/>
+
+  <!-- Crossbar body -->
+  <rect x="468" y="450" width="120" height="30" rx="3" fill="url(#goldA)"/>
+  <!-- Arrow tip pointing right -->
+  <path d="M588 450 L636 465 L588 480 Z" fill="url(#goldA)"/>
+
+  <!-- Apex diamond -->
+  <path d="M537.5 268 L549 283 L537.5 295 L526 283 Z" fill="url(#goldA)" opacity="0.9"/>
+
+  <!-- Thin gold line separator -->
+  <line x1="290" y1="680" x2="790" y2="680" stroke="url(#goldA)" stroke-width="1" stroke-opacity="0.35"/>
+
+  <!-- Wordmark: AurumCash -->
+  <text
+    x="540" y="745"
+    font-family="'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif"
+    font-weight="700"
+    font-size="84"
+    letter-spacing="-2"
+    text-anchor="middle"
+    fill="#F5F0E8"
+  >AurumCash</text>
+
+  <!-- Tagline -->
+  <text
+    x="540" y="800"
+    font-family="'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif"
+    font-weight="400"
+    font-size="26"
+    letter-spacing="8"
+    text-anchor="middle"
+    fill="#8A7A50"
+    text-transform="uppercase"
+  >GESTÃO FINANCEIRA PREMIUM</text>
+</svg>

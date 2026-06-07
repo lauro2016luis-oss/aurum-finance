@@ -485,6 +485,30 @@ function MockVera() {
   );
 }
 
+// ─── BROWSER MOCK WRAPPER ──────────────────────────────────────────────────────
+function BrowserMock({ children, url = "app.aurumfinance.com.br" }: { children: React.ReactNode; url?: string }) {
+  return (
+    <div style={{
+      borderRadius: 14, overflow: "hidden",
+      border: "1px solid #2A2A2A",
+      boxShadow: "0 0 0 1px #D4AF3718, 0 0 60px #D4AF3722, 0 32px 80px #00000070",
+    }}>
+      {/* browser chrome bar */}
+      <div style={{ background: "#141414", padding: "10px 14px", display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #222" }}>
+        <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FF5F57" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FEBC2E" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28C840" }} />
+        </div>
+        <div style={{ flex: 1, background: "#1C1C1C", border: "1px solid #2A2A2A", borderRadius: 6, padding: "4px 12px", fontFamily: F.d, fontSize: 11, color: "#3F3F46", textAlign: "center" as const }}>
+          🔒 {url}
+        </div>
+      </div>
+      <div style={{ height: 300 }}>{children}</div>
+    </div>
+  );
+}
+
 // ─── MAIN PAGE ─────────────────────────────────────────────────────────────────
 export default function LandingPage() {
   const features = [
@@ -540,8 +564,7 @@ export default function LandingPage() {
       <nav style={{ position: "sticky", top: 0, zIndex: 100, borderBottom: "1px solid #1F1F1F", background: "rgba(10,10,10,0.92)", backdropFilter: "blur(16px)" }}>
         <div className="lp-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 30, height: 30, background: "linear-gradient(135deg,#D4AF37,#B8952A)", borderRadius: 7 }} />
-            <span style={{ fontFamily: F.h, fontWeight: 800, fontSize: 18, color: "#FFFFFF" }}>AurumCash</span>
+            <img src="/logo.svg" alt="AurumCash" style={{ height: 38, width: "auto" }} />
           </div>
           <div className="lp-nl lp-hide-mob">
             {[
@@ -557,7 +580,7 @@ export default function LandingPage() {
               </a>
             ))}
           </div>
-          <a href="/login" className="lp-btn" style={{ fontSize: 13, padding: "9px 20px" }}>Começar Agora</a>
+          <a href="https://www.winerpay.com/checkout/b9ac5be1-39ab-4a3a-81be-55de7ed6ff65" className="lp-btn" style={{ fontSize: 13, padding: "9px 20px" }}>Começar Agora</a>
         </div>
       </nav>
 
@@ -636,6 +659,115 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <div className="lp-divider" />
+
+      {/* ── SHOWCASE ───────────────────────────────────────────────────────── */}
+      <section style={{ padding: "96px 0", background: "#080808" }}>
+        <div className="lp-wrap">
+          {/* header */}
+          <div style={{ textAlign: "center", marginBottom: 80 }}>
+            <Chip>Como funciona</Chip>
+            <h2 style={{ fontFamily: F.h, fontSize: "clamp(26px,3.2vw,42px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15 }}>
+              Feito para o seu dia a dia<br />— do <Gold>pessoal ao profissional</Gold>
+            </h2>
+          </div>
+
+          {/* Bloco 1 — texto esquerda / mock direita */}
+          <div className="lp-g2" style={{ marginBottom: 96 }}>
+            <div>
+              <span style={{ display: "inline-block", background: "#0D1A0D", border: "1px solid #22C55E40", color: "#22C55E", fontFamily: F.d, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" as const, padding: "4px 14px", borderRadius: 100, marginBottom: 20 }}>
+                Pessoal
+              </span>
+              <h3 style={{ fontFamily: F.h, fontSize: "clamp(22px,2.4vw,34px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.2, color: "#FFFFFF", marginBottom: 16 }}>
+                Controle total da sua<br />vida financeira pessoal
+              </h3>
+              <p style={{ fontFamily: F.d, fontSize: 15, color: "#A1A1AA", lineHeight: 1.75, marginBottom: 28 }}>
+                Entradas, saídas, cartões e metas — tudo organizado num painel único. Sem planilha, sem achismo.
+              </p>
+              {[
+                "Gastos categorizados automaticamente",
+                "Múltiplas fontes de renda",
+                "Cartões e parcelamentos",
+                "Metas com acompanhamento visual",
+              ].map(item => (
+                <div key={item} style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12 }}>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#0D1A0D", border: "1px solid #22C55E50", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ color: "#22C55E", fontSize: 11, lineHeight: 1 }}>✓</span>
+                  </div>
+                  <span style={{ fontFamily: F.d, fontSize: 14, color: "#A1A1AA" }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <BrowserMock url="app.aurumfinance.com.br/dashboard">
+              <MockDashboard />
+            </BrowserMock>
+          </div>
+
+          {/* Bloco 2 — mock esquerda / texto direita */}
+          <div className="lp-g2" style={{ marginBottom: 96 }}>
+            <BrowserMock url="app.aurumfinance.com.br/empresa">
+              <MockInvestimentos />
+            </BrowserMock>
+            <div>
+              <span style={{ display: "inline-block", background: "#1A1000", border: "1px solid #D4AF3740", color: "#D4AF37", fontFamily: F.d, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" as const, padding: "4px 14px", borderRadius: 100, marginBottom: 20 }}>
+                Empresa
+              </span>
+              <h3 style={{ fontFamily: F.h, fontSize: "clamp(22px,2.4vw,34px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.2, color: "#FFFFFF", marginBottom: 16 }}>
+                Finanças da sua empresa<br />com clareza total
+              </h3>
+              <p style={{ fontFamily: F.d, fontSize: 15, color: "#A1A1AA", lineHeight: 1.75, marginBottom: 28 }}>
+                Separe o pessoal do empresarial sem abrir outro app. Fluxo de caixa, DRE e contas tudo no mesmo lugar.
+              </p>
+              {[
+                "Fluxo de caixa em tempo real",
+                "DRE automático",
+                "Contas a pagar e receber",
+                "Visão 30/60/90 dias",
+              ].map(item => (
+                <div key={item} style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12 }}>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#1A1000", border: "1px solid #D4AF3750", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ color: "#D4AF37", fontSize: 11, lineHeight: 1 }}>✓</span>
+                  </div>
+                  <span style={{ fontFamily: F.d, fontSize: 14, color: "#A1A1AA" }}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bloco 3 — texto esquerda / mock direita */}
+          <div className="lp-g2">
+            <div>
+              <span style={{ display: "inline-block", background: "#120D1A", border: "1px solid #818CF840", color: "#818CF8", fontFamily: F.d, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" as const, padding: "4px 14px", borderRadius: 100, marginBottom: 20 }}>
+                Inteligência
+              </span>
+              <h3 style={{ fontFamily: F.h, fontSize: "clamp(22px,2.4vw,34px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.2, color: "#FFFFFF", marginBottom: 16 }}>
+                A IA que analisa e orienta<br />suas decisões
+              </h3>
+              <p style={{ fontFamily: F.d, fontSize: 15, color: "#A1A1AA", lineHeight: 1.75, marginBottom: 28 }}>
+                A Vera lê seus dados, identifica padrões e responde perguntas como um contador de confiança — disponível 24h.
+              </p>
+              {[
+                "Detecta desperdícios automaticamente",
+                "Sugere ajustes no orçamento",
+                "Responde em linguagem natural",
+                "Antecipa riscos financeiros",
+              ].map(item => (
+                <div key={item} style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 12 }}>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#120D1A", border: "1px solid #818CF850", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <span style={{ color: "#818CF8", fontSize: 11, lineHeight: 1 }}>✓</span>
+                  </div>
+                  <span style={{ fontFamily: F.d, fontSize: 14, color: "#A1A1AA" }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <BrowserMock url="app.aurumfinance.com.br/vera">
+              <MockVera />
+            </BrowserMock>
+          </div>
+
         </div>
       </section>
 
@@ -752,10 +884,14 @@ export default function LandingPage() {
                 <span style={{ fontFamily: F.d, fontSize: 12, color: "#F87171", fontWeight: 600 }}>58% OFF</span>
               </div>
               {/* preço real */}
-              <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 28 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 8 }}>
                 <span style={{ fontFamily: F.d, fontSize: 16, color: "#D4AF37", fontWeight: 500 }}>R$</span>
                 <span style={{ fontFamily: F.m, fontSize: 52, fontWeight: 500, color: "#D4AF37", lineHeight: 1, animation: "goldPulse 3s ease-in-out infinite" }}>49</span>
                 <span style={{ fontFamily: F.m, fontSize: 28, color: "#D4AF37", fontWeight: 500 }}>,90</span>
+              </div>
+              {/* parcelamento */}
+              <div style={{ fontFamily: F.d, fontSize: 13, color: "#A1A1AA", marginBottom: 28 }}>
+                ou <span style={{ color: "#FFFFFF", fontWeight: 600 }}>12x de R$ 4,15</span> no cartão
               </div>
               {["Dashboard pessoal e empresarial","Gestão de cartões e faturas","Controle de investimentos","Vera IA ilimitada","Metas e planejamento mensal","Relatórios automáticos","Suporte prioritário","Atualizações vitalícias"].map(f => (
                 <div key={f} style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
@@ -763,7 +899,7 @@ export default function LandingPage() {
                   <span style={{ fontFamily: F.d, fontSize: 13, color: "#A1A1AA" }}>{f}</span>
                 </div>
               ))}
-              <a href="/login" className="lp-btn" style={{ width: "100%", textAlign: "center" as const, marginTop: 28, display: "block", fontSize: 15, padding: "15px 0" }}>
+              <a href="https://www.winerpay.com/checkout/b9ac5be1-39ab-4a3a-81be-55de7ed6ff65" className="lp-btn" style={{ width: "100%", textAlign: "center" as const, marginTop: 28, display: "block", fontSize: 15, padding: "15px 0" }}>
                 Quero Entrar no AurumCash →
               </a>
               <p style={{ fontFamily: F.d, fontSize: 11, color: "#52525B", textAlign: "center" as const, marginTop: 12 }}>Garantia de 30 dias · Acesso imediato</p>
@@ -829,7 +965,7 @@ export default function LandingPage() {
           <p style={{ fontFamily: F.d, fontSize: 16, color: "#A1A1AA", maxWidth: 460, margin: "0 auto 40px", lineHeight: 1.65 }}>
             Cada mês que passa sem clareza financeira é dinheiro que escorrega sem você perceber. Hora de mudar isso.
           </p>
-          <a href="/login" className="lp-btn" style={{ fontSize: 16, padding: "17px 36px" }}>
+          <a href="https://www.winerpay.com/checkout/b9ac5be1-39ab-4a3a-81be-55de7ed6ff65" className="lp-btn" style={{ fontSize: 16, padding: "17px 36px" }}>
             Quero Entrar no AurumCash Agora →
           </a>
           <p style={{ fontFamily: F.d, fontSize: 12, color: "#52525B", marginTop: 16 }}>
@@ -842,8 +978,7 @@ export default function LandingPage() {
       <footer style={{ borderTop: "1px solid #1F1F1F", padding: "32px 0" }}>
         <div className="lp-wrap" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 24, height: 24, background: "linear-gradient(135deg,#D4AF37,#B8952A)", borderRadius: 5 }} />
-            <span style={{ fontFamily: F.h, fontWeight: 800, fontSize: 15, color: "#FFFFFF" }}>AurumCash</span>
+            <img src="/logo.svg" alt="AurumCash" style={{ height: 32, width: "auto" }} />
           </div>
           <p style={{ fontFamily: F.d, fontSize: 12, color: "#52525B" }}>© 2025 AurumCash. Todos os direitos reservados.</p>
           <div style={{ display: "flex", gap: 20 }}>
